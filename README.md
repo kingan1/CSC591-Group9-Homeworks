@@ -3,9 +3,64 @@
 
 Group members: Pradyumma Khawas, Jainam Shah, Ashley King
 
+## How to run
 
+From the src directory
+- `python3 script.py --help`
+```
+script.py : an example script with help text and a test suite
+(c)2023
 
-## What to do
+USAGE:   script.py  [OPTIONS] [-g ACTION]
+
+OPTIONS:
+  -d  --dump  on crash, dump stack = false
+  -g  --go    start-up action      = data
+  -h  --help  show help            = false
+  -s  --seed  random number seed   = 937162211
+
+ACTIONS:
+  -g  the       show settings
+```
+- `python3 script.py -g the` or `python3 script.py -g all`
+```
+{'dump': False, 'go': 'the', 'help': False, 'seed': 937162211}
+✅ pass: the
+```
+
+## TODO
+
+- Github "bling"
+    - Run tests via github workflows & badge for it
+    - Zenodo badges
+- Version control
+    - .gitignore
+    - .github/workflows for tests
+    - README.md
+    - /etc for local config
+    - /etc/out cache for experimental output logs
+    - /src for code
+- Tests (what is shown in script.lua)
+    - sym
+    - num
+    - DONE: the
+    - rand
+
+### Lua file
+
+`lua script.lua --help`
+- Options
+    - dump
+    - go
+    - help
+    - seed
+- Actions
+    - the
+    - rand
+    - sm
+    - num
+
+## Overview
 **_From Menzies on Discord_** 
 
 "translate the Lua code to a language of our choice". 
