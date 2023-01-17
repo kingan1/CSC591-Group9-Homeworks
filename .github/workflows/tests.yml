@@ -5,9 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: leafo/gh-actions-lua@v9
+    - name: Install Python
+      uses: actions/setup-python@v4
       with:
-        pythonVersion: "3.7"   
+        python-version: '3.8'  
     - name: test
       run: |
         cd ./src; (python script.py -g all )
