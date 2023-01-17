@@ -1,6 +1,6 @@
 
 # CSC 591 HW1
-
+![tests](https://github.com/kingan1/CSC591HW1/.github/workflows/tests.yml/badge.svg)
 Group members: Pradyumma Khawas, Jainam Shah, Ashley King
 
 ## How to run
