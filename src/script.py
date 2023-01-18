@@ -1,8 +1,7 @@
-import re
-import sys
+from options import Options
 
-arg = sys.argv
-the, help = {}, """
+options = Options()
+help = """
 script.py : an example script with help text and a test suite
 (c)2023
 
@@ -17,56 +16,19 @@ OPTIONS:
 ACTIONS:
 """
 
+"""
+ `main` fills in the settings, updates them from the command line, runs
+  the start up actions (and before each run, it resets the random number seed and settongs);
+  and, finally, returns the number of test crashed to the operating system.
 
-# Main
-
-# attempts to convert v to an int, float, bool, or keep as string
-def coerce(v):
-    try:
-        return int(v)
-    except:
-        try:
-            return float(v)
-        except:
-            try:
-                if v == True or v == False or v.lower() in ["true", "false"]:
-                    return v.lower() == "true"
-                return v
-            except:
-                return v
-
-
-# Strings
-def settings(s):  # parse help string to extract a table of options
-  t = {}
-  s = re.findall("\n[\s]+[-][\S]+[\s]+[-][-]([\S]+)[^\n]+= ([\S]+)", s)
-  for k, v in s:
-    t[k] = coerce(v)
-  return t
-
-# print `t` then return it
-def oo(t):
-    print(t)
-    return t
-
-# update key,vals in `t` from command-line flags
-def cli(options):
-  for k, v in options.items():  # for each possible option / CLI
-    v = str(v)  # get the default value
-    for n, x in enumerate(arg):  # for each CLI passed in by the user
-        if x == "-" + k[0] or x == "--" + k:  # if it matches one of the CLI
-            v = ( arg[n+1] if n+1 < len(arg) else False) or v == "False" and "true" or v == "True" and "false"
-            # set the value
-        options[k] = coerce(v)
-  return options
-
-# `main` fills in the settings, updates them from the command line, runs
-#  the start up actions (and before each run, it resets the random number seed and settongs);
-#  and, finally, returns the number of test crashed to the operating system.
-def main(options, help, funs, k=None, saved=None, fails=None):
+  :param funs: list of actions to run
+  :param saved: dictionary to store options
+  :param fails: number of failed functions
+"""
+def main(funs, saved=None, fails=None):
     saved, fails = {}, 0
-    for k, v in cli(settings(help)).items():
-        options[k] = v
+    options.parseCliSettings(help)
+    for k, v in options.items():
         saved[k] = v
     if options['help']:
         print(help)
@@ -97,7 +59,7 @@ def eg(key, s, fun):
 #   return the.some.missing.nested.field )
 
 def f():
-    return oo(the)
+    return str(options)
 
 
 eg("the","show settings", f)
@@ -119,4 +81,4 @@ eg("the","show settings", f)
 #   for _,x in pairs{1,1,1,1,2,2,3} do num:add(x) 
 #   return 11/7 == num:mid() and 0.787 == rnd(num:div())  )
 
-main(the,help, egs)
+main(egs)
