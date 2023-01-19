@@ -25,7 +25,7 @@ class SYM :
     """return the entropy"""
     def div(self,x:str):
         def fun(p):
-            return math.log(p,2)
+            return p*math.log(p,2)
         e=0
         for _,n in self.has.items():
             e = e + fun(n/self.n)
