@@ -2,6 +2,8 @@
 # CSC 591 HW1
 
 ![tests](https://github.com/kingan1/CSC591HW1/actions/workflows/tests.yml/badge.svg)
+[![DOI](https://zenodo.org/badge/589679494.svg)](https://zenodo.org/badge/latestdoi/589679494)
+
 
 Group members: Pradyumma Khawas, Jainam Shah, Ashley King
 
