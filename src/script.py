@@ -1,4 +1,7 @@
+from num import Num
+from sym import Sym
 from options import Options
+import random
 
 options = Options()
 help = """
@@ -42,8 +45,6 @@ def main(funs, saved=None, fails=None):
                 for k, v in saved.items():
                     options[k] = v
 
-                seed = options['seed']
-
                 if funs[what]() is False:
                     fails = fails + 1
                     print("❌ fail:", what)
@@ -55,38 +56,44 @@ def main(funs, saved=None, fails=None):
 # Examples
 egs = {}
 
-
-# --> nil; register an example.
 def eg(key, s, fun):
     global help
     egs[key] = fun
     help += "  -g  {}\t{}\n".format(key, s)
 
-
-# eg("crash","show crashing behavior", function()
-#   return the.some.missing.nested.field )
-
-def f():
+def show_settings():
     return str(options)
 
+def regenerate():
+    num1,num2 = Num(),Num()
+    random.seed(options['seed'])
+    for i in range(1,10**3+1):
+        num1.add( random.random() )
+    random.seed(options['seed'])
+    for i in range(1,10**3+1):
+        num2.add( random.random() )
+    m1,m2 = round(num1.mid(),10), round(num2.mid(),10)
+    return m1==m2 and .5 == round(m1,1)
 
-eg("the", "show settings", f)
+def check_syms():
+    sym=Sym()
+    for x in ["a","a","a","a","b","b","c"]:
+        sym.add(x) 
+    return "a"==sym.mid() and 1.379 == round(sym.div(), 3)
 
-# eg("rand","generate, reset, regenerate same", function()
-#   local num1,num2 = NUM(),NUM()
-#   Seed=the.seed; for i=1,10^3 do num1:add( rand(0,1) ) 
-#   Seed=the.seed; for i=1,10^3 do num2:add( rand(0,1) ) 
-#   local m1,m2 = rnd(num1:mid(),10), rnd(num2:mid(),10)
-#   return m1==m2 and .5 == rnd(m1,1)  )
+def check_nums():
+    num=Num()
+    for x in [1,1,1,1,2,2,3]:
+        num.add(x) 
+    return 11/7 == num.mid() and 0.787 == round(num.div(), 3) 
 
-# eg("sym","check syms", function()
-#   local sym=SYM()
-#   for _,x in pairs{"a","a","a","a","b","b","c"} do sym:add(x) 
-#   return "a"==sym:mid() and 1.379 == rnd(sym:div()))
 
-# eg("num", "check nums", function()
-#   local num=NUM()
-#   for _,x in pairs{1,1,1,1,2,2,3} do num:add(x) 
-#   return 11/7 == num:mid() and 0.787 == rnd(num:div())  )
+eg("the", "show settings", show_settings)
+
+eg("rand","generate, reset, regenerate same", regenerate)
+
+eg("sym","check syms", check_syms)
+
+eg("num", "check nums", check_nums)
 
 main(egs)
