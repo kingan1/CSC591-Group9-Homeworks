@@ -1,5 +1,5 @@
 from num import Num
-from sym import Sym
+from sym import SYM
 from options import Options
 import random
 
@@ -76,7 +76,7 @@ def regenerate():
     return m1==m2 and .5 == round(m1,1)
 
 def check_syms():
-    sym=Sym()
+    sym=SYM()
     for x in ["a","a","a","a","b","b","c"]:
         sym.add(x) 
     return "a"==sym.mid() and 1.379 == round(sym.div(), 3)

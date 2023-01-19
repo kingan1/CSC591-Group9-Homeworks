@@ -30,6 +30,7 @@ class Options:
         self.t = {}
 
     def __repr__(self):
+        print(self.t)
         return str(self.t)
 
     def parse_cli_settings(self, help_string):
