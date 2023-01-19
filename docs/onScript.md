@@ -23,12 +23,18 @@ OPTIONS:
 
 ACTIONS:
   -g  the       show settings
+  -g  rand      generate, reset, regenerate same
+  -g  sym       check syms
+  -g  num       check nums
   ```
 
 ## Examples
 
 - `python3 script.py -g all`
 ```
-{'dump': False, 'go': 'the', 'help': False, 'seed': 937162211}
+{'dump': False, 'go': 'all', 'help': False, 'seed': 937162211}
 ✅ pass: the
+✅ pass: rand
+✅ pass: sym
+✅ pass: num
 ```
