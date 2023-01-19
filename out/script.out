@@ -1,7 +1,0 @@
-$ lua script.lua -g all
-
-✅ pass:	sym
-✅ pass:	num
-{:dump false :go all :help false :seed 937162211}
-✅ pass:	the
-✅ pass:	rand
