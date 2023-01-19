@@ -16,20 +16,24 @@ OPTIONS:
 ACTIONS:
 """
 
-"""
- `main` fills in the settings, updates them from the command line, runs
-  the start up actions (and before each run, it resets the random number seed and settongs);
-  and, finally, returns the number of test crashed to the operating system.
 
-  :param funs: list of actions to run
-  :param saved: dictionary to store options
-  :param fails: number of failed functions
-"""
 def main(funs, saved=None, fails=None):
+    """
+    `main` fills in the settings, updates them from the command line, runs
+    the start up actions (and before each run, it resets the random number seed and settongs);
+    and, finally, returns the number of test crashed to the operating system.
+
+    :param funs: list of actions to run
+    :param saved: dictionary to store options
+    :param fails: number of failed functions
+    """
+
     saved, fails = {}, 0
-    options.parseCliSettings(help)
+    options.parse_cli_settings(help)
+
     for k, v in options.items():
         saved[k] = v
+
     if options['help']:
         print(help)
     else:
@@ -37,9 +41,11 @@ def main(funs, saved=None, fails=None):
             if options['go'] == "all" or what == options['go']:
                 for k, v in saved.items():
                     options[k] = v
-                Seed = options['seed']
-                if funs[what]() == False:
-                    fails = fails+1
+
+                seed = options['seed']
+
+                if funs[what]() is False:
+                    fails = fails + 1
                     print("❌ fail:", what)
                 else:
                     print("✅ pass:", what)
@@ -48,13 +54,15 @@ def main(funs, saved=None, fails=None):
 
 # Examples
 egs = {}
+
+
 # --> nil; register an example.
 def eg(key, s, fun):
     global help
-    egs[key]=fun
-    help += "  -g  {}\t{}\n".format(key,s)
+    egs[key] = fun
+    help += "  -g  {}\t{}\n".format(key, s)
 
-  
+
 # eg("crash","show crashing behavior", function()
 #   return the.some.missing.nested.field )
 
@@ -62,7 +70,7 @@ def f():
     return str(options)
 
 
-eg("the","show settings", f)
+eg("the", "show settings", f)
 
 # eg("rand","generate, reset, regenerate same", function()
 #   local num1,num2 = NUM(),NUM()
