@@ -1,46 +1,35 @@
 import math
-
-
-class Sym:
+import collections
+class SYM :
     """
-    Summarizes a stream of Symbols.
-    """
-
+	Summarizes a stream of Symbols.
+	"""
     def __init__(self):
         self.n = 0
-        self.has = {}
+        self.has = collections.defaultdict(int)
         self.most = 0
         self.mode = None
 
-    def add(self, x: str):
-        """
-        Updates counts of things seen so far
-
-        :param x: Symbol to add
-        """
-
+    """ update counts of things seen so far"""
+    def add(self, x:str) :
         if x != "?":
-            self.n = self.n + 1
+            self.n = self.n + 1 
             self.has[x] = 1 + (self.has[x] or 0)
-            if self.has[x] > self.most:
+            if self.has[x] > self.most :
                 self.most = self.has[x]
                 self.mode = x
-
+        return x
+        
+    """ return the mode """
     def mid(self):
-        """
-        Returns the mode
-        """
         return self.mode
 
-    def div(self):
-        """
-        Returns the entropy
-        """
+    """return the entropy"""
+    def div(self,x:str):
         def fun(p):
-            return p * math.log(p, 2)
+            return p * math.log(p,2)
+        e=0
 
-        e = 0
-        for _, n in self.has.items():
-            e = e + fun(n / self.n)
-
-        return -e
+        for _,n in self.has.items():
+            e = e + fun(n/self.n)
+        return -e 
