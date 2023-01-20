@@ -1,7 +1,8 @@
-from num import Num
-from sym import SYM
-from options import Options
 import random
+
+from num import Num
+from options import Options
+from sym import Sym
 
 options = Options()
 help = """
@@ -56,44 +57,53 @@ def main(funs, saved=None, fails=None):
 # Examples
 egs = {}
 
+
 def eg(key, s, fun):
     global help
     egs[key] = fun
     help += "  -g  {}\t{}\n".format(key, s)
 
+
 def show_settings():
     return str(options)
 
+
 def regenerate():
-    num1,num2 = Num(),Num()
+    num1, num2 = Num(), Num()
+
     random.seed(options['seed'])
-    for i in range(1,10**3+1):
-        num1.add( random.random() )
+    for i in range(1, 10 ** 3 + 1):
+        num1.add(random.random())
+
     random.seed(options['seed'])
-    for i in range(1,10**3+1):
-        num2.add( random.random() )
-    m1,m2 = round(num1.mid(),10), round(num2.mid(),10)
-    return m1==m2 and .5 == round(m1,1)
+    for i in range(1, 10 ** 3 + 1):
+        num2.add(random.random())
+
+    m1, m2 = round(num1.mid(), 10), round(num2.mid(), 10)
+    return m1 == m2 and .5 == round(m1, 1)
+
 
 def check_syms():
-    sym=SYM()
-    for x in ["a","a","a","a","b","b","c"]:
-        sym.add(x) 
-    return "a"==sym.mid() and 1.379 == round(sym.div(), 3)
+    sym = Sym()
+
+    for x in ["a", "a", "a", "a", "b", "b", "c"]:
+        sym.add(x)
+
+    return "a" == sym.mid() and 1.379 == round(sym.div(), 3)
+
 
 def check_nums():
-    num=Num()
-    for x in [1,1,1,1,2,2,3]:
-        num.add(x) 
-    return 11/7 == num.mid() and 0.787 == round(num.div(), 3) 
+    num = Num()
+
+    for x in [1, 1, 1, 1, 2, 2, 3]:
+        num.add(x)
+
+    return 11 / 7 == num.mid() and 0.787 == round(num.div(), 3)
 
 
 eg("the", "show settings", show_settings)
-
-eg("rand","generate, reset, regenerate same", regenerate)
-
-eg("sym","check syms", check_syms)
-
+eg("rand", "generate, reset, regenerate same", regenerate)
+eg("sym", "check syms", check_syms)
 eg("num", "check nums", check_nums)
 
 main(egs)
