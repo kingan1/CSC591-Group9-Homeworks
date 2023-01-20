@@ -41,3 +41,25 @@ def rnd(n: float, n_places: int) -> float:
     """
     mult = math.pow(10, n_places or 3)
     return math.floor(n * mult + 0.5) / mult
+
+
+def coerce(v):
+    """
+    Attempts to convert v to an int, float, bool, or keep as string
+
+    :param v: String to convert
+    :return: v converted to its type
+    """
+    types = [int, float]
+
+    for t in types:
+        try:
+            return t(v)
+        except ValueError:
+            pass
+
+    bool_vals = ["true", "false"]
+    if v.lower() in bool_vals:
+        return v.lower() == "true"
+
+    return v

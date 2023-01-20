@@ -1,24 +1,7 @@
 import re
 import sys
 
-
-def coerce(v):
-    """
-    Attempts to convert v to an int, float, bool, or keep as string
-
-    :param v: String to convert
-    :return: v converted to its type
-    """
-    types = [int, float]
-    for t in types:
-        try:
-            return t(v)
-        except:
-            pass
-    bool_vals = ["true", "false"]
-    if v.lower() in bool_vals:
-        return v.lower() == "true"
-    return v
+from utils import coerce
 
 
 class Options:
