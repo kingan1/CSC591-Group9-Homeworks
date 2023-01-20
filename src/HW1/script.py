@@ -1,8 +1,7 @@
-import random
-
 from num import Num
 from options import Options
 from sym import Sym
+from utils import rnd, rand, set_seed
 
 options = Options()
 help = """
@@ -71,13 +70,13 @@ def show_settings():
 def regenerate():
     num1, num2 = Num(), Num()
 
-    random.seed(options['seed'])
+    set_seed(options["seed"])
     for i in range(1, 10 ** 3 + 1):
-        num1.add(random.random())
+        num1.add(rand(0, 1))
 
-    random.seed(options['seed'])
+    set_seed(options["seed"])
     for i in range(1, 10 ** 3 + 1):
-        num2.add(random.random())
+        num2.add(rand(0, 1))
 
     m1, m2 = round(num1.mid(), 10), round(num2.mid(), 10)
     return m1 == m2 and .5 == round(m1, 1)
@@ -89,7 +88,7 @@ def check_syms():
     for x in ["a", "a", "a", "a", "b", "b", "c"]:
         sym.add(x)
 
-    return "a" == sym.mid() and 1.379 == round(sym.div(), 3)
+    return "a" == sym.mid() and 1.379 == rnd(sym.div(), 3)
 
 
 def check_nums():
@@ -98,7 +97,7 @@ def check_nums():
     for x in [1, 1, 1, 1, 2, 2, 3]:
         num.add(x)
 
-    return 11 / 7 == num.mid() and 0.787 == round(num.div(), 3)
+    return 11 / 7 == num.mid() and 0.787 == rnd(num.div(), 3)
 
 
 eg("the", "show settings", show_settings)
