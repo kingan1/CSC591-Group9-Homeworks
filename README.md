@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 
-Group members: Pradyumma Khawas, Jainam Shah, Ashley King
+Group members: Pradyumna Khawas, Jainam Shah, Ashley King
 
 ## About
 
