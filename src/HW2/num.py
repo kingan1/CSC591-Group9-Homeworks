@@ -1,11 +1,16 @@
 import math
 
+from utils import rnd
+
 
 class Num:
 	"""
 	Summarizes a stream of numbers.
 	"""
-	def __init__(self):
+	def __init__(self, at, txt):
+		self.at = at or 0
+		self.txt = txt or ""
+
 		self.n = 0
 		self.mu = 0
 		self.m2 = 0
@@ -46,5 +51,17 @@ class Num:
 		:return: Standard deviation of the numbers
 		"""
 		return 0 if (self.m2 < 0 or self.n < 2) else math.pow((self.m2 / (self.n - 1)), 0.5)
+
+	@staticmethod
+	def rnd(x, n):
+		"""
+		Returns a rounded number
+
+		:param x: Number to round
+		:param n: Number of decimal places to round
+		:return: Rounded number
+		"""
+		return x if x == "?" else rnd(x, n)
+
 
 
