@@ -69,6 +69,9 @@ def csv(sFilename,fun):
     """
         call `fun` on rows (after coercing cell text)
 
+        :param sFilename: String of the file to read
+        :param fun: function to call per each row
+
     """
     f = io.open(sFilename)
     while True:
