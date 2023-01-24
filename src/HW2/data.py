@@ -1,17 +1,18 @@
 from num import Num
 from options import Options
 from sym import Sym
-from utils import rnd, rand, set_seed
+from utils import rnd, rand, set_seed, csv
 
 options = Options()
 help = """
-script.py : an example script with help text and a test suite
+data.py : an example csv reader script
 (c)2023
 
-USAGE:   script.py  [OPTIONS] [-g ACTION]
+USAGE:   data.pu  [OPTIONS] [-g ACTION]
 
 OPTIONS:
   -d  --dump  on crash, dump stack = false
+  -f  --file  name of file         = ../../etc/data/auto93.csv
   -g  --go    start-up action      = data
   -h  --help  show help            = false
   -s  --seed  random number seed   = 937162211
@@ -100,9 +101,18 @@ def check_nums():
     return 11 / 7 == num.mid() and 0.787 == rnd(num.div(), 3)
 
 
+def check_csv(): 
+    n=0
+    def f(t):
+        nonlocal n
+        n += len(t)
+    csv(options['file'],f)
+    return n==8*399
+
+
 eg("the", "show settings", show_settings)
 eg("rand", "generate, reset, regenerate same", regenerate)
 eg("sym", "check syms", check_syms)
 eg("num", "check nums", check_nums)
-
+eg("csv","read from csv", check_csv)
 main(egs)

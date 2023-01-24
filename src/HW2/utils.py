@@ -1,5 +1,6 @@
+import io
 import math
-
+import re
 
 def rint(lo: float, hi: float):
     return math.floor(0.5 + rand(lo, hi))
@@ -63,3 +64,19 @@ def coerce(v):
         return v.lower() == "true"
 
     return v
+
+def csv(sFilename,fun): 
+    """
+        call `fun` on rows (after coercing cell text)
+
+    """
+    f = io.open(sFilename)
+    while True:
+        s = f.readline()
+        if s:
+            t=[]
+            for s1 in re.findall("([^,]+)" ,s):
+                t.append(coerce(s1))
+            fun(t)
+        else:
+            return f.close()
