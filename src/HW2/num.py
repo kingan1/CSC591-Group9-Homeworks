@@ -1,4 +1,5 @@
 import math
+from typing import Union
 
 from utils import rnd
 
@@ -7,7 +8,7 @@ class Num:
 	"""
 	Summarizes a stream of numbers.
 	"""
-	def __init__(self, at, txt):
+	def __init__(self, at: int, txt: str):
 		self.at = at or 0
 		self.txt = txt or ""
 
@@ -53,7 +54,7 @@ class Num:
 		return 0 if (self.m2 < 0 or self.n < 2) else math.pow((self.m2 / (self.n - 1)), 0.5)
 
 	@staticmethod
-	def rnd(x, n):
+	def rnd(x: Union[float, str], n: int) -> Union[float, str]:
 		"""
 		Returns a rounded number
 
