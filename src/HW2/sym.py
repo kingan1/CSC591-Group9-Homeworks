@@ -1,6 +1,7 @@
 import collections
 import math
-
+from typing import Union
+from utils import rnd
 
 class Sym:
     """
@@ -44,3 +45,13 @@ class Sym:
         for _, n in self.has.items():
             e = e + fun(n / self.n)
         return -e
+
+    @staticmethod
+    def rnd(x: Union[float, str], n: int) -> Union[float, str]:
+        """
+		Returns a rounded number : SYM's do not get rounded
+		:param x: Number to round
+		:param n: Number of decimal places to round
+		:return: x
+		"""
+        return x
