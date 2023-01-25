@@ -7,9 +7,9 @@ class Sym:
     """
     Summarizes a stream of Symbols.
     """
-    def __init__(self,at: int, txt: str):
-        self.at = at or 0
-        self.txt = txt or ""
+    def __init__(self,at: int=0, txt: str=""):
+        self.at = at
+        self.txt = txt
         
         self.n = 0
         self.has = collections.defaultdict(int)
