@@ -12,9 +12,12 @@ class Sym:
         self.most = 0
         self.mode = None
 
-    """ update counts of things seen so far"""
-
     def add(self, x: str):
+        """
+        Updates counts of things seen so far
+
+        :param x: Symbol to add
+        """
         if x != "?":
             self.n = self.n + 1
             self.has[x] = 1 + (self.has[x] or 0)
@@ -23,14 +26,16 @@ class Sym:
                 self.mode = x
         return x
 
-    """ return the mode """
-
     def mid(self):
+        """
+        Returns the mode
+        """
         return self.mode
 
-    """return the entropy"""
-
     def div(self):
+        """
+        Returns the entropy
+        """
         def fun(p):
             return p * math.log(p, 2)
 
