@@ -9,7 +9,11 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.8'  
-    - name: test
+    - name: test HW1
       run: |
         cd ./src/HW1; (python script.py -g all )
+    - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: test HW2
+      run: |
+        cd ./src/HW2; (python data.py -g all )
     - run: echo "🍏 This job's status is ${{ job.status }}."
