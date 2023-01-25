@@ -10,6 +10,11 @@ class Cols:
     Factory for managing a set of NUMs or SYMs
     """
     def __init__(self, t):
+        """
+            Initializes a new Cols object, contains many columns
+
+            :param t: Row to convert to NUMs or SYMs
+        """
         self.names, self.all, self.x, self.y, self.klass = t, [], [], [], None
 
         for n, s in enumerate(t):
@@ -20,12 +25,8 @@ class Cols:
             if not re.findall("X$", s):
                 if re.findall("!$", s):
                     self.klass = col
-
-                if re.findall("[!+-]$", s):
-                    # re.match("[!+-]$", s) and self.y or self.x, 
-                    self.y.append(col)
-                else:
-                    self.x.append(col)
+                # if it ends in "!", "+", or "-", append it to self.y, else append to self.x
+                self.y.append(col) if re.findall("[!+-]$", s) else self.x.append(col)
 
     def add(self, row: Row) -> None:
         """
