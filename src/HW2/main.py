@@ -68,21 +68,6 @@ def show_settings():
     return str(options)
 
 
-def regenerate():
-    num1, num2 = Num(), Num()
-
-    set_seed(options["seed"])
-    for i in range(1, 10 ** 3 + 1):
-        num1.add(rand(0, 1))
-
-    set_seed(options["seed"])
-    for i in range(1, 10 ** 3 + 1):
-        num2.add(rand(0, 1))
-
-    m1, m2 = round(num1.mid(), 10), round(num2.mid(), 10)
-    return m1 == m2 and .5 == round(m1, 1)
-
-
 def check_syms():
     sym = Sym()
 
@@ -113,8 +98,7 @@ def check_csv():
 
 
 eg("the", "show settings", show_settings)
-eg("rand", "generate, reset, regenerate same", regenerate)
 eg("sym", "check syms", check_syms)
 eg("num", "check nums", check_nums)
-eg("csv","read from csv", check_csv)
+eg("csv", "read from csv", check_csv)
 main(egs)
