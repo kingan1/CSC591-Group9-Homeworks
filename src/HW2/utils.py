@@ -85,22 +85,3 @@ def csv(sFilename, fun):
             fun(t)
         else:
             return f.close()
-
-
-def map(src, fun):
-    for i in src:
-        fun(i)
-
-
-def kap(t, fun, u={}):
-    u = {}
-
-    for k, v in enumerate(t):
-        v, k = fun(k, v)
-
-        if not k:
-            u[len(u)] = v
-        else:
-            u[k] = v
-
-    return u
