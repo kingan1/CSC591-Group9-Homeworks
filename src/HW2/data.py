@@ -1,15 +1,15 @@
 from row import Row
 from cols import Cols
-import utils
+from utils import kap,map,csv
+
 class Data :
-   def __init__(self, src, x) -> None:
-       self.rows = []
+   def __init__(self, src) -> None:
+       self.rows = list()
        self.cols = None
        if type(src) == str:
-            utils.csv(src,self.add(x))
+            csv(src,self.add)
        else:
-            map(self.add(x), src or []) 
-
+            map(src or {},self.add) 
 
    def add(self,t):
        if self.cols :
@@ -19,16 +19,15 @@ class Data :
        else:
            self.cols = Cols(t)
 
-
-   def clone(self,init,x):
-        data = Data({self.cols.names})
-        map(data.add(x),init or [])
+   def clone(self,init):
+        data = Data(list(self.cols.names))
+        map(init or [],self.add)
         return data
 
-   def stats(self, what,cols,nplaces):
+   def stats(self, cols,nplaces,what="mid"):
         def fun(k,col):
-            return None
-        return map(fun,cols or self.cols.y)
+            return col.rnd((col,what)(),nplaces), col.txt
+        return kap(fun,cols or self.cols.y)
 
 
 
