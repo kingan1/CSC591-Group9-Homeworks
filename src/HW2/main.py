@@ -1,7 +1,8 @@
+from data import Data
 from num import Num
 from options import Options
 from sym import Sym
-from utils import rnd, rand, set_seed, csv
+from utils import rnd, csv
 
 options = Options()
 help = """
@@ -97,8 +98,25 @@ def check_csv():
     return n == 8 * 399
 
 
+def check_data():
+    data = Data(options["file"])
+
+    return len(data.rows) == 398 and data.cols.y[0].w == -1 and data.cols.x[0].at == 0 and len(data.cols.x) == 4
+
+
+def check_stats():
+    data = Data(options["file"])
+
+    for k, cols in {"y": data.cols.y, "x": data.cols.x}.items():
+        print(k, "mid", data.stats(cols, 2, what="mid"))
+        print("", "div", data.stats(cols, 2, what="div"))
+
+
 eg("the", "show settings", show_settings)
 eg("sym", "check syms", check_syms)
 eg("num", "check nums", check_nums)
 eg("csv", "read from csv", check_csv)
+eg("data", "read DATA csv", check_data)
+eg("stats", "stats from DATA", check_stats)
+
 main(egs)
