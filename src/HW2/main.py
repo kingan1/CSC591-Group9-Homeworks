@@ -101,13 +101,15 @@ def check_nums():
     return 11 / 7 == num.mid() and 0.787 == rnd(num.div(), 3)
 
 
-def check_csv(): 
-    n=0
+def check_csv():
+    n = 0
+
     def f(t):
         nonlocal n
         n += len(t)
-    csv(options['file'],f)
-    return n==8*399
+
+    csv(options['file'], f)
+    return n == 8 * 399
 
 
 eg("the", "show settings", show_settings)

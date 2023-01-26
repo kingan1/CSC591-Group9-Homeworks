@@ -1,16 +1,17 @@
 import collections
 import math
 from typing import Union
-from utils import rnd
+
 
 class Sym:
     """
     Summarizes a stream of Symbols.
     """
-    def __init__(self,at: int=0, txt: str=""):
+
+    def __init__(self, at: int = 0, txt: str = ""):
         self.at = at
         self.txt = txt
-        
+
         self.n = 0
         self.has = collections.defaultdict(int)
         self.most = 0
@@ -40,6 +41,7 @@ class Sym:
         """
         Returns the entropy
         """
+
         def fun(p):
             return p * math.log(p, 2)
 
@@ -52,9 +54,9 @@ class Sym:
     @staticmethod
     def rnd(x: Union[float, str], n: int) -> Union[float, str]:
         """
-		Returns a rounded number : SYM's do not get rounded
-		:param x: Number to round
-		:param n: Number of decimal places to round
-		:return: x
-		"""
+        Returns a rounded number : SYM's do not get rounded
+        :param x: Number to round
+        :param n: Number of decimal places to round
+        :return: x
+        """
         return x
