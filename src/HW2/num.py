@@ -19,6 +19,8 @@ class Num:
 		self.lo = math.inf
 		self.hi = -math.inf
 
+		self.w = -1 if self.txt.endswith("-") else 1
+
 	def add(self, n: float) -> None:
 		"""
 		Adds n and updates lo, hi and stuff needed for standard deviation.
@@ -63,6 +65,3 @@ class Num:
 		:return: Rounded number
 		"""
 		return x if x == "?" else rnd(x, n)
-
-
-
