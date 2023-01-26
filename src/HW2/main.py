@@ -108,15 +108,14 @@ def check_stats():
     data = Data(options["file"])
 
     for k, cols in {"y": data.cols.y, "x": data.cols.x}.items():
-        print(k, "mid", data.stats(cols, 2, what="mid"))
-        print("", "div", data.stats(cols, 2, what="div"))
+        print(k, "\tmid\t", data.stats(cols, 2, what="mid"))
+        print("", "\tdiv\t", data.stats(cols, 2, what="div"))
 
-
-eg("the", "show settings", show_settings)
-eg("sym", "check syms", check_syms)
-eg("num", "check nums", check_nums)
 eg("csv", "read from csv", check_csv)
 eg("data", "read DATA csv", check_data)
+eg("num", "check nums", check_nums)
 eg("stats", "stats from DATA", check_stats)
+eg("sym", "check syms", check_syms)
+eg("the", "show settings", show_settings)
 
 main(egs)

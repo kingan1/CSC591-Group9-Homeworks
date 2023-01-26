@@ -77,7 +77,7 @@ def csv(sFilename, fun):
     """
     f = io.open(sFilename)
     while True:
-        s = f.readline()
+        s = f.readline().rstrip()
         if s:
             t = []
             for s1 in re.findall("([^,]+)", s):
