@@ -9,7 +9,7 @@ help = """
 data.py : an example csv reader script
 (c)2023
 
-USAGE:   data.pu  [OPTIONS] [-g ACTION]
+USAGE:   data.py  [OPTIONS] [-g ACTION]
 
 OPTIONS:
   -d  --dump  on crash, dump stack = false
