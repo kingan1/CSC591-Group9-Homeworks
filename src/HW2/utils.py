@@ -2,6 +2,7 @@ import io
 import math
 import re
 
+
 def rint(lo: float, hi: float):
     return math.floor(0.5 + rand(lo, hi))
 
@@ -65,7 +66,8 @@ def coerce(v):
 
     return v
 
-def csv(sFilename,fun): 
+
+def csv(sFilename, fun):
     """
         call `fun` on rows (after coercing cell text)
 
@@ -75,24 +77,11 @@ def csv(sFilename,fun):
     """
     f = io.open(sFilename)
     while True:
-        s = f.readline()
+        s = f.readline().rstrip()
         if s:
-            t=[]
-            for s1 in re.findall("([^,]+)" ,s):
+            t = []
+            for s1 in re.findall("([^,]+)", s):
                 t.append(coerce(s1))
             fun(t)
         else:
             return f.close()
-def map(src,fun):
-    for i in src:
-        fun(i)
-        
-def kap(t,fun, u={}):
-    u={}
-    for k,v in enumerate(t):
-        v,k=fun(k,v)
-        if not k:
-            u[len(u)]=v
-        else:
-            u[k]=v
-    return u

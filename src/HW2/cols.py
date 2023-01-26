@@ -34,6 +34,6 @@ class Cols:
 
         :param row: Row to add
         """
-        for _, t in enumerate(zip(self.x, self.y)):
+        for _, t in enumerate([self.x, self.y]):
             for _, col in enumerate(t):
                 col.add(row.cells[col.at])

@@ -1,14 +1,15 @@
+from data import Data
 from num import Num
 from options import Options
 from sym import Sym
-from utils import rnd, rand, set_seed, csv
+from utils import rnd, csv
 
 options = Options()
 help = """
 data.py : an example csv reader script
 (c)2023
 
-USAGE:   data.pu  [OPTIONS] [-g ACTION]
+USAGE:   data.py  [OPTIONS] [-g ACTION]
 
 OPTIONS:
   -d  --dump  on crash, dump stack = false
@@ -68,21 +69,6 @@ def show_settings():
     return str(options)
 
 
-def regenerate():
-    num1, num2 = Num(), Num()
-
-    set_seed(options["seed"])
-    for i in range(1, 10 ** 3 + 1):
-        num1.add(rand(0, 1))
-
-    set_seed(options["seed"])
-    for i in range(1, 10 ** 3 + 1):
-        num2.add(rand(0, 1))
-
-    m1, m2 = round(num1.mid(), 10), round(num2.mid(), 10)
-    return m1 == m2 and .5 == round(m1, 1)
-
-
 def check_syms():
     sym = Sym()
 
@@ -101,18 +87,35 @@ def check_nums():
     return 11 / 7 == num.mid() and 0.787 == rnd(num.div(), 3)
 
 
-def check_csv(): 
-    n=0
+def check_csv():
+    n = 0
+
     def f(t):
         nonlocal n
         n += len(t)
-    csv(options['file'],f)
-    return n==8*399
+
+    csv(options['file'], f)
+    return n == 8 * 399
 
 
-eg("the", "show settings", show_settings)
-eg("rand", "generate, reset, regenerate same", regenerate)
-eg("sym", "check syms", check_syms)
+def check_data():
+    data = Data(options["file"])
+
+    return len(data.rows) == 398 and data.cols.y[0].w == -1 and data.cols.x[0].at == 0 and len(data.cols.x) == 4
+
+
+def check_stats():
+    data = Data(options["file"])
+
+    for k, cols in {"y": data.cols.y, "x": data.cols.x}.items():
+        print(k, "\tmid\t", data.stats(cols, 2, what="mid"))
+        print("", "\tdiv\t", data.stats(cols, 2, what="div"))
+
+eg("csv", "read from csv", check_csv)
+eg("data", "read DATA csv", check_data)
 eg("num", "check nums", check_nums)
-eg("csv","read from csv", check_csv)
+eg("stats", "stats from DATA", check_stats)
+eg("sym", "check syms", check_syms)
+eg("the", "show settings", show_settings)
+
 main(egs)
