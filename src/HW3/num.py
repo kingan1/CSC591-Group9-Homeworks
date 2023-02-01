@@ -65,3 +65,24 @@ class Num:
 		:return: Rounded number
 		"""
 		return x if x == "?" else rnd(x, n)
+	def dist(self, n1,n2):
+		if n1 == '?' and n2 == '?':
+			return 1 
+		n1 = self.norm(n1)
+		n2 = self.norm(n2) 
+		if n1 == "?":
+			if n2 < 0.5 :
+				n1 = 1
+			else:
+				n1 = 0	
+		if n2 == "?":
+			if n1 < 0.5:
+				n2 = 1
+			else:
+				n2 = 0
+		return abs(n1 - n2)
+
+	def norm(self,num):
+		if num == "?":
+			return num
+		return (num-self.lo)// (self.hi - self.lo + 1e-32)
