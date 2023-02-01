@@ -85,3 +85,16 @@ def csv(sFilename, fun):
             fun(t)
         else:
             return f.close()
+
+def cosine(a, b, c):
+    """
+        find x, y from a line connecting 'a' to 'b'
+    """
+    # might be an issue if c is 0
+    if c == 0:
+        return 0
+    x1 = (a**2 + c**2 - b**2) / (2*c)
+    x2 = max(0, min(1, x1))
+    #  -- in the incremental case, x1 might be outside 0,1
+    y  = (a**2 - x2**2)**.5
+    return x2, y

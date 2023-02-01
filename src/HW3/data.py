@@ -1,5 +1,5 @@
 from typing import Union, List, Dict
-
+from options import options
 from cols import Cols
 from num import Num
 from row import Row
@@ -52,3 +52,19 @@ class Data:
         :return: Dict with all statistics for the columns
         """
         return dict(sorted({col.txt: col.rnd(getattr(col, what)(), nplaces) for col in cols or self.cols.y}.items()))
+
+    def sway(self, rows=None, min=0, cols=None, above=None):
+        """
+            Returns best half, recursively
+        """
+        rows = rows or self.rows
+        min = min or len(rows) ** options['min']
+        cols = cols or self.cols.x
+        node = {"data": self.clone(rows)}
+
+        if len(rows) > 2 * min:
+            left, right, node['A'], node['B'], node['mid'], _ = self.half(rows, cols, above)
+            if self.better(node['B'], node['A']):
+                left, right, node['A'], node['B'] = right, left, node['B'], node['A']
+            node['left'] = self.sway(left, min, cols, node['A'])
+        return node

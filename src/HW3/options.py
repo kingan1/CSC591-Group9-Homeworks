@@ -64,3 +64,5 @@ class Options:
         :param value: Value to set
         """
         self.t[key] = value
+
+options = Options()

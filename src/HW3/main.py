@@ -111,6 +111,25 @@ def check_stats():
         print(k, "\tmid\t", data.stats(cols, 2, what="mid"))
         print("", "\tdiv\t", data.stats(cols, 2, what="div"))
 
+
+def check_half():
+    data=Data(options['file'])
+    left,right,A,B,mid,c = data.half() 
+    print(len(left),len(right),len(data.rows))
+    print(A.cells,c)
+    print(mid.cells)
+    print(B.cells)
+
+def check_around():
+    data=Data(options['file'])
+    print(0,0,data.rows[0].cells)
+    for n,t in enumerate(data.around(data.rows[0])):
+        if (n+1) %50 ==0:
+            print(n, rnd(t['dist'],2) ,t['row'].cells)
+
+
+eg("half", "1-level bi-clustering", check_half)
+eg("around", "sorting nearest neighbors", check_around)
 eg("csv", "read from csv", check_csv)
 eg("data", "read DATA csv", check_data)
 eg("num", "check nums", check_nums)
