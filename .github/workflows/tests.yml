@@ -23,7 +23,6 @@ jobs:
         pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
         cd ${{ github.workspace }}/src/HW3 ; \
         pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
-        mv ${{ github.workspace }}/docs/src/* ${{ github.workspace }}/docs/
   testHW1:
     runs-on: ubuntu-latest
     steps:
