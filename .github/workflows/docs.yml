@@ -23,13 +23,13 @@ jobs:
       # ADJUST THIS: build your documentation into docs/.
       # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
       - run: |
-        find . -name "*.html" -type f -delete ; \
-        cd ${{ github.workspace }}/src/HW1 ; \
-        pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
-        cd ${{ github.workspace }}/src/HW2 ; \
-        pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
-        cd ${{ github.workspace }}/src/HW3 ; \
-        pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
+          find . -name "*.html" -type f -delete ; \
+          cd ${{ github.workspace }}/src/HW1 ; \
+          pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
+          cd ${{ github.workspace }}/src/HW2 ; \
+          pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
+          cd ${{ github.workspace }}/src/HW3 ; \
+          pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
 
       - uses: actions/upload-pages-artifact@v1
         with:
