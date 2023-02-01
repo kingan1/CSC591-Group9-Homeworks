@@ -105,4 +105,5 @@ eg("rand", "generate, reset, regenerate same", regenerate)
 eg("sym", "check syms", check_syms)
 eg("num", "check nums", check_nums)
 
-main(egs)
+if __name__ == "__main__":
+    main(egs)

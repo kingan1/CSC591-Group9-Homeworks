@@ -118,4 +118,5 @@ eg("stats", "stats from DATA", check_stats)
 eg("sym", "check syms", check_syms)
 eg("the", "show settings", show_settings)
 
-main(egs)
+if __name__ == "__main__":
+    main(egs)

@@ -17,7 +17,11 @@ jobs:
       run: |
         cd ./docs ; \
         find . -name "*.html" -type f -delete ; \
-        cd ${{ github.workspace }}/src ; \
+        cd ${{ github.workspace }}/src/HW1 ; \
+        pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
+        cd ${{ github.workspace }}/src/HW2 ; \
+        pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
+        cd ${{ github.workspace }}/src/HW3 ; \
         pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
         mv ${{ github.workspace }}/docs/src/* ${{ github.workspace }}/docs/
   testHW1:
@@ -56,3 +60,6 @@ jobs:
       run: |
         cd ./src/HW3; (python main.py -g all )
     - run: echo "🍏 This job's status is ${{ job.status }}."
+
+    # pdoc3 --html . -o ../docs --force --template-dir ../docs
+    #  pdoc --html HW1/num.py
