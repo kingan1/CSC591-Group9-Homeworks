@@ -5,7 +5,7 @@ from num import Num
 from row import Row
 from sym import Sym
 from utils import csv
-
+import math
 
 class Data:
     def __init__(self, src: Union[str, List]) -> None:
@@ -68,3 +68,14 @@ class Data:
                 left, right, node['A'], node['B'] = right, left, node['B'], node['A']
             node['left'] = self.sway(left, min, cols, node['A'])
         return node
+        
+    def better(self,row1,row2):
+       s1 = 0
+       s2 = 0
+       ys = self.cols.y
+       for _,col in enumerate(ys):
+           x = Num.norm(row1.cells[col.at])
+           y = Num.norm(row2.cells[col.at])
+           s1 = s1 - math.exp(col.w * (x-y)/len(ys))
+           s2 = s2 - math.exp(col.w * (y-x)/len(ys))
+       return s1/len(ys) < s2/len(ys)
