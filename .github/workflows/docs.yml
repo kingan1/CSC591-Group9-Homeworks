@@ -4,7 +4,7 @@ name: Build Docs
 on:
   push:
     branches:
-      - main
+      - docs
 
 # security: restrict permissions for CI jobs.
 permissions:
