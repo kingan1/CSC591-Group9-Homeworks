@@ -22,7 +22,7 @@ jobs:
       - run: pip install -r requirements.txt
       # ADJUST THIS: build your documentation into docs/.
       # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
-      - run: 
+      - run: |
         find . -name "*.html" -type f -delete ; \
         cd ${{ github.workspace }}/src/HW1 ; \
         pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
