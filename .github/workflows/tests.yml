@@ -15,10 +15,9 @@ jobs:
         pip install -r requirements.txt
     - name: Generate documentation
       run: |
-        echo ${{ github.workspace }}
         cd ./docs ; \
         find . -name "*.html" -type f -delete ; \
-        cd ${{ github.workspace }}/src ; \
+        cd ~/src ; \
         pdoc3 --html . -o ${{ github.workspace }}/docs --force --template-dir ${{ github.workspace }}/docs ; \
         mv ${{ github.workspace }}/docs/src/* ${{ github.workspace }}/docs/
   testHW1:
