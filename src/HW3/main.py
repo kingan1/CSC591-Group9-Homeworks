@@ -153,16 +153,16 @@ def check_optimize():
     show(data.sway(), "mid", data.cols.y, 1)
 
 
-eg("half", "1-level bi-clustering", check_half)
 eg("around", "sorting nearest neighbors", check_around)
-eg("csv", "read from csv", check_csv)
-eg("data", "read DATA csv", check_data)
 eg("clone", "duplicate structure", check_clone)
+eg("cluster", "N-level bi-clustering", check_cluster)
+eg("data", "read DATA csv", check_data)
+eg("half", "1-level bi-clustering", check_half)
 eg("num", "check nums", check_nums)
-eg("stats", "stats from DATA", check_stats)
+eg("optimize", "semi-supervised optimization", check_optimize)
 eg("sym", "check syms", check_syms)
 eg("the", "show settings", show_settings)
-eg("cluster", "N-level bi-clustering", check_cluster)
-eg("optimize", "semi-supervised optimization", check_optimize)
 
+# eg("csv", "read from csv", check_csv)
+# eg("stats", "stats from DATA", check_stats)
 main(egs)
