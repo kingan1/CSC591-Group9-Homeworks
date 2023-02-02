@@ -55,7 +55,7 @@ class Data:
         """
         return dict(sorted({col.txt: col.rnd(getattr(col, what)(), nplaces) for col in cols or self.cols.y}.items()))
 
-    def cluster(self, rows=None, min_=None, cols=None, above=None):
+    def cluster(self, rows: List[Row] = None, min_: int = None, cols: List[Union[Sym, Num]] = None, above: Row = None):
         """
         Performs N-level bi clustering on the rows.
 
