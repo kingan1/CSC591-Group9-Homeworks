@@ -53,6 +53,31 @@ class Data:
         """
         return dict(sorted({col.txt: col.rnd(getattr(col, what)(), nplaces) for col in cols or self.cols.y}.items()))
 
+    def cluster(self, rows=None, min_=None, cols=None, above=None):
+        """
+        Performs N-level bi clustering on the rows.
+
+        :param rows: Data points to cluster
+        :param min_: Clustering threshold value
+        :param cols: Columns to cluster on
+        :param above: Point chosen as A
+        :return:
+        """
+        rows = self.rows if rows is None else rows
+        cols = self.cols if cols is None else cols
+
+        min_ = len(rows) ** options["min"] if min_ is None else min_
+
+        node = self.clone(rows)
+
+        if len(rows) > 2 * min_:
+            left, right, node.A, node.B, node.mid = self.half(rows, cols, above)
+
+            node.left = self.cluster(left, min_, cols, node.A)
+            node.right = self.cluster(right, min_, cols, node.B)
+
+        return node
+
     def sway(self, rows=None, min=0, cols=None, above=None):
         """
             Returns best half, recursively
