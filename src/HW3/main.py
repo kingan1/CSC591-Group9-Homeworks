@@ -104,6 +104,18 @@ def check_data():
     return len(data.rows) == 398 and data.cols.y[0].w == -1 and data.cols.x[0].at == 0 and len(data.cols.x) == 4
 
 
+def check_clone():
+    data1 = Data(options["file"])
+    data2 = data1.clone(data1.rows)
+
+    return (
+        len(data1.rows) == len(data2.rows)
+        and data1.cols.y[1].w == data2.cols.y[1].w
+        and data1.cols.x[1].at == data2.cols.x[1].at
+        and len(data1.cols.x) == len(data2.cols.x)
+    )
+
+
 def check_stats():
     data = Data(options["file"])
 
@@ -132,6 +144,7 @@ eg("half", "1-level bi-clustering", check_half)
 eg("around", "sorting nearest neighbors", check_around)
 eg("csv", "read from csv", check_csv)
 eg("data", "read DATA csv", check_data)
+eg("clone", "duplicate structure", check_clone)
 eg("num", "check nums", check_nums)
 eg("stats", "stats from DATA", check_stats)
 eg("sym", "check syms", check_syms)
