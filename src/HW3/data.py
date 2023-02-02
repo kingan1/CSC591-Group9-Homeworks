@@ -109,10 +109,7 @@ class Data:
     def dist(self,row1,row2,cols=None):
         n = 0
         dis = 0
-        #colmn = (cols if cols else self.cols.x)
-        if not cols:
-            cols = self.cols.x
-
+        cols = (cols if cols else self.cols.x)
         for _,c in enumerate(cols):
             n = n + 1
             dis = dis + c.dist(row1.cells[c.at], row2.cells[c.at]) ** options['p']
@@ -142,12 +139,8 @@ class Data:
         
         left , right = [],[]
         rows = (rows if rows else self.rows)
-        some = many(rows, options["Sample"], options['seed'])
-        if not above:
-            A = any(some,options['seed'])
-        else:
-            A = above
-        #A = any(above if above else options['seed'])
+        some = many(rows, options["Sample"], options['seed'])     
+        A = any(some,above if above else options['seed'])
         B = self.around(A, some)[int(options["Far"] * len(rows)) // 1]["row"]
         c = dist(A,B)
 
