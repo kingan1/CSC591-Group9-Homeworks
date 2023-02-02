@@ -65,17 +65,17 @@ class Data:
         :return: Rows under the current node
         """
         rows = self.rows if rows is None else rows
-        cols = self.cols if cols is None else cols
+        cols = self.cols.x if cols is None else cols
 
         min_ = len(rows) ** options["min"] if min_ is None else min_
 
-        node = self.clone(rows)
+        node = {"data": self.clone(rows)}
 
         if len(rows) > 2 * min_:
-            left, right, node.A, node.B, node.mid = self.half(rows, cols, above)
+            left, right, node['A'], node['B'], node['mid'],_ = self.half(rows, cols, above)
 
-            node.left = self.cluster(left, min_, cols, node.A)
-            node.right = self.cluster(right, min_, cols, node.B)
+            node['left'] = self.cluster(left, min_, cols, node['A'])
+            node['right'] = self.cluster(right, min_, cols, node['B'])
 
         return node
 
@@ -98,10 +98,10 @@ class Data:
     def better(self, row1, row2):
         s1 = 0
         s2 = 0
-        ys = ys if ys else self.cols.y
+        ys = self.cols.y
         for _, col in enumerate(ys):
-            x = Num.norm(row1.cells[col.at])
-            y = Num.norm(row2.cells[col.at])
+            x = col.norm(row1.cells[col.at])
+            y = col.norm(row2.cells[col.at])
             s1 = s1 - math.exp(col.w * (x - y) / len(ys))
             s2 = s2 - math.exp(col.w * (y - x) / len(ys))
         return s1 / len(ys) < s2 / len(ys)

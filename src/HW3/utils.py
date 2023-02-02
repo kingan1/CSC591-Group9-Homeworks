@@ -115,12 +115,12 @@ def show(node, what: str, cols: List[Union['Sym', 'Num']], nplaces: int, lvl: in
     if node:
         print(
             f"{'| ' * lvl}"
-            f"{node.data.rows}  "
-            f"{node.data.stats('mid', node.data.cols.y, nplaces) if node.left is None or lvl == 0 else ''}"
+            f"{len(node['data'].rows)}  "
+            f"{node['data'].stats(node['data'].cols.y, nplaces, 'mid') if 'left' not in node or lvl == 0 else ''}"
         )
 
-        show(node.left, what, cols, nplaces, lvl + 1)
-        show(node.right, what, cols, nplaces, lvl + 1)
+        show(node.get('left',None), what, cols, nplaces, lvl + 1)
+        show(node.get('right',None), what, cols, nplaces, lvl + 1)
 
 def many(t, n, seed= 937162211):
     """
