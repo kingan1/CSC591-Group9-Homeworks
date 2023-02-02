@@ -106,3 +106,12 @@ class Data:
             s1 = s1 - math.exp(col.w * (x - y) / len(ys))
             s2 = s2 - math.exp(col.w * (y - x) / len(ys))
         return s1 / len(ys) < s2 / len(ys)
+ 
+    def dist(self,row1,row2,cols=None):
+        n = 0
+        dis = 0
+        colmn = (cols if cols else self.cols.x)
+        for _,c in enumerate(colmn):
+            n = n + 1
+            dis = dis + c.dist(row1.cells[c.at], row2.cells[c.at]) ** self.the['p']
+        return (dis/n) ** (1/self.the['p'])
