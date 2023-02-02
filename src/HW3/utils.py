@@ -1,6 +1,10 @@
 import io
 import math
 import re
+from typing import List, Union
+
+from num import Num
+from sym import Sym
 
 
 def rint(lo: float, hi: float):
@@ -98,3 +102,24 @@ def cosine(a, b, c):
     #  -- in the incremental case, x1 might be outside 0,1
     y  = (a**2 - x2**2)**.5
     return x2, y
+
+
+def show(node, what: str, cols: List[Union[Sym, Num]], nplaces: int, lvl: int = 0) -> None:
+    """
+    Prints the tree.
+
+    :param node: Node of tree
+    :param what: Statistics to print
+    :param cols: Columns to print stats for
+    :param nplaces: Number of decimals to round the values to
+    :param lvl: Level in the tree
+    """
+    if node:
+        print(
+            f"{'| ' * lvl}"
+            f"{node.data.rows}  "
+            f"{node.data.stats('mid', node.data.cols.y, nplaces) if node.left is None or lvl == 0 else ''}"
+        )
+
+        show(node.left, what, cols, nplaces, lvl + 1)
+        show(node.right, what, cols, nplaces, lvl + 1)
