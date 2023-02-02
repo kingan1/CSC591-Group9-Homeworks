@@ -6,7 +6,7 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import csv
+from utils import csv, many, cosine
 
 
 class Data:
@@ -115,3 +115,41 @@ class Data:
             n = n + 1
             dis = dis + c.dist(row1.cells[c.at], row2.cells[c.at]) ** self.the['p']
         return (dis/n) ** (1/self.the['p'])
+    
+    def around(self, row1, rows=None, cols=None):
+        """
+        sort other `rows` by distance to `row`
+        """
+        rows = (rows if rows else self.rows)
+        cols = (cols if cols else self.cols.x)
+
+        def func(row2):
+            return {'row': row2, 'dist': self.dist(row1, row2, cols)}
+            
+        return sorted(list(map(func, rows)), key=lambda k: k['dist'])
+
+    def half(self, rows=None, cols=None, above=None):
+        """
+        divides data using 2 far points
+        """
+        def dist(row1, row2):
+            return self.dist(row1, row2, cols)
+
+        def project(row):
+            return {"row": row, "dist": cosine(dist(row, A), dist(row, B), c)}
+        
+        left , right = [],[]
+        rows = (rows if rows else self.rows)
+        some = many(rows, self.the["Sample"], self.the['seed'])
+        A = (above if above else self.the['seed'])
+        B = self.around(A, some)[int(self.the["Far"] * len(rows)) // 1]["row"]
+        c = dist(A,B)
+
+        for n, tmp in enumerate(sorted(list(map(project, rows)), key=lambda k: k["dist"])):
+            if n <= len(rows) // 2:
+                left.append(tmp["row"])
+                mid = tmp["row"]
+            else:
+                right.append(tmp["row"])
+
+        return left, right, A, B, mid, c
