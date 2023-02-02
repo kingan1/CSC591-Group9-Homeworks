@@ -85,4 +85,4 @@ class Num:
 	def norm(self,num):
 		if num == "?":
 			return num
-		return (num-self.lo)// (self.hi - self.lo + 1e-32)
+		return (num-self.lo) / (self.hi - self.lo + 1e-32)
