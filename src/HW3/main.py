@@ -2,7 +2,7 @@ from data import Data
 from num import Num
 from options import Options
 from sym import Sym
-from utils import rnd, csv
+from utils import rnd, csv, show
 
 options = Options()
 help = """
@@ -140,6 +140,18 @@ def check_around():
             print(n, rnd(t['dist'],2) ,t['row'].cells)
 
 
+def check_cluster():
+    data = Data(options['file'])
+
+    show(data.cluster(), "mid", data.cols.y, 1)
+
+
+def check_optimize():
+    data = Data(options['file'])
+
+    show(data.sway(), "mid", data.cols.y, 1)
+
+
 eg("half", "1-level bi-clustering", check_half)
 eg("around", "sorting nearest neighbors", check_around)
 eg("csv", "read from csv", check_csv)
@@ -149,5 +161,7 @@ eg("num", "check nums", check_nums)
 eg("stats", "stats from DATA", check_stats)
 eg("sym", "check syms", check_syms)
 eg("the", "show settings", show_settings)
+eg("cluster", "N-level bi-clustering", check_cluster)
+eg("optimize", "semi-supervised optimization", check_optimize)
 
 main(egs)
