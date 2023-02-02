@@ -3,9 +3,6 @@ import math
 import re
 from typing import List, Union
 
-from num import Num
-from sym import Sym
-
 
 def rint(lo: float, hi: float):
     return math.floor(0.5 + rand(lo, hi))
@@ -104,7 +101,7 @@ def cosine(a, b, c):
     return x2, y
 
 
-def show(node, what: str, cols: List[Union[Sym, Num]], nplaces: int, lvl: int = 0) -> None:
+def show(node, what: str, cols: List[Union['Sym', 'Num']], nplaces: int, lvl: int = 0) -> None:
     """
     Prints the tree.
 
