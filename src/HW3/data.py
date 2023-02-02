@@ -17,7 +17,7 @@ class Data:
         if type(src) == str:
             csv(src, self.add)
         else:
-            map(self.add, src or [])
+            self.add(src or [])
 
     def add(self, t: Union[List, Row]):
         """
@@ -40,7 +40,7 @@ class Data:
         :param init: Initial data for the clone
         """
         data = Data(list(self.cols.names))
-        map(self.add, init or [])
+        list(map(data.add, init or []))
 
         return data
 
