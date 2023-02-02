@@ -2,6 +2,7 @@ import io
 import math
 import re
 from typing import List, Union
+import random
 
 
 def rint(lo: float, hi: float):
@@ -120,3 +121,17 @@ def show(node, what: str, cols: List[Union['Sym', 'Num']], nplaces: int, lvl: in
 
         show(node.left, what, cols, nplaces, lvl + 1)
         show(node.right, what, cols, nplaces, lvl + 1)
+
+def many(t, n, seed= 937162211):
+    """
+    returns some items from `t`
+    """
+    random.seed(seed)
+    return random.choices(t, k=n)
+
+def any(t, seed=937162211):
+    """
+    returns one items at random
+    """
+    random.seed(seed)
+    return random.choices(t)[0]
