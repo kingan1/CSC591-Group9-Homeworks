@@ -99,6 +99,9 @@ def cosine(a, b, c):
     x2 = max(0, min(1, x1))
     #  -- in the incremental case, x1 might be outside 0,1
     y  = (a**2 - x2**2)**.5
+
+    if type(y) == complex:
+        y = y.real
     return x2, y
 
 
