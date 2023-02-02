@@ -6,14 +6,13 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import csv, many, cosine
+from utils import csv, many, cosine,any
 
 
 class Data:
     def __init__(self, src: Union[str, List]) -> None:
         self.rows = list()
         self.cols = None
-
         if type(src) == str:
             csv(src, self.add)
         else:
@@ -99,7 +98,7 @@ class Data:
     def better(self, row1, row2):
         s1 = 0
         s2 = 0
-        ys = self.cols.y
+        ys = ys if ys else self.cols.y
         for _, col in enumerate(ys):
             x = Num.norm(row1.cells[col.at])
             y = Num.norm(row2.cells[col.at])
@@ -110,11 +109,14 @@ class Data:
     def dist(self,row1,row2,cols=None):
         n = 0
         dis = 0
-        colmn = (cols if cols else self.cols.x)
-        for _,c in enumerate(colmn):
+        #colmn = (cols if cols else self.cols.x)
+        if not cols:
+            cols = self.cols.x
+
+        for _,c in enumerate(cols):
             n = n + 1
-            dis = dis + c.dist(row1.cells[c.at], row2.cells[c.at]) ** self.the['p']
-        return (dis/n) ** (1/self.the['p'])
+            dis = dis + c.dist(row1.cells[c.at], row2.cells[c.at]) ** options['p']
+        return (dis/n) ** (1/options['p'])
     
     def around(self, row1, rows=None, cols=None):
         """
@@ -126,7 +128,7 @@ class Data:
         def func(row2):
             return {'row': row2, 'dist': self.dist(row1, row2, cols)}
             
-        return sorted(list(map(func, rows)), key=lambda k: k['dist'])
+        return sorted(list(map(func, rows)), key=lambda x: x['dist'])
 
     def half(self, rows=None, cols=None, above=None):
         """
@@ -140,12 +142,16 @@ class Data:
         
         left , right = [],[]
         rows = (rows if rows else self.rows)
-        some = many(rows, self.the["Sample"], self.the['seed'])
-        A = (above if above else self.the['seed'])
-        B = self.around(A, some)[int(self.the["Far"] * len(rows)) // 1]["row"]
+        some = many(rows, options["Sample"], options['seed'])
+        if not above:
+            A = any(some,options['seed'])
+        else:
+            A = above
+        #A = any(above if above else options['seed'])
+        B = self.around(A, some)[int(options["Far"] * len(rows)) // 1]["row"]
         c = dist(A,B)
 
-        for n, tmp in enumerate(sorted(list(map(project, rows)), key=lambda k: k["dist"])):
+        for n, tmp in enumerate(sorted(list(map(project, rows)), key=lambda x: x["dist"])):
             if n <= len(rows) // 2:
                 left.append(tmp["row"])
                 mid = tmp["row"]
