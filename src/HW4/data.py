@@ -106,20 +106,19 @@ class Data:
         def dist(row1, row2):
             return self.dist(row1, row2, cols)
 
-        def project(row):
+        def project(row, x=None, y=None):
             x,y = cosine(dist(row,A), dist(row,B),c)
             row.x = row.x or x
             row.y = row.y or y
             return {"row":row, "x":x,"y":y}
         
         left , right = [],[]
-        rows = (rows if rows else self.rows)
-        some = many(rows, options["Sample"], options['seed'])     
-        A = any(some,above if above else options['seed'])
-        B = self.around(A, some)[int(options["Far"] * len(rows)) // 1]["row"]
+        rows = (rows if rows else self.rows) 
+        A = above if above else any(rows)
+        B = self.furthest(A, rows)['row']
         c = dist(A,B)
 
-        for n, tmp in enumerate(sorted(list(map(project, rows)), key=lambda x: x["dist"])):
+        for n, tmp in enumerate(sorted(list(map(project, rows)), key=lambda x: x["x"])):
             if n <= len(rows) // 2:
                 left.append(tmp["row"])
                 mid = tmp["row"]
@@ -128,7 +127,7 @@ class Data:
 
         return left, right, A, B, mid, c
     
-    def furthest(self, row1,  rows,cols):
+    def furthest(self, row1=None,  rows=None,cols=None):
         """ 
         sort other `rows` by distance to `row`
         """
