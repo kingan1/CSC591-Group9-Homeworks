@@ -138,3 +138,11 @@ def any(t, seed=937162211):
     """
     random.seed(seed)
     return random.choices(t)[0]
+
+def transpose(t):
+    u=[]
+    for i in range(0, len(t[0])):
+        u.append([])
+        for j in range(0, len(t)):
+            u[i].append(t[j][i])
+    return u 
