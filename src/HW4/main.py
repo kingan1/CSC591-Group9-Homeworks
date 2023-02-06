@@ -2,7 +2,7 @@ from data import Data
 from num import Num
 from options import options
 from sym import Sym
-from utils import rnd, csv, show
+from utils import rnd, csv, show, transpose
 
 help = """
 main.py : a rep grid processor
@@ -149,6 +149,13 @@ def check_optimize():
 
     show(data.sway(), "mid", data.cols.y, 1)
 
+def check_reprows():
+    t = None
+    exec(open(options['file']).read())
+    rows = repRows(t, transpose(t.cols))
+    print(rows.cols.all) 
+    print(rows.rows) 
+
 
 eg("around", "sorting nearest neighbors", check_around)
 eg("clone", "duplicate structure", check_clone)
@@ -159,6 +166,7 @@ eg("num", "check nums", check_nums)
 eg("optimize", "semi-supervised optimization", check_optimize)
 eg("sym", "check syms", check_syms)
 eg("the", "show settings", show_settings)
+eg("reprows","checking reprows", check_reprows)
 
 # eg("csv", "read from csv", check_csv)
 # eg("stats", "stats from DATA", check_stats)
