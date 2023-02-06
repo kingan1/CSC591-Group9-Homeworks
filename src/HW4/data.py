@@ -54,7 +54,7 @@ class Data:
         """
         return dict(sorted({col.txt: col.rnd(getattr(col, what)(), nplaces) for col in cols or self.cols.y}.items()))
 
-    def cluster(self, rows: List[Row] = None, min_: int = None, cols: List[Union[Sym, Num]] = None, above: Row = None):
+    def cluster(self, rows: List[Row] = None, cols: List[Union[Sym, Num]] = None, above: Row = None):
         """
         Performs N-level bi clustering on the rows.
 
@@ -67,44 +67,16 @@ class Data:
         rows = self.rows if rows is None else rows
         cols = self.cols.x if cols is None else cols
 
-        min_ = len(rows) ** options["min"] if min_ is None else min_
 
         node = {"data": self.clone(rows)}
 
-        if len(rows) > 2 * min_:
-            left, right, node['A'], node['B'], node['mid'],_ = self.half(rows, cols, above)
+        if len(rows) >= 2:
+            left, right, node['A'], node['B'], node['mid'], node['c'] = self.half(rows, cols, above)
 
-            node['left'] = self.cluster(left, min_, cols, node['A'])
-            node['right'] = self.cluster(right, min_, cols, node['B'])
+            node['left'] = self.cluster(left, cols, node['A'])
+            node['right'] = self.cluster(right, cols, node['B'])
 
         return node
-
-    def sway(self, rows=None, min=0, cols=None, above=None):
-        """
-            Returns best half, recursively
-        """
-        rows = rows or self.rows
-        min = min or len(rows) ** options['min']
-        cols = cols or self.cols.x
-        node = {"data": self.clone(rows)}
-
-        if len(rows) > 2 * min:
-            left, right, node['A'], node['B'], node['mid'], _ = self.half(rows, cols, above)
-            if self.better(node['B'], node['A']):
-                left, right, node['A'], node['B'] = right, left, node['B'], node['A']
-            node['left'] = self.sway(left, min, cols, node['A'])
-        return node
-
-    def better(self, row1, row2):
-        s1 = 0
-        s2 = 0
-        ys = self.cols.y
-        for _, col in enumerate(ys):
-            x = col.norm(row1.cells[col.at])
-            y = col.norm(row2.cells[col.at])
-            s1 = s1 - math.exp(col.w * (x - y) / len(ys))
-            s2 = s2 - math.exp(col.w * (y - x) / len(ys))
-        return s1 / len(ys) < s2 / len(ys)
  
     def dist(self,row1,row2,cols=None):
         n = 0
@@ -135,7 +107,10 @@ class Data:
             return self.dist(row1, row2, cols)
 
         def project(row):
-            return {"row": row, "dist": cosine(dist(row, A), dist(row, B), c)}
+            x,y = cosine(dist(row,A), dist(row,B),c)
+            row.x = row.x or x
+            row.y = row.y or y
+            return {"row":row, "x":x,"y":y}
         
         left , right = [],[]
         rows = (rows if rows else self.rows)
@@ -152,3 +127,10 @@ class Data:
                 right.append(tmp["row"])
 
         return left, right, A, B, mid, c
+    
+    def furthest(self, row1,  rows,cols):
+        """ 
+        sort other `rows` by distance to `row`
+        """
+        t=self.around(row1,rows,cols)
+        return t[len(t)-1]
