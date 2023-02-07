@@ -2,7 +2,7 @@ import io
 import math
 import re
 from typing import List, Union
-import random
+import random,copy
 
 
 def rint(lo: float, hi: float):
@@ -138,3 +138,16 @@ def any(t, seed=937162211):
     """
     random.seed(seed)
     return random.choices(t)[0]
+def helper(k):
+    return "Num" + str(k)
+
+def repCls(cols, Data):
+    cols = copy.deepcopy(cols)
+    for column in cols:
+        column[len(column)-1] = str(column[0]) + ':' + str(column[len(column)-1])
+        for j in range(1,len(column)):
+            column[j-1] = column[j]
+    column.pop()
+    cols.insert(0,[helper(i) for i in range(len(cols[0])-1)])
+    cols[0][len(cols[0])-1] = "thingX"
+    return Data(cols)
