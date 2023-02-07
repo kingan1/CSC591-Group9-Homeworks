@@ -154,6 +154,24 @@ class Data:
         return left, right, A, B, mid, c
 
 
+def rep_rows(t, rows):
+    rows = copy(rows)
+
+    for j, s in rows[-1]:
+        rows[1][j] += (":" + s)
+
+    del rows[-1]
+
+    for n, row in enumerate(rows):
+        if n == 1:
+            row.append("thingX")
+        else:
+            u = t.rows[-(n - 1)]
+            row.append(u[-1])
+
+    return Data(rows)
+
+
 def rep_cols(cols):
     cols = copy(cols)
 
