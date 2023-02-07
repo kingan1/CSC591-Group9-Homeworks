@@ -1,8 +1,8 @@
-from data import Data
+from data import Data, rep_cols
 from num import Num
 from options import options
 from sym import Sym
-from utils import rnd, csv, show, copy
+from utils import rnd, csv, show, copy, do_file
 
 help = """
 main.py : a rep grid processor
@@ -169,6 +169,16 @@ def check_copy():
     print("b4", t1, "\nafter", t2)
 
 
+def check_repcols():
+    t = rep_cols(do_file(options["file"]))
+
+    print(t.cols.all)
+    print(t.rows)
+
+
+def check_synonyms():
+    show(rep_cols(do_file(options["file"]).cols).cluster())
+
 
 eg("around", "sorting nearest neighbors", check_around)
 eg("clone", "duplicate structure", check_clone)
@@ -179,7 +189,9 @@ eg("num", "check nums", check_nums)
 eg("optimize", "semi-supervised optimization", check_optimize)
 eg("sym", "check syms", check_syms)
 eg("the", "show settings", show_settings)
-eg("copy", "check_copy", check_copy)
+eg("copy", "check copy", check_copy)
+eg("repcols", "check repcols", check_repcols)
+eg("synonyms", "check repcols cluster", check_synonyms)
 
 # eg("csv", "read from csv", check_csv)
 # eg("stats", "stats from DATA", check_stats)
