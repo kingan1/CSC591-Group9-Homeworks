@@ -6,7 +6,7 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import csv, many, cosine,any
+from utils import csv, many, cosine, any, copy, helper
 
 
 class Data:
@@ -133,3 +133,38 @@ class Data:
         """
         t=self.around(row1,rows,cols)
         return t[len(t)-1]
+
+
+def rep_rows(t, rows):
+    rows = copy(rows)
+
+    for j, s in rows[-1]:
+        rows[1][j] += (":" + s)
+
+    del rows[-1]
+
+    for n, row in enumerate(rows):
+        if n == 1:
+            row.append("thingX")
+        else:
+            u = t.rows[-(n - 1)]
+            row.append(u[-1])
+
+    return Data(rows)
+
+
+def rep_cols(cols):
+    cols = copy(cols)
+
+    for column in cols:
+        column[len(column)-1] = str(column[0]) + ':' + str(column[len(column)-1])
+
+        for j in range(1, len(column)):
+            column[j-1] = column[j]
+
+        column.pop()
+
+    cols.insert(0, [helper(i) for i in range(len(cols[0])-1)])
+    cols[0][len(cols[0])-1] = "thingX"
+
+    return Data(cols)

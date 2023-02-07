@@ -1,8 +1,8 @@
-from data import Data
+from data import Data, rep_cols
 from num import Num
 from options import options
 from sym import Sym
-from utils import rnd, csv, show, transpose
+from utils import rnd, csv, show, copy, do_file, transpose
 
 help = """
 main.py : a rep grid processor
@@ -157,17 +157,50 @@ def check_reprows():
     print(rows.rows) 
 
 
-eg("around", "sorting nearest neighbors", check_around)
-eg("clone", "duplicate structure", check_clone)
-eg("cluster", "N-level bi-clustering", check_cluster)
-eg("data", "read DATA csv", check_data)
-eg("half", "1-level bi-clustering", check_half)
-eg("num", "check nums", check_nums)
-eg("optimize", "semi-supervised optimization", check_optimize)
-eg("sym", "check syms", check_syms)
-eg("the", "show settings", show_settings)
-eg("reprows","checking reprows", check_reprows)
+def check_copy():
+    t1 = {
+        "a": 1,
+        "b": {
+            "c": 2,
+            "d": [3, ]
+        }
+    }
 
+    t2 = copy(t1)
+
+    t2["b"]["d"][0] = 1000
+
+    print("b4", t1, "\nafter", t2)
+
+
+def check_repcols():
+    t = rep_cols(do_file(options["file"]))
+
+    print(t.cols.all)
+    print(t.rows)
+
+
+def check_synonyms():
+    show(rep_cols(do_file(options["file"]).cols).cluster())
+
+
+eg("the", "show settings", show_settings)
+eg("copy", "check copy", check_copy)
+eg("sym", "check syms", check_syms)
+eg("num", "check nums", check_nums)
+eg("repcols", "check repcols", check_repcols)
+eg("synonyms", "check repcols cluster", check_synonyms)
+eg("reprows","checking reprows", check_reprows)
+# prototypes
+# position
+# every
+
+# eg("around", "sorting nearest neighbors", check_around)
+# eg("clone", "duplicate structure", check_clone)
+# eg("cluster", "N-level bi-clustering", check_cluster)
+# eg("data", "read DATA csv", check_data)
+# eg("half", "1-level bi-clustering", check_half)
+# eg("optimize", "semi-supervised optimization", check_optimize)
 # eg("csv", "read from csv", check_csv)
 # eg("stats", "stats from DATA", check_stats)
 main(egs)

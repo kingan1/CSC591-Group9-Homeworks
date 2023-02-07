@@ -1,8 +1,9 @@
+import copy as cp
 import io
 import math
+import random
 import re
 from typing import List, Union
-import random
 
 
 def rint(lo: float, hi: float):
@@ -35,7 +36,7 @@ rand = _inst.rand
 set_seed = _inst.set_seed
 
 
-def rnd(n: float, n_places: int) -> float:
+def rnd(n: float, n_places: int = 3) -> float:
     """
     Rounds number n to n places.
 
@@ -43,7 +44,7 @@ def rnd(n: float, n_places: int) -> float:
     :param n_places: Number of decimal places to round
     :return: Rounded number
     """
-    mult = math.pow(10, n_places or 3)
+    mult = math.pow(10, n_places)
     return math.floor(n * mult + 0.5) / mult
 
 
@@ -105,7 +106,7 @@ def cosine(a, b, c):
     return x2, y
 
 
-def show(node, what: str, cols: List[Union['Sym', 'Num']], nplaces: int, lvl: int = 0) -> None:
+def show(node, what: str = "mid", cols: List[Union['Sym', 'Num']] = None, nplaces: int = 2, lvl: int = 0) -> None:
     """
     Prints the tree.
 
@@ -117,13 +118,12 @@ def show(node, what: str, cols: List[Union['Sym', 'Num']], nplaces: int, lvl: in
     """
     if node:
         print(
-            f"{'| ' * lvl}"
-            f"{len(node['data'].rows)}  "
-            f"{node['data'].stats(node['data'].cols.y, nplaces, 'mid') if 'left' not in node or lvl == 0 else ''}"
+            f"{'|.. ' * lvl}"
+            f"{node['data'].rows[-1].cells[-1] if 'left' not in node else rnd(100 * node.c)}"
         )
 
-        show(node.get('left',None), what, cols, nplaces, lvl + 1)
-        show(node.get('right',None), what, cols, nplaces, lvl + 1)
+        show(node.get('left', None), what, cols, nplaces, lvl + 1)
+        show(node.get('right', None), what, cols, nplaces, lvl + 1)
 
 def many(t, n, seed= 937162211):
     """
@@ -146,3 +146,13 @@ def transpose(t):
         for j in range(0, len(t)):
             u[i].append(t[j][i])
     return u 
+def helper(k):
+    return "Num" + str(k)
+
+
+def copy(t):
+    return cp.deepcopy(t)
+
+
+def do_file(file):
+    return exec(open(file).read())
