@@ -141,7 +141,7 @@ def any(t, seed=937162211):
 def helper(k):
     return "Num" + str(k)
 
-def repCls(cols, Data):
+def repCols(cols, Data):
     cols = copy.deepcopy(cols)
     for column in cols:
         column[len(column)-1] = str(column[0]) + ':' + str(column[len(column)-1])
