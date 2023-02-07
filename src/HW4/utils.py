@@ -106,7 +106,7 @@ def cosine(a, b, c):
     return x2, y
 
 
-def show(node, what: str, cols: List[Union['Sym', 'Num']], nplaces: int, lvl: int = 0) -> None:
+def show(node, what: str = "mid", cols: List[Union['Sym', 'Num']] = None, nplaces: int = 2, lvl: int = 0) -> None:
     """
     Prints the tree.
 
@@ -123,8 +123,8 @@ def show(node, what: str, cols: List[Union['Sym', 'Num']], nplaces: int, lvl: in
             f"{node['data'].stats(node['data'].cols.y, nplaces, 'mid') if 'left' not in node or lvl == 0 else ''}"
         )
 
-        show(node.get('left',None), what, cols, nplaces, lvl + 1)
-        show(node.get('right',None), what, cols, nplaces, lvl + 1)
+        show(node.get('left', None), what, cols, nplaces, lvl + 1)
+        show(node.get('right', None), what, cols, nplaces, lvl + 1)
 
 def many(t, n, seed= 937162211):
     """
@@ -156,3 +156,7 @@ def repCols(cols, Data):
 
 def copy(t):
     return cp.deepcopy(t)
+
+
+def do_file(file):
+    return exec(open(file).read())
