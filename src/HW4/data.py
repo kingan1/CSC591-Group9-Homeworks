@@ -6,7 +6,7 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import csv, many, cosine,any
+from utils import csv, many, cosine, any, copy, helper
 
 
 class Data:
@@ -152,3 +152,20 @@ class Data:
                 right.append(tmp["row"])
 
         return left, right, A, B, mid, c
+
+
+def rep_cols(cols):
+    cols = copy(cols)
+
+    for column in cols:
+        column[len(column)-1] = str(column[0]) + ':' + str(column[len(column)-1])
+
+        for j in range(1, len(column)):
+            column[j-1] = column[j]
+
+        column.pop()
+
+    cols.insert(0, [helper(i) for i in range(len(cols[0])-1)])
+    cols[0][len(cols[0])-1] = "thingX"
+
+    return Data(cols)
