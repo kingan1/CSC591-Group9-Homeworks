@@ -36,7 +36,7 @@ rand = _inst.rand
 set_seed = _inst.set_seed
 
 
-def rnd(n: float, n_places: int) -> float:
+def rnd(n: float, n_places: int = 3) -> float:
     """
     Rounds number n to n places.
 
@@ -44,7 +44,7 @@ def rnd(n: float, n_places: int) -> float:
     :param n_places: Number of decimal places to round
     :return: Rounded number
     """
-    mult = math.pow(10, n_places or 3)
+    mult = math.pow(10, n_places)
     return math.floor(n * mult + 0.5) / mult
 
 
@@ -118,9 +118,8 @@ def show(node, what: str = "mid", cols: List[Union['Sym', 'Num']] = None, nplace
     """
     if node:
         print(
-            f"{'| ' * lvl}"
-            f"{len(node['data'].rows)}  "
-            f"{node['data'].stats(node['data'].cols.y, nplaces, 'mid') if 'left' not in node or lvl == 0 else ''}"
+            f"{'|.. ' * lvl}"
+            f"{node['data'].rows[-1].cells[-1] if 'left' not in node else rnd(100 * node.c)}"
         )
 
         show(node.get('left', None), what, cols, nplaces, lvl + 1)
