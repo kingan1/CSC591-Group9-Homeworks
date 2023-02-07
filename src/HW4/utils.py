@@ -3,6 +3,7 @@ import io
 import math
 import random
 import re
+import json
 from typing import List, Union
 
 
@@ -155,4 +156,30 @@ def copy(t):
 
 
 def do_file(file):
-    return exec(open(file).read())
+    # if local X = y is present, find both the thing to replace and what to replace it with
+    data = None
+    with open(file, "r") as fp:
+        data = fp.read()
+    vars = re.match("local (.*) = (.*)\n", data)
+    if vars:
+        variable, value = vars.groups()
+        data = data.replace(variable, value)
+        data = re.sub("local .* = .*\n", "", data)
+    # remove the return statement
+    data = data.replace("return ", "")
+    # remove newlines
+    data = data.replace("\n", "")
+    # replace domain= , cols= , rows=
+    # change X=y to "X":y
+    terms = ["domain", "cols", "rows"]
+    for term in terms:
+        data = re.sub("{}\s*=".format(term), '"{}":'.format(term), data)
+    # replace { } with [ ]
+    first, last=data.index("{") , data.rindex("}")
+    data = data[first+1:last].replace("{", "[").replace("}", "]")
+    data = "{" + data + "}"
+
+    # replace ' with "
+    data = data.replace("'", '"')
+    json_obj = json.loads(data)
+    return json_obj

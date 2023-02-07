@@ -16,7 +16,11 @@ class Data:
         if type(src) == str:
             csv(src, self.add)
         else:
-            self.add(src or [])
+            src = src or []
+            if len(src) == 0 or type(src[0]) == str:
+                self.add(src or [])
+            else:
+                list(map(self.add, src or []))
 
     def add(self, t: Union[List, Row]):
         """
@@ -137,19 +141,17 @@ class Data:
 
 def rep_rows(t, rows):
     rows = copy(rows)
-
-    for j, s in rows[-1]:
-        rows[1][j] += (":" + s)
+    for j, s in enumerate(rows[-1]):
+        rows[0][j] += (":" + s)
 
     del rows[-1]
 
     for n, row in enumerate(rows):
-        if n == 1:
+        if n == 0:
             row.append("thingX")
         else:
-            u = t.rows[-(n - 1)]
+            u = t['rows'][-(n - 1)]
             row.append(u[-1])
-
     return Data(rows)
 
 
@@ -164,7 +166,6 @@ def rep_cols(cols):
 
         column.pop()
 
-    cols.insert(0, [helper(i) for i in range(len(cols[0])-1)])
+    cols.insert(0, [helper(i+1) for i in range(len(cols[0]))])
     cols[0][len(cols[0])-1] = "thingX"
-
     return Data(cols)

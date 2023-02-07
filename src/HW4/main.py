@@ -1,4 +1,4 @@
-from data import Data, rep_cols
+from data import Data, rep_cols, rep_rows
 from num import Num
 from options import options
 from sym import Sym
@@ -150,9 +150,8 @@ def check_optimize():
     show(data.sway(), "mid", data.cols.y, 1)
 
 def check_reprows():
-    t = None
-    exec(open(options['file']).read())
-    rows = repRows(t, transpose(t.cols))
+    t=do_file(options['file'])
+    rows = rep_rows(t, transpose(t['cols']))
     print(rows.cols.all) 
     print(rows.rows) 
 
@@ -174,8 +173,7 @@ def check_copy():
 
 
 def check_repcols():
-    t = rep_cols(do_file(options["file"]))
-
+    t = rep_cols(do_file(options["file"])['cols'])
     print(t.cols.all)
     print(t.rows)
 
