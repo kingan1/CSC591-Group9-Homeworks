@@ -2,7 +2,7 @@ from data import Data
 from num import Num
 from options import options
 from sym import Sym
-from utils import rnd, csv, show
+from utils import rnd, csv, show, copy
 
 help = """
 main.py : a rep grid processor
@@ -153,6 +153,23 @@ def check_optimize():
     show(data.sway(), "mid", data.cols.y, 1)
 
 
+def check_copy():
+    t1 = {
+        "a": 1,
+        "b": {
+            "c": 2,
+            "d": [3, ]
+        }
+    }
+
+    t2 = copy(t1)
+
+    t2["b"]["d"][0] = 1000
+
+    print("b4", t1, "\nafter", t2)
+
+
+
 eg("around", "sorting nearest neighbors", check_around)
 eg("clone", "duplicate structure", check_clone)
 eg("cluster", "N-level bi-clustering", check_cluster)
@@ -162,6 +179,7 @@ eg("num", "check nums", check_nums)
 eg("optimize", "semi-supervised optimization", check_optimize)
 eg("sym", "check syms", check_syms)
 eg("the", "show settings", show_settings)
+eg("copy", "check_copy", check_copy)
 
 # eg("csv", "read from csv", check_csv)
 # eg("stats", "stats from DATA", check_stats)
