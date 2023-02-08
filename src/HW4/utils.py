@@ -189,3 +189,6 @@ def oo(t):
     td['a'] = t.__class__.__name__
     td['id'] = id(t)
     print(dict(sorted(td.items())))
+
+def last(t):
+    return t[-1]

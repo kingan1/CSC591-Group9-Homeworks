@@ -185,7 +185,7 @@ def rep_place(data):
     for y in range(0, maxy):
         oo(g[y])
 
-def repgrid(sFile):
+def rep_grid(sFile):
     t = open(sFile,"r")
     t = t.read()
     rows = rep_rows(t, transpose(t["cols"]))
