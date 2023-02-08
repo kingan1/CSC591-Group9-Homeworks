@@ -120,7 +120,7 @@ def show(node, what: str = "mid", cols: List[Union['Sym', 'Num']] = None, nplace
     if node:
         print(
             f"{'|.. ' * lvl}"
-            f"{node['data'].rows[-1].cells[-1] if 'left' not in node else rnd(100 * node.c)}"
+            f"{node['data'].rows[-1].cells[-1] if 'left' not in node else rnd(100 * node['c'])}"
         )
 
         show(node.get('left', None), what, cols, nplaces, lvl + 1)

@@ -2,7 +2,7 @@ from data import Data, rep_cols, rep_rows
 from num import Num
 from options import options
 from sym import Sym
-from utils import rnd, csv, show, copy, do_file, transpose
+from utils import rnd, csv, show, copy, do_file, transpose, oo
 
 help = """
 main.py : a rep grid processor
@@ -152,8 +152,11 @@ def check_optimize():
 def check_reprows():
     t=do_file(options['file'])
     rows = rep_rows(t, transpose(t['cols']))
-    print(rows.cols.all) 
-    print(rows.rows) 
+    
+    for row in rows.cols.all:
+        oo(row)
+    for row in rows.rows:
+        oo(row)
 
 
 def check_copy():
@@ -167,38 +170,32 @@ def check_copy():
 
     t2 = copy(t1)
 
-    t2["b"]["d"][0] = 1000
+    t2["b"]["d"][0] = 10000
 
     print("b4", t1, "\nafter", t2)
 
 
 def check_repcols():
     t = rep_cols(do_file(options["file"])['cols'])
-    print(t.cols.all)
-    print(t.rows)
+    for row in t.cols.all:
+        oo(row)
+    for row in t.rows:
+        oo(row)
 
 
 def check_synonyms():
-    show(rep_cols(do_file(options["file"]).cols).cluster())
+    show(rep_cols(do_file(options["file"])['cols']).cluster())
 
 
-eg("the", "show settings", show_settings)
 eg("copy", "check copy", check_copy)
-eg("sym", "check syms", check_syms)
+# eg("every","the whole enchilada", check_every)
 eg("num", "check nums", check_nums)
+# eg("position","where's wally", check_position)
+# eg("prototypes","checking reprows cluster", check_prototypes)
 eg("repcols", "check repcols", check_repcols)
-eg("synonyms", "check repcols cluster", check_synonyms)
 eg("reprows","checking reprows", check_reprows)
-# prototypes
-# position
-# every
+eg("sym", "check syms", check_syms)
+eg("synonyms", "check repcols cluster", check_synonyms)
+eg("the", "show settings", show_settings)
 
-# eg("around", "sorting nearest neighbors", check_around)
-# eg("clone", "duplicate structure", check_clone)
-# eg("cluster", "N-level bi-clustering", check_cluster)
-# eg("data", "read DATA csv", check_data)
-# eg("half", "1-level bi-clustering", check_half)
-# eg("optimize", "semi-supervised optimization", check_optimize)
-# eg("csv", "read from csv", check_csv)
-# eg("stats", "stats from DATA", check_stats)
 main(egs)

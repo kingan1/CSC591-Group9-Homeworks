@@ -123,7 +123,7 @@ class Data:
         c = dist(A,B)
 
         for n, tmp in enumerate(sorted(list(map(project, rows)), key=lambda x: x["x"])):
-            if n <= len(rows) // 2:
+            if (n+1) <= len(rows) // 2:
                 left.append(tmp["row"])
                 mid = tmp["row"]
             else:
@@ -150,7 +150,7 @@ def rep_rows(t, rows):
         if n == 0:
             row.append("thingX")
         else:
-            u = t['rows'][-(n - 1)]
+            u = t['rows'][len(t['rows']) - n]
             row.append(u[-1])
     return Data(rows)
 
