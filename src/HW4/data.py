@@ -6,7 +6,7 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import csv, many, cosine, any, copy, helper, oo
+from utils import csv, many, cosine, any, copy, helper, oo, transpose, show
 
 
 class Data:
@@ -170,7 +170,7 @@ def rep_cols(cols):
     cols[0][len(cols[0])-1] = "thingX"
     return Data(cols)
 
-def repPlace(data):
+def rep_place(data):
     n = 20
     g = [[''] * n for _ in range(n)]
     maxy = 0
@@ -184,3 +184,12 @@ def repPlace(data):
     print("")
     for y in range(0, maxy):
         oo(g[y])
+
+def repgrid(sFile):
+    t = open(sFile,"r")
+    t = t.read()
+    rows = rep_rows(t, transpose(t["cols"]))
+    cols = rep_cols(t["cols"])
+    show(rows.cluster())
+    show(cols.cluster())
+    rep_place(rows)
