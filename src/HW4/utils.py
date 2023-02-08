@@ -183,3 +183,9 @@ def do_file(file):
     data = data.replace("'", '"')
     json_obj = json.loads(data)
     return json_obj
+
+def oo(t):
+    td = t.__dict__
+    td['a'] = t.__class__.__name__
+    td['id'] = id(t)
+    print(dict(sorted(td.items())))
