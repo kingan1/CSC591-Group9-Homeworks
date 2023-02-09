@@ -183,12 +183,14 @@ def rep_place(data):
         g[y][x] = c
     print("")
     for y in range(0, maxy):
-        oo(g[y])
+        frmt = "{:>3}"*len(g[y])
 
-def rep_grid(sFile,the,Data,t=None,rows=None,cols=None):
+        print("{" + frmt.format(*g[y]) + "}")
+
+def rep_grid(sFile):
     t=do_file(sFile)
-    rows=rep_rows(t,transpose(t['cols']),Data,the)
-    cols=rep_cols(t['cols'],Data,the)
+    rows=rep_rows(t,transpose(t['cols']))
+    cols=rep_cols(t['cols'])
     show(rows.cluster())
     show(cols.cluster())
     rep_place(rows)

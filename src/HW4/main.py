@@ -1,4 +1,4 @@
-from data import Data, rep_cols, rep_rows
+from data import Data, rep_cols, rep_rows, rep_place, rep_grid
 from num import Num
 from options import options
 from sym import Sym
@@ -186,12 +186,26 @@ def check_repcols():
 def check_synonyms():
     show(rep_cols(do_file(options["file"])['cols']).cluster())
 
+def check_prototypes():
+    t=do_file(options["file"])
+    rows = rep_rows(t, transpose(t['cols']))
+    show(rows.cluster())
+    
+
+def check_position():
+    t=do_file(options["file"])
+    rows = rep_rows(t, transpose(t['cols']))
+    rows.cluster()
+    rep_place(rows)
+
+def check_every():
+    rep_grid(options["file"])
 
 eg("copy", "check copy", check_copy)
-# eg("every","the whole enchilada", check_every)
+eg("every","the whole enchilada", check_every)
 eg("num", "check nums", check_nums)
-# eg("position","where's wally", check_position)
-# eg("prototypes","checking reprows cluster", check_prototypes)
+eg("position","where's wally", check_position)
+eg("prototypes","checking reprows cluster", check_prototypes)
 eg("repcols", "check repcols", check_repcols)
 eg("reprows","checking reprows", check_reprows)
 eg("sym", "check syms", check_syms)
