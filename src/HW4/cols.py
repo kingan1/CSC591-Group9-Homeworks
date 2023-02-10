@@ -9,11 +9,12 @@ class Cols:
     """
     Factory for managing a set of NUMs or SYMs
     """
+
     def __init__(self, t):
         """
-            Initializes a new Cols object, contains many columns
+        Initializes a new Cols object, contains many columns
 
-            :param t: Row to convert to NUMs or SYMs
+        :param t: Row to convert to NUMs or SYMs
         """
         self.names, self.all, self.x, self.y, self.klass = t, [], [], [], None
 

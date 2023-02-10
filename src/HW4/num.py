@@ -5,84 +5,86 @@ from utils import rnd
 
 
 class Num:
-	"""
-	Summarizes a stream of numbers.
-	"""
-	def __init__(self, at: int = 0, txt: str = ""):
-		self.at = at
-		self.txt = txt
+    """
+    Summarizes a stream of numbers.
+    """
 
-		self.n = 0
-		self.mu = 0
-		self.m2 = 0
+    def __init__(self, at: int = 0, txt: str = ""):
+        self.at = at
+        self.txt = txt
 
-		self.lo = math.inf
-		self.hi = -math.inf
+        self.n = 0
+        self.mu = 0
+        self.m2 = 0
 
-		self.w = -1 if self.txt.endswith("-") else 1
+        self.lo = math.inf
+        self.hi = -math.inf
 
-	def add(self, n: float) -> None:
-		"""
-		Adds n and updates lo, hi and stuff needed for standard deviation.
+        self.w = -1 if self.txt.endswith("-") else 1
 
-		:param n: Number to add
-		:return: None
-		"""
-		if n != "?":
-			self.n += 1
+    def add(self, n: float) -> None:
+        """
+        Adds n and updates lo, hi and stuff needed for standard deviation.
 
-			d = n - self.mu
+        :param n: Number to add
+        :return: None
+        """
+        if n != "?":
+            self.n += 1
 
-			self.mu += (d / self.n)
-			self.m2 += d * (n - self.mu)
+            d = n - self.mu
 
-			self.lo = min(n, self.lo)
-			self.hi = max(n, self.hi)
+            self.mu += (d / self.n)
+            self.m2 += d * (n - self.mu)
 
-	def mid(self) -> float:
-		"""
-		Returns mean of the numbers added to the stream.
+            self.lo = min(n, self.lo)
+            self.hi = max(n, self.hi)
 
-		:return: Mean of the numbers
-		"""
-		return self.mu
+    def mid(self) -> float:
+        """
+        Returns mean of the numbers added to the stream.
 
-	def div(self) -> float:
-		"""
-		Returns standard deviation of the numbers using Welford's algorithm.
+        :return: Mean of the numbers
+        """
+        return self.mu
 
-		:return: Standard deviation of the numbers
-		"""
-		return 0 if (self.m2 < 0 or self.n < 2) else math.pow((self.m2 / (self.n - 1)), 0.5)
+    def div(self) -> float:
+        """
+        Returns standard deviation of the numbers using Welford's algorithm.
 
-	@staticmethod
-	def rnd(x: Union[float, str], n: int) -> Union[float, str]:
-		"""
-		Returns a rounded number
+        :return: Standard deviation of the numbers
+        """
+        return 0 if (self.m2 < 0 or self.n < 2) else math.pow((self.m2 / (self.n - 1)), 0.5)
 
-		:param x: Number to round
-		:param n: Number of decimal places to round
-		:return: Rounded number
-		"""
-		return x if x == "?" else rnd(x, n)
-	def dist(self, n1,n2):
-		if n1 == '?' and n2 == '?':
-			return 1 
-		n1 = self.norm(n1)
-		n2 = self.norm(n2) 
-		if n1 == "?":
-			if n2 < 0.5 :
-				n1 = 1
-			else:
-				n1 = 0	
-		if n2 == "?":
-			if n1 < 0.5:
-				n2 = 1
-			else:
-				n2 = 0
-		return abs(n1 - n2)
+    @staticmethod
+    def rnd(x: Union[float, str], n: int) -> Union[float, str]:
+        """
+        Returns a rounded number
 
-	def norm(self,num):
-		if num == "?":
-			return num
-		return (num-self.lo) / (self.hi - self.lo + 1e-32)
+        :param x: Number to round
+        :param n: Number of decimal places to round
+        :return: Rounded number
+        """
+        return x if x == "?" else rnd(x, n)
+
+    def dist(self, n1, n2):
+        if n1 == '?' and n2 == '?':
+            return 1
+        n1 = self.norm(n1)
+        n2 = self.norm(n2)
+        if n1 == "?":
+            if n2 < 0.5:
+                n1 = 1
+            else:
+                n1 = 0
+        if n2 == "?":
+            if n1 < 0.5:
+                n2 = 1
+            else:
+                n2 = 0
+        return abs(n1 - n2)
+
+    def norm(self, num):
+        if num == "?":
+            return num
+        return (num - self.lo) / (self.hi - self.lo + 1e-32)

@@ -1,9 +1,9 @@
 import copy as cp
 import io
+import json
 import math
 import random
 import re
-import json
 from typing import List, Union
 
 
@@ -73,11 +73,10 @@ def coerce(v):
 
 def csv(sFilename, fun):
     """
-        call `fun` on rows (after coercing cell text)
+    call `fun` on rows (after coercing cell text)
 
-        :param sFilename: String of the file to read
-        :param fun: function to call per each row
-
+    :param sFilename: String of the file to read
+    :param fun: function to call per each row
     """
     f = io.open(sFilename)
     while True:
@@ -90,17 +89,18 @@ def csv(sFilename, fun):
         else:
             return f.close()
 
+
 def cosine(a, b, c):
     """
-        find x, y from a line connecting 'a' to 'b'
+    find x, y from a line connecting 'a' to 'b'
     """
     # might be an issue if c is 0
     if c == 0:
         return 0
-    x1 = (a**2 + c**2 - b**2) / (2*c)
+    x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
     #  -- in the incremental case, x1 might be outside 0,1
-    y  = (a**2 - x2**2)**.5
+    y = (a ** 2 - x2 ** 2) ** .5
 
     if type(y) == complex:
         y = y.real
@@ -126,12 +126,14 @@ def show(node, what: str = "mid", cols: List[Union['Sym', 'Num']] = None, nplace
         show(node.get('left', None), what, cols, nplaces, lvl + 1)
         show(node.get('right', None), what, cols, nplaces, lvl + 1)
 
-def many(t, n, seed= 937162211):
+
+def many(t, n, seed=937162211):
     """
     returns some items from `t`
     """
     random.seed(seed)
     return random.choices(t, k=n)
+
 
 def any(t, seed=937162211):
     """
@@ -140,13 +142,16 @@ def any(t, seed=937162211):
     random.seed(seed)
     return random.choices(t)[0]
 
+
 def transpose(t):
-    u=[]
+    u = []
     for i in range(0, len(t[0])):
         u.append([])
         for j in range(0, len(t)):
             u[i].append(t[j][i])
-    return u 
+    return u
+
+
 def helper(k):
     return "Num" + str(k)
 
@@ -175,8 +180,8 @@ def do_file(file):
     for term in terms:
         data = re.sub("{}\s*=".format(term), '"{}":'.format(term), data)
     # replace { } with [ ]
-    first, last=data.index("{") , data.rindex("}")
-    data = data[first+1:last].replace("{", "[").replace("}", "]")
+    first, last = data.index("{"), data.rindex("}")
+    data = data[first + 1:last].replace("{", "[").replace("}", "]")
     data = "{" + data + "}"
 
     # replace ' with "
@@ -184,12 +189,13 @@ def do_file(file):
     json_obj = json.loads(data)
     return json_obj
 
+
 def oo(t):
     td = t.__dict__
     td['a'] = t.__class__.__name__
     td['id'] = id(t)
     print(dict(sorted(td.items())))
 
+
 def last(t):
     return t[-1]
-

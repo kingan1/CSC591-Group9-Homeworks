@@ -123,19 +123,20 @@ def check_stats():
 
 
 def check_half():
-    data=Data(options['file'])
-    left,right,A,B,mid,c = data.half() 
-    print(len(left),len(right),len(data.rows))
-    print(A.cells,c)
+    data = Data(options['file'])
+    left, right, A, B, mid, c = data.half()
+    print(len(left), len(right), len(data.rows))
+    print(A.cells, c)
     print(mid.cells)
     print(B.cells)
 
+
 def check_around():
-    data=Data(options['file'])
-    print(0,0,data.rows[0].cells)
-    for n,t in enumerate(data.around(data.rows[0])):
-        if (n+1) %50 ==0:
-            print(n, rnd(t['dist'],2) ,t['row'].cells)
+    data = Data(options['file'])
+    print(0, 0, data.rows[0].cells)
+    for n, t in enumerate(data.around(data.rows[0])):
+        if (n + 1) % 50 == 0:
+            print(n, rnd(t['dist'], 2), t['row'].cells)
 
 
 def check_cluster():
@@ -149,10 +150,11 @@ def check_optimize():
 
     show(data.sway(), "mid", data.cols.y, 1)
 
+
 def check_reprows():
-    t=do_file(options['file'])
+    t = do_file(options['file'])
     rows = rep_rows(t, transpose(t['cols']))
-    
+
     for row in rows.cols.all:
         oo(row)
     for row in rows.rows:
@@ -186,28 +188,31 @@ def check_repcols():
 def check_synonyms():
     show(rep_cols(do_file(options["file"])['cols']).cluster())
 
+
 def check_prototypes():
-    t=do_file(options["file"])
+    t = do_file(options["file"])
     rows = rep_rows(t, transpose(t['cols']))
     show(rows.cluster())
-    
+
 
 def check_position():
-    t=do_file(options["file"])
+    t = do_file(options["file"])
     rows = rep_rows(t, transpose(t['cols']))
     rows.cluster()
     rep_place(rows)
 
+
 def check_every():
     rep_grid(options["file"])
 
+
 eg("copy", "check copy", check_copy)
-eg("every","the whole enchilada", check_every)
+eg("every", "the whole enchilada", check_every)
 eg("num", "check nums", check_nums)
-eg("position","where's wally", check_position)
-eg("prototypes","checking reprows cluster", check_prototypes)
+eg("position", "where's wally", check_position)
+eg("prototypes", "checking reprows cluster", check_prototypes)
 eg("repcols", "check repcols", check_repcols)
-eg("reprows","checking reprows", check_reprows)
+eg("reprows", "checking reprows", check_reprows)
 eg("sym", "check syms", check_syms)
 eg("synonyms", "check repcols cluster", check_synonyms)
 eg("the", "show settings", show_settings)

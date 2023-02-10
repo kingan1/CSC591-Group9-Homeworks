@@ -1,4 +1,3 @@
-import math
 from typing import Union, List, Dict
 
 from cols import Cols
@@ -6,7 +5,7 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import csv, many, cosine, any, copy, helper, oo, transpose, show,do_file
+from utils import csv, cosine, any, copy, helper, transpose, show, do_file
 
 
 class Data:
@@ -71,7 +70,6 @@ class Data:
         rows = self.rows if rows is None else rows
         cols = self.cols.x if cols is None else cols
 
-
         node = {"data": self.clone(rows)}
 
         if len(rows) >= 2:
@@ -81,16 +79,16 @@ class Data:
             node['right'] = self.cluster(right, cols, node['B'])
 
         return node
- 
-    def dist(self,row1,row2,cols=None):
+
+    def dist(self, row1, row2, cols=None):
         n = 0
         dis = 0
         cols = (cols if cols else self.cols.x)
-        for _,c in enumerate(cols):
+        for _, c in enumerate(cols):
             n = n + 1
             dis = dis + c.dist(row1.cells[c.at], row2.cells[c.at]) ** options['p']
-        return (dis/n) ** (1/options['p'])
-    
+        return (dis / n) ** (1 / options['p'])
+
     def around(self, row1, rows=None, cols=None):
         """
         sort other `rows` by distance to `row`
@@ -100,43 +98,44 @@ class Data:
 
         def func(row2):
             return {'row': row2, 'dist': self.dist(row1, row2, cols)}
-            
+
         return sorted(list(map(func, rows)), key=lambda x: x['dist'])
 
     def half(self, rows=None, cols=None, above=None):
         """
         divides data using 2 far points
         """
+
         def dist(row1, row2):
             return self.dist(row1, row2, cols)
 
         def project(row, x=None, y=None):
-            x,y = cosine(dist(row,A), dist(row,B),c)
+            x, y = cosine(dist(row, A), dist(row, B), c)
             row.x = row.x or x
             row.y = row.y or y
-            return {"row":row, "x":x,"y":y}
-        
-        left , right = [],[]
-        rows = (rows if rows else self.rows) 
+            return {"row": row, "x": x, "y": y}
+
+        left, right = [], []
+        rows = (rows if rows else self.rows)
         A = above if above else any(rows)
         B = self.furthest(A, rows)['row']
-        c = dist(A,B)
+        c = dist(A, B)
 
         for n, tmp in enumerate(sorted(list(map(project, rows)), key=lambda x: x["x"])):
-            if (n+1) <= len(rows) // 2:
+            if (n + 1) <= len(rows) // 2:
                 left.append(tmp["row"])
                 mid = tmp["row"]
             else:
                 right.append(tmp["row"])
 
         return left, right, A, B, mid, c
-    
-    def furthest(self, row1=None,  rows=None,cols=None):
+
+    def furthest(self, row1=None, rows=None, cols=None):
         """ 
         sort other `rows` by distance to `row`
         """
-        t=self.around(row1,rows,cols)
-        return t[len(t)-1]
+        t = self.around(row1, rows, cols)
+        return t[len(t) - 1]
 
 
 def rep_rows(t, rows):
@@ -159,16 +158,17 @@ def rep_cols(cols):
     cols = copy(cols)
 
     for column in cols:
-        column[len(column)-1] = str(column[0]) + ':' + str(column[len(column)-1])
+        column[len(column) - 1] = str(column[0]) + ':' + str(column[len(column) - 1])
 
         for j in range(1, len(column)):
-            column[j-1] = column[j]
+            column[j - 1] = column[j]
 
         column.pop()
 
-    cols.insert(0, [helper(i+1) for i in range(len(cols[0]))])
-    cols[0][len(cols[0])-1] = "thingX"
+    cols.insert(0, [helper(i + 1) for i in range(len(cols[0]))])
+    cols[0][len(cols[0]) - 1] = "thingX"
     return Data(cols)
+
 
 def rep_place(data):
     n = 20
@@ -176,21 +176,22 @@ def rep_place(data):
     maxy = 0
     print("")
     for r, row in enumerate(data.rows):
-        c = chr(64+r+1)
+        c = chr(64 + r + 1)
         print(c, row.cells[-1])
         x, y = int(row.x * n), int(row.y * n)
         maxy = max(maxy, y)
         g[y][x] = c
     print("")
     for y in range(0, maxy):
-        frmt = "{:>3}"*len(g[y])
+        frmt = "{:>3}" * len(g[y])
 
         print("{" + frmt.format(*g[y]) + "}")
 
+
 def rep_grid(sFile):
-    t=do_file(sFile)
-    rows=rep_rows(t,transpose(t['cols']))
-    cols=rep_cols(t['cols'])
+    t = do_file(sFile)
+    rows = rep_rows(t, transpose(t['cols']))
+    cols = rep_cols(t['cols'])
     show(rows.cluster())
     show(cols.cluster())
     rep_place(rows)
