@@ -1,0 +1,163 @@
+b4 {'a': 1, 'b': {'c': 2, 'd': [3]}} 
+after {'a': 1, 'b': {'c': 2, 'd': [10000]}}
+✅ pass: copy
+80.579
+|.. 44.973
+|.. |.. 23.57
+|.. |.. |.. Los Angeles
+|.. |.. |.. San Francisco
+|.. |.. 28.868
+|.. |.. |.. Chicago
+|.. |.. |.. 21.246
+|.. |.. |.. |.. NYC
+|.. |.. |.. |.. Boston
+|.. 68.529
+|.. |.. 42.898
+|.. |.. |.. Raleigh
+|.. |.. |.. Charlotte
+|.. |.. 45.739
+|.. |.. |.. Miami
+|.. |.. |.. 54.407
+|.. |.. |.. |.. Denver
+|.. |.. |.. |.. Austin
+76.649
+|.. 66.615
+|.. |.. 48.805
+|.. |.. |.. Cold:Warm
+|.. |.. |.. Walkable:Drivable
+|.. |.. 26.22
+|.. |.. |.. Sports:NoSports
+|.. |.. |.. City:Rural
+|.. 54.199
+|.. |.. 23.717
+|.. |.. |.. Southern:Northern
+|.. |.. |.. LowCOL:HighCOL
+|.. |.. 53.033
+|.. |.. |.. Diverse:NotDiverse
+|.. |.. |.. SmallPop:LargePop
+
+A Austin
+B Miami
+C Denver
+D Charlotte
+E Raleigh
+F Chicago
+G San Francisco
+H Boston
+I NYC
+J Los Angeles
+
+{  J                                               E         }
+{                                                            }
+{                                                            }
+{                                                            }
+{        G                                                   }
+{                                                            }
+{                                D                           }
+{  I           F                                             }
+{        H                                                   }
+{                       C                                    }
+✅ pass: every
+✅ pass: num
+
+A Austin
+B Miami
+C Denver
+D Charlotte
+E Raleigh
+F Chicago
+G San Francisco
+H Boston
+I NYC
+J Los Angeles
+
+{  J                                               E         }
+{                                                            }
+{                                                            }
+{                                                            }
+{        G                                                   }
+{                                                            }
+{                                D                           }
+{  I           F                                             }
+{        H                                                   }
+{                       C                                    }
+✅ pass: position
+80.579
+|.. 44.973
+|.. |.. 23.57
+|.. |.. |.. Los Angeles
+|.. |.. |.. San Francisco
+|.. |.. 28.868
+|.. |.. |.. Chicago
+|.. |.. |.. 21.246
+|.. |.. |.. |.. NYC
+|.. |.. |.. |.. Boston
+|.. 68.529
+|.. |.. 42.898
+|.. |.. |.. Raleigh
+|.. |.. |.. Charlotte
+|.. |.. 45.739
+|.. |.. |.. Miami
+|.. |.. |.. 54.407
+|.. |.. |.. |.. Denver
+|.. |.. |.. |.. Austin
+✅ pass: prototypes
+{'a': 'Num', 'at': 0, 'hi': 5, 'id': 1937896525488, 'lo': 1, 'm2': 22.875, 'mu': 2.875, 'n': 8, 'txt': 'Num1', 'w': 1}
+{'a': 'Num', 'at': 1, 'hi': 5, 'id': 1937896525200, 'lo': 1, 'm2': 17.5, 'mu': 3.25, 'n': 8, 'txt': 'Num2', 'w': 1}
+{'a': 'Num', 'at': 2, 'hi': 4, 'id': 1937896525776, 'lo': 1, 'm2': 15.5, 'mu': 2.75, 'n': 8, 'txt': 'Num3', 'w': 1}
+{'a': 'Num', 'at': 3, 'hi': 3, 'id': 1937896525248, 'lo': 1, 'm2': 4.0, 'mu': 2.5, 'n': 8, 'txt': 'Num4', 'w': 1}
+{'a': 'Num', 'at': 4, 'hi': 4, 'id': 1937896524960, 'lo': 2, 'm2': 4.0, 'mu': 3.0, 'n': 8, 'txt': 'Num5', 'w': 1}
+{'a': 'Num', 'at': 5, 'hi': 5, 'id': 1937896525104, 'lo': 1, 'm2': 18.875, 'mu': 2.875, 'n': 8, 'txt': 'Num6', 'w': 1}
+{'a': 'Num', 'at': 6, 'hi': 5, 'id': 1937896525152, 'lo': 1, 'm2': 17.875, 'mu': 3.375, 'n': 8, 'txt': 'Num7', 'w': 1}
+{'a': 'Num', 'at': 7, 'hi': 5, 'id': 1937896525296, 'lo': 1, 'm2': 24.875, 'mu': 2.875, 'n': 8, 'txt': 'Num8', 'w': 1}
+{'a': 'Num', 'at': 8, 'hi': 5, 'id': 1937896525392, 'lo': 1, 'm2': 27.875000000000004, 'mu': 2.625, 'n': 8, 'txt': 'Num9', 'w': 1}
+{'a': 'Num', 'at': 9, 'hi': 5, 'id': 1937896525344, 'lo': 1, 'm2': 22.875, 'mu': 3.125, 'n': 8, 'txt': 'Num10', 'w': 1}
+{'a': 'Sym', 'at': 10, 'has': defaultdict(<class 'int'>, {}), 'id': 1937896525536, 'mode': None, 'most': 0, 'n': 0, 'txt': 'thingX'}
+{'a': 'Row', 'cells': [4, 4, 3, 3, 4, 3, 3, 2, 1, 1, 'Walkable:Drivable'], 'id': 1937896525008, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [5, 5, 4, 3, 3, 5, 5, 5, 5, 5, 'SmallPop:LargePop'], 'id': 1937896525056, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [1, 1, 1, 2, 3, 1, 1, 1, 1, 1, 'City:Rural'], 'id': 1937896525728, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [1, 3, 4, 2, 2, 5, 4, 5, 5, 4, 'Southern:Northern'], 'id': 1937896524864, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 3, 4, 3, 3, 2, 2, 3, 2, 2, 'Diverse:NotDiverse'], 'id': 1937896583232, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [2, 4, 4, 3, 2, 4, 5, 5, 5, 5, 'LowCOL:HighCOL'], 'id': 1937896583328, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [1, 1, 1, 1, 4, 2, 2, 1, 1, 2, 'Sports:NoSports'], 'id': 1937896583424, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [5, 5, 1, 3, 3, 1, 5, 1, 1, 5, 'Cold:Warm'], 'id': 1937896583520, 'x': None, 'y': None}
+✅ pass: repcols
+{'a': 'Num', 'at': 0, 'hi': 4, 'id': 1937896525296, 'lo': 1, 'm2': 11.6, 'mu': 2.8, 'n': 10, 'txt': 'Walkable:Drivable', 'w': 1}
+{'a': 'Num', 'at': 1, 'hi': 5, 'id': 1937896525392, 'lo': 3, 'm2': 6.5, 'mu': 4.5, 'n': 10, 'txt': 'SmallPop:LargePop', 'w': 1}
+{'a': 'Num', 'at': 2, 'hi': 3, 'id': 1937896525344, 'lo': 1, 'm2': 4.1, 'mu': 1.2999999999999998, 'n': 10, 'txt': 'City:Rural', 'w': 1}
+{'a': 'Num', 'at': 3, 'hi': 5, 'id': 1937896525536, 'lo': 1, 'm2': 18.500000000000007, 'mu': 3.5, 'n': 10, 'txt': 'Southern:Northern', 'w': 1}
+{'a': 'Num', 'at': 4, 'hi': 4, 'id': 1937896525008, 'lo': 2, 'm2': 5.6, 'mu': 2.8, 'n': 10, 'txt': 'Diverse:NotDiverse', 'w': 1}
+{'a': 'Num', 'at': 5, 'hi': 5, 'id': 1937896525584, 'lo': 2, 'm2': 12.900000000000002, 'mu': 3.9, 'n': 10, 'txt': 'LowCOL:HighCOL', 'w': 1}
+{'a': 'Num', 'at': 6, 'hi': 4, 'id': 1937896525056, 'lo': 1, 'm2': 8.399999999999997, 'mu': 1.6, 'n': 10, 'txt': 'Sports:NoSports', 'w': 1}
+{'a': 'Num', 'at': 7, 'hi': 5, 'id': 1937896525632, 'lo': 1, 'm2': 32.0, 'mu': 3.0, 'n': 10, 'txt': 'Cold:Warm', 'w': 1}
+{'a': 'Sym', 'at': 8, 'has': defaultdict(<class 'int'>, {}), 'id': 1937896525728, 'mode': None, 'most': 0, 'n': 0, 'txt': 'thingX'}
+{'a': 'Row', 'cells': [4, 5, 1, 1, 4, 2, 1, 5, 'Austin'], 'id': 1937896525152, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 5, 1, 3, 3, 4, 1, 5, 'Miami'], 'id': 1937896524864, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [3, 4, 1, 4, 4, 4, 1, 1, 'Denver'], 'id': 1937894009200, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [3, 3, 2, 2, 3, 3, 1, 3, 'Charlotte'], 'id': 1937894010448, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 3, 3, 2, 3, 2, 4, 3, 'Raleigh'], 'id': 1937894056768, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [3, 5, 1, 5, 2, 4, 2, 1, 'Chicago'], 'id': 1937896583232, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [3, 5, 1, 4, 2, 5, 2, 5, 'San Francisco'], 'id': 1937896583328, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [2, 5, 1, 5, 3, 5, 1, 1, 'Boston'], 'id': 1937896583424, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [1, 5, 1, 5, 2, 5, 1, 1, 'NYC'], 'id': 1937896583520, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [1, 5, 1, 4, 2, 5, 2, 5, 'Los Angeles'], 'id': 1937896583616, 'x': None, 'y': None}
+✅ pass: reprows
+✅ pass: sym
+76.649
+|.. 66.615
+|.. |.. 48.805
+|.. |.. |.. Cold:Warm
+|.. |.. |.. Walkable:Drivable
+|.. |.. 26.22
+|.. |.. |.. Sports:NoSports
+|.. |.. |.. City:Rural
+|.. 54.199
+|.. |.. 23.717
+|.. |.. |.. Southern:Northern
+|.. |.. |.. LowCOL:HighCOL
+|.. |.. 53.033
+|.. |.. |.. Diverse:NotDiverse
+|.. |.. |.. SmallPop:LargePop
+✅ pass: synonyms
+{'dump': False, 'file': '../../etc/data/person_1.csv', 'go': 'all', 'help': False, 'p': 2, 'seed': 937162211}
+✅ pass: the
