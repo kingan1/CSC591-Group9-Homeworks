@@ -1,0 +1,22 @@
+local _ = " "
+return {
+ domain="best city to live in",
+ cols={          {'Walkable', 4, 4, 3, 3, 4, 3, 3, 2, 1, 1, 'Drivable'},
+                 {'SmallPop', 5, 5, 4, 3, 3, 5, 5, 5, 5, 5, 'LargePop'},
+                     {'City', 1, 1, 1, 2, 3, 1, 1, 1, 1, 1, 'Rural'},
+                {'Southern' , 1, 3, 4, 2, 2, 5, 4, 5, 5, 4, 'Northern'},
+                  {'Diverse', 4, 3, 4, 3, 3, 2, 2, 3, 2, 2, 'NotDiverse'},
+                   {'LowCOL', 2, 4, 4, 3, 2, 4, 5, 5, 5, 5, 'HighCOL'},
+                   {'Sports', 1, 1, 1, 1, 4, 2, 2, 1, 1, 2, 'NoSports'},
+                     {'Cold', 5, 5, 1, 3, 3, 1, 5, 1, 1, 5, 'Warm'}},
+rows={                      { _, _, _, _, _, _, _, _, _, 'Los Angeles'},
+                            { _, _, _, _, _, _, _, _, 'NYC'},
+                            { _, _, _, _, _, _, _, 'Boston'},
+                            { _, _, _, _, _, _, 'San Francisco'},
+                            { _, _, _, _, _,  'Chicago'},
+                            { _, _, _, _,  'Raleigh'},
+                            { _, _, _,  'Charlotte'},
+                            { _, _,  'Denver'},
+                            { _, 'Miami'},
+                            {'Austin'}}
+}
