@@ -1,0 +1,173 @@
+b4 {'a': 1, 'b': {'c': 2, 'd': [3]}} 
+after {'a': 1, 'b': {'c': 2, 'd': [10000]}}
+✅ pass: copy
+59.803
+|.. 48.591
+|.. |.. 38.998
+|.. |.. |.. LosAngeles
+|.. |.. |.. Raleigh
+|.. |.. 37.546
+|.. |.. |.. SanFrancisco
+|.. |.. |.. 37.546
+|.. |.. |.. |.. Boston
+|.. |.. |.. |.. Chicago
+|.. 50.963
+|.. |.. 49.371
+|.. |.. |.. Miami
+|.. |.. |.. NewYorkCity
+|.. |.. 39.965
+|.. |.. |.. Charlotte
+|.. |.. |.. 30.162
+|.. |.. |.. |.. Denver
+|.. |.. |.. |.. Austin
+58.035
+|.. 44.488
+|.. |.. 30.046
+|.. |.. |.. Tourism(Less):Tourism(More)
+|.. |.. |.. CostOfLiving(Low):CostOfLiving(High)
+|.. |.. 40.74
+|.. |.. |.. JobOpportuities(Less):JobOpportuities(More)
+|.. |.. |.. 49.301
+|.. |.. |.. |.. IncomeTax(Low):IncomeTax(High)
+|.. |.. |.. |.. FoodOptions(Less):FoodOptions(More)
+|.. 66.978
+|.. |.. 55.528
+|.. |.. |.. WeatherConditions(Suitable):WeatherConditions(Harsh)
+|.. |.. |.. HealthCareServices(Best):HealthCareServices(Worst)
+|.. |.. 65.085
+|.. |.. |.. PublicTransport(Less):PublicTransport(More)
+|.. |.. |.. 31.732
+|.. |.. |.. |.. StandardOfLiving(Low):StandardOfLiving(High)
+|.. |.. |.. |.. SocialLife(Less):SocialLife(More)
+
+A Austin
+B Miami
+C Denver
+D Charlotte
+E Raleigh
+F Chicago
+G SanFrancisco
+H Boston
+I NewYorkCity
+J LosAngeles
+
+{  J                                B                        }
+{                                                            }
+{                                                            }
+{                                                            }
+{                                                            }
+{                 C                                          }
+{              I  A                                          }
+{        G  E                                                }
+{                 D                                          }
+✅ pass: every
+✅ pass: num
+
+A Austin
+B Miami
+C Denver
+D Charlotte
+E Raleigh
+F Chicago
+G SanFrancisco
+H Boston
+I NewYorkCity
+J LosAngeles
+
+{  J                                B                        }
+{                                                            }
+{                                                            }
+{                                                            }
+{                                                            }
+{                 C                                          }
+{              I  A                                          }
+{        G  E                                                }
+{                 D                                          }
+✅ pass: position
+59.803
+|.. 48.591
+|.. |.. 38.998
+|.. |.. |.. LosAngeles
+|.. |.. |.. Raleigh
+|.. |.. 37.546
+|.. |.. |.. SanFrancisco
+|.. |.. |.. 37.546
+|.. |.. |.. |.. Boston
+|.. |.. |.. |.. Chicago
+|.. 50.963
+|.. |.. 49.371
+|.. |.. |.. Miami
+|.. |.. |.. NewYorkCity
+|.. |.. 39.965
+|.. |.. |.. Charlotte
+|.. |.. |.. 30.162
+|.. |.. |.. |.. Denver
+|.. |.. |.. |.. Austin
+✅ pass: prototypes
+{'a': 'Num', 'at': 0, 'hi': 5, 'id': 140470128995392, 'lo': 1, 'm2': 11.6, 'mu': 3.8, 'n': 10, 'txt': 'Num1', 'w': 1}
+{'a': 'Num', 'at': 1, 'hi': 5, 'id': 140470128995776, 'lo': 2, 'm2': 9.600000000000001, 'mu': 4.199999999999999, 'n': 10, 'txt': 'Num2', 'w': 1}
+{'a': 'Num', 'at': 2, 'hi': 5, 'id': 140470128995680, 'lo': 2, 'm2': 8.900000000000002, 'mu': 3.9, 'n': 10, 'txt': 'Num3', 'w': 1}
+{'a': 'Num', 'at': 3, 'hi': 5, 'id': 140470128995728, 'lo': 1, 'm2': 16.1, 'mu': 4.3, 'n': 10, 'txt': 'Num4', 'w': 1}
+{'a': 'Num', 'at': 4, 'hi': 4, 'id': 140470128995344, 'lo': 1, 'm2': 12.100000000000001, 'mu': 2.6999999999999997, 'n': 10, 'txt': 'Num5', 'w': 1}
+{'a': 'Num', 'at': 5, 'hi': 5, 'id': 140470128995824, 'lo': 1, 'm2': 12.099999999999998, 'mu': 2.3, 'n': 10, 'txt': 'Num6', 'w': 1}
+{'a': 'Num', 'at': 6, 'hi': 5, 'id': 140470128995920, 'lo': 1, 'm2': 12.900000000000002, 'mu': 2.8999999999999995, 'n': 10, 'txt': 'Num7', 'w': 1}
+{'a': 'Num', 'at': 7, 'hi': 3, 'id': 140470128995968, 'lo': 1, 'm2': 3.5999999999999996, 'mu': 1.7999999999999998, 'n': 10, 'txt': 'Num8', 'w': 1}
+{'a': 'Num', 'at': 8, 'hi': 5, 'id': 140470128996064, 'lo': 2, 'm2': 12.4, 'mu': 3.4, 'n': 10, 'txt': 'Num9', 'w': 1}
+{'a': 'Num', 'at': 9, 'hi': 4, 'id': 140470128995296, 'lo': 1, 'm2': 12.899999999999999, 'mu': 2.9, 'n': 10, 'txt': 'Num10', 'w': 1}
+{'a': 'Sym', 'at': 10, 'has': defaultdict(<class 'int'>, {}), 'id': 140470128996016, 'mode': None, 'most': 0, 'n': 0, 'txt': 'thingX'}
+{'a': 'Row', 'cells': [4, 2, 5, 5, 4, 3, 3, 2, 4, 4, 'HealthCareServices(Best):HealthCareServices(Worst)'], 'id': 140470128995536, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 5, 5, 5, 4, 2, 3, 2, 4, 3, 'CostOfLiving(Low):CostOfLiving(High)'], 'id': 140470128996208, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [5, 5, 4, 5, 4, 3, 3, 2, 2, 1, 'IncomeTax(Low):IncomeTax(High)'], 'id': 140470128996304, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 4, 4, 5, 3, 2, 2, 3, 2, 4, 'JobOpportuities(Less):JobOpportuities(More)'], 'id': 140470128995248, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [1, 5, 3, 1, 1, 2, 1, 2, 2, 1, 'PublicTransport(Less):PublicTransport(More)'], 'id': 140470129058336, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 3, 2, 5, 1, 5, 5, 1, 3, 3, 'WeatherConditions(Suitable):WeatherConditions(Harsh)'], 'id': 140470129058480, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [5, 4, 5, 3, 2, 2, 4, 1, 5, 3, 'SocialLife(Less):SocialLife(More)'], 'id': 140470129058576, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 4, 4, 5, 3, 2, 4, 2, 4, 4, 'StandardOfLiving(Low):StandardOfLiving(High)'], 'id': 140470129058672, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [3, 5, 4, 4, 2, 1, 2, 1, 3, 4, 'FoodOptions(Less):FoodOptions(More)'], 'id': 140470129058768, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 5, 3, 5, 3, 1, 2, 2, 5, 2, 'Tourism(Less):Tourism(More)'], 'id': 140470129061408, 'x': None, 'y': None}
+✅ pass: repcols
+{'a': 'Num', 'at': 0, 'hi': 5, 'id': 140470128995344, 'lo': 2, 'm2': 10.400000000000002, 'mu': 3.5999999999999996, 'n': 10, 'txt': 'HealthCareServices(Best):HealthCareServices(Worst)', 'w': 1}
+{'a': 'Num', 'at': 1, 'hi': 5, 'id': 140470128995824, 'lo': 2, 'm2': 12.099999999999994, 'mu': 3.6999999999999993, 'n': 10, 'txt': 'CostOfLiving(Low):CostOfLiving(High)', 'w': 1}
+{'a': 'Num', 'at': 2, 'hi': 5, 'id': 140470128995920, 'lo': 1, 'm2': 18.39999999999999, 'mu': 3.3999999999999995, 'n': 10, 'txt': 'IncomeTax(Low):IncomeTax(High)', 'w': 1}
+{'a': 'Num', 'at': 3, 'hi': 5, 'id': 140470128995968, 'lo': 2, 'm2': 10.1, 'mu': 3.3000000000000003, 'n': 10, 'txt': 'JobOpportuities(Less):JobOpportuities(More)', 'w': 1}
+{'a': 'Num', 'at': 4, 'hi': 5, 'id': 140470128996064, 'lo': 1, 'm2': 14.900000000000002, 'mu': 1.9000000000000004, 'n': 10, 'txt': 'PublicTransport(Less):PublicTransport(More)', 'w': 1}
+{'a': 'Num', 'at': 5, 'hi': 5, 'id': 140470128995296, 'lo': 1, 'm2': 21.6, 'mu': 3.2, 'n': 10, 'txt': 'WeatherConditions(Suitable):WeatherConditions(Harsh)', 'w': 1}
+{'a': 'Num', 'at': 6, 'hi': 5, 'id': 140470128996016, 'lo': 1, 'm2': 18.4, 'mu': 3.4000000000000004, 'n': 10, 'txt': 'SocialLife(Less):SocialLife(More)', 'w': 1}
+{'a': 'Num', 'at': 7, 'hi': 5, 'id': 140470128995536, 'lo': 2, 'm2': 8.399999999999999, 'mu': 3.5999999999999996, 'n': 10, 'txt': 'StandardOfLiving(Low):StandardOfLiving(High)', 'w': 1}
+{'a': 'Num', 'at': 8, 'hi': 5, 'id': 140470128996160, 'lo': 1, 'm2': 16.900000000000006, 'mu': 2.9000000000000004, 'n': 10, 'txt': 'FoodOptions(Less):FoodOptions(More)', 'w': 1}
+{'a': 'Num', 'at': 9, 'hi': 5, 'id': 140470128996208, 'lo': 1, 'm2': 19.6, 'mu': 3.2, 'n': 10, 'txt': 'Tourism(Less):Tourism(More)', 'w': 1}
+{'a': 'Sym', 'at': 10, 'has': defaultdict(<class 'int'>, {}), 'id': 140470128996256, 'mode': None, 'most': 0, 'n': 0, 'txt': 'thingX'}
+{'a': 'Row', 'cells': [4, 4, 5, 4, 1, 4, 5, 4, 3, 4, 'Austin'], 'id': 140470128995728, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [2, 5, 5, 4, 5, 3, 4, 4, 5, 5, 'Miami'], 'id': 140470128995152, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [5, 5, 4, 4, 3, 2, 5, 4, 4, 3, 'Denver'], 'id': 140470128995584, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [5, 5, 5, 5, 1, 5, 3, 5, 4, 5, 'Charlotte'], 'id': 140470128995488, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 4, 4, 3, 1, 1, 2, 3, 2, 3, 'Raleigh'], 'id': 140470129058432, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [3, 2, 3, 2, 2, 5, 2, 2, 1, 1, 'Chicago'], 'id': 140470129058384, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [3, 3, 3, 2, 1, 5, 4, 4, 2, 2, 'SanFrancisco'], 'id': 140470129058528, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [2, 2, 2, 3, 2, 1, 1, 2, 1, 2, 'Boston'], 'id': 140470129058624, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 4, 2, 2, 2, 3, 5, 4, 3, 5, 'NewYorkCity'], 'id': 140470129058720, 'x': None, 'y': None}
+{'a': 'Row', 'cells': [4, 3, 1, 4, 1, 3, 3, 4, 4, 2, 'LosAngeles'], 'id': 140470129058816, 'x': None, 'y': None}
+✅ pass: reprows
+✅ pass: sym
+58.035
+|.. 44.488
+|.. |.. 30.046
+|.. |.. |.. Tourism(Less):Tourism(More)
+|.. |.. |.. CostOfLiving(Low):CostOfLiving(High)
+|.. |.. 40.74
+|.. |.. |.. JobOpportuities(Less):JobOpportuities(More)
+|.. |.. |.. 49.301
+|.. |.. |.. |.. IncomeTax(Low):IncomeTax(High)
+|.. |.. |.. |.. FoodOptions(Less):FoodOptions(More)
+|.. 66.978
+|.. |.. 55.528
+|.. |.. |.. WeatherConditions(Suitable):WeatherConditions(Harsh)
+|.. |.. |.. HealthCareServices(Best):HealthCareServices(Worst)
+|.. |.. 65.085
+|.. |.. |.. PublicTransport(Less):PublicTransport(More)
+|.. |.. |.. 31.732
+|.. |.. |.. |.. StandardOfLiving(Low):StandardOfLiving(High)
+|.. |.. |.. |.. SocialLife(Less):SocialLife(More)
+✅ pass: synonyms
+{'dump': False, 'file': '../../etc/data/repgrid1.csv', 'go': 'all', 'help': False, 'p': 2, 'seed': 937162211}
+✅ pass: the
