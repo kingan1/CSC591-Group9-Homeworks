@@ -1,22 +1,24 @@
-from math import inf
-from typing import Union, Optional, List
+from math import inf, floor
+from typing import Union, Optional, List, Dict
 
 from num import Num
+from options import options
+from row import Row
 from sym import Sym
 from utils import copy
 
 
 class Range:
-    def __init__(self, at, txt, lo, hi):
+    def __init__(self, at, txt, lo, hi=None):
         self.at = at
         self.txt = txt
 
         self.lo = lo
-        self.hi = hi
+        self.hi = lo or hi or lo
 
         self.y = Sym()
 
-    def extend(self, n, s):
+    def extend(self, n: int, s: str):
         self.lo = min(n, self.lo)
         self.hi = max(n, self.hi)
 
@@ -71,3 +73,34 @@ def merge_any(ranges0: List[Range]) -> List[Range]:
         j += 1
 
     return no_gaps(ranges0) if len(ranges0) == len(ranges1) else merge_any(ranges1)
+
+
+def bin(col: Union[Sym, Num], x):
+    if x == "?" or isinstance(col, Sym):
+        return x
+
+    tmp = (col.hi - col.lo) / (options["bins"] - 1)
+
+    return 1 if col.hi == col.lo else floor(x / tmp + 0.5) * tmp
+
+
+def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
+    out = []
+
+    for col in cols:
+        ranges = []
+
+        for y, rows in rowss.items():
+            for row in rows:
+                x = row.cells[col.at]
+
+                if x != "?":
+                    k = bin(col, x)
+
+                    ranges[k] = Range(col.at, col.txt, x)
+                    ranges[k].extend(x, y)
+
+        ranges.sort(key=lambda r: r.lo)
+        out.append(ranges if isinstance(col, Sym) else merge_any(ranges))
+
+    return out
