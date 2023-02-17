@@ -9,17 +9,15 @@ from utils import csv, cosine, any, copy, helper, transpose, show, do_file
 
 
 class Data:
-    def __init__(self, src: Union[str, List]) -> None:
+
+    def __init__(self):
         self.rows = list()
         self.cols = None
-        if type(src) == str:
-            csv(src, self.add)
-        else:
-            src = src or []
-            if len(src) == 0 or type(src[0]) == str:
-                self.add(src or [])
-            else:
-                list(map(self.add, src or []))
+
+    def read(self, src: Union[str, List]) -> None:
+        def f(t):
+            self.add(t)
+        csv(src, f)
 
     def add(self, t: Union[List, Row]):
         """
@@ -35,18 +33,19 @@ class Data:
         else:
             self.cols = Cols(t)
 
-    def clone(self, init: List) -> 'Data':
+    def clone(self, data, ts) -> 'Data':
         """
         Returns a clone with the same structure as self.
 
         :param init: Initial data for the clone
         """
-        data = Data(list(self.cols.names))
-        list(map(data.add, init or []))
+        data1 = Data()
+        data1.add(data.cols.names)
+        for _,t in enumerate(ts or {}):
+            data1.add(t)
+        return data1
 
-        return data
-
-    def stats(self, cols: List[Union[Sym, Num]], nplaces: int, what: str = "mid") -> Dict:
+    def stats(self, cols: List[Union[Sym, Num]]=None, nplaces: int=2, what: str = "mid") -> Dict:
         """
         Returns mid or div of cols (defaults to i.cols.y).
 

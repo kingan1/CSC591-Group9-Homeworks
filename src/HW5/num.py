@@ -1,7 +1,7 @@
 import math
 from typing import Union
-
-from utils import rnd
+from options import options
+from utils import rnd, rand, rint
 
 
 class Num:
@@ -14,31 +14,34 @@ class Num:
         self.txt = txt
 
         self.n = 0
-        self.mu = 0
-        self.m2 = 0
 
         self.lo = math.inf
         self.hi = -math.inf
+        self.ok = True
+        self.has_ = {}
 
         self.w = -1 if self.txt.endswith("-") else 1
 
-    def add(self, n: float) -> None:
+    def add(self, x, n: float=1) -> None:
         """
         Adds n and updates lo, hi and stuff needed for standard deviation.
 
         :param n: Number to add
         :return: None
         """
-        if n != "?":
-            self.n += 1
+        if x != "?":
+            self.n += n
 
-            d = n - self.mu
+            self.lo, self.hi = min(x,self.lo), max(x,self.hi) 
+            
+            all = len(self.has_)
 
-            self.mu += (d / self.n)
-            self.m2 += d * (n - self.mu)
+            pos = all+1 if all < options['Max'] else rint(1, all) if rand() < options['Max']/self.n else 0
+            
+            if pos:
+                self.has_[pos] = x
+                self.ok = False
 
-            self.lo = min(n, self.lo)
-            self.hi = max(n, self.hi)
 
     def mid(self) -> float:
         """
@@ -46,7 +49,7 @@ class Num:
 
         :return: Mean of the numbers
         """
-        return self.mu
+        return per(self.has(), .5)
 
     def div(self) -> float:
         """
@@ -88,3 +91,8 @@ class Num:
         if num == "?":
             return num
         return (num - self.lo) / (self.hi - self.lo + 1e-32)
+    
+    def has(self):
+        ret = dict(sorted(self.has_.items(), key=lambda x: x[1]))
+        self.ok = True
+        return list(ret.values())

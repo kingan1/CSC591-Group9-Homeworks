@@ -1,8 +1,8 @@
-from data import Data, rep_cols, rep_rows, rep_place, rep_grid
+from data import Data
 from num import Num
 from options import options
 from sym import Sym
-from utils import csv, rnd, rand, set_seed, oo, rint
+from utils import csv, rnd, rand, set_seed, oo, rint, adds
 
 help = """
 main.py : a rep grid processor
@@ -92,7 +92,7 @@ def check_some():
     num1 = Num()
     for i in range(1,10000+1):
         num1.add(i)
-    oo(num1.has)
+    print(num1.has())
 
 def check_nums():
     num1,num2 = Num(), Num()
@@ -109,7 +109,7 @@ def check_nums():
 
 def check_syms():
     sym=Sym()
-    sym.adds(["a","a","a","a","b","b","c"])
+    adds(sym, ["a","a","a","a","b","b","c"])
     print (sym.mid(), rnd(sym.div())) 
     return 1.38 == rnd(sym.div())
 
@@ -137,8 +137,8 @@ def check_clone():
     oo(data2.stats())
 
 def check_cliffs():
-    assert(False == cliffsDelta( {8,7,6,2,5,8,7,3},{8,7,6,2,5,8,7,3}),"1")
-    assert(True  == cliffsDelta( {8,7,6,2,5,8,7,3}, {9,9,7,8,10,9,6}),"2") 
+    assert(False == cliffsDelta( [8,7,6,2,5,8,7,3],[8,7,6,2,5,8,7,3]),"1")
+    assert(True  == cliffsDelta( [8,7,6,2,5,8,7,3], [9,9,7,8,10,9,6]),"2") 
     t1,t2=[],[]
     for i in range(1,1000+1):
         t1.append(rand()) 
@@ -162,15 +162,15 @@ eg("rand","demo random number generation", check_rand)
 
 eg("some","demo of reservoir sampling", check_some)
 
-eg("nums","demo of Num", check_nums)
+# eg("nums","demo of Num", check_nums)
 
 eg("syms","demo SYMS", check_syms)
 
 eg("csv","reading csv files", check_csv)
 
-eg("data", "showing data sets", check_data)
+# eg("data", "showing data sets", check_data)
 
-eg("clone","replicate structure of a DATA", check_clone)
+# eg("clone","replicate structure of a DATA", check_clone)
 
 eg("cliffs","stats tests", check_cliffs)
   

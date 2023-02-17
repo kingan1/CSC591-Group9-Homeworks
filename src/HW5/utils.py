@@ -7,18 +7,18 @@ import re
 from typing import List, Union
 
 
-def rint(lo: float, hi: float):
+def rint(lo: float=0, hi: float=1):
     return math.floor(0.5 + rand(lo, hi))
 
 
 class Random:
     def __init__(self):
-        self.seed = 0
+        self.seed = 937162211
 
     def set_seed(self, value: int):
         self.seed = value
 
-    def rand(self, lo, hi):
+    def rand(self, lo=0, hi=1):
         """
         Generates a pseudo-random number using seed.
 
@@ -26,7 +26,6 @@ class Random:
         :param hi: Higher limit of generated number
         :return: Pseudo-random number
         """
-        lo, hi = lo or 0, hi or 1
 
         self.seed = (16807 * self.seed) % 2147483647
         return lo + (hi - lo) * self.seed / 2147483647
@@ -37,7 +36,7 @@ rand = _inst.rand
 set_seed = _inst.set_seed
 
 
-def rnd(n: float, n_places: int = 3) -> float:
+def rnd(n: float, n_places: int = 2) -> float:
     """
     Rounds number n to n places.
 
@@ -199,3 +198,8 @@ def oo(t):
 
 def last(t):
     return t[-1]
+
+def adds(col, t):
+    for _, x in enumerate(t or {}):
+        col.add(x)
+    return col
