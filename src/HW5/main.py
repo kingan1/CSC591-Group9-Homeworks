@@ -2,7 +2,7 @@ from data import Data, rep_cols, rep_rows, rep_place, rep_grid
 from num import Num
 from options import options
 from sym import Sym
-from utils import rnd, csv, show, copy, do_file, transpose, oo
+from utils import csv, rnd, rand, set_seed, oo, rint
 
 help = """
 main.py : a rep grid processor
@@ -11,12 +11,19 @@ main.py : a rep grid processor
 USAGE:   main.py  [OPTIONS] [-g ACTION]
 
 OPTIONS:
-  -d  --dump    on crash, dump stack   = false
-  -f  --file    name of file           = ../../etc/data/repgrid1.csv
-  -g  --go      start-up action        = data
-  -h  --help    show help              = false
-  -p  --p       distance coefficient   = 2
-  -s  --seed    random number seed     = 937162211
+  -b  --bins    initial number of bins       = 16
+  -c  --cliffs  cliff's delta threshold      = .147
+  -f  --file    data file                    = ../../etc/data/auto93.csv
+  -F  --Far     distance to distant          = .95
+  -g  --go      start-up action              = nothing
+  -h  --help    show help                    = False
+  -H  --Halves  search space for clustering  = 512
+  -m  --min     size of smallest cluster     = .5
+  -M  --Max     numbers                      = 512
+  -p  --p       dist coefficient             = 2
+  -r  --rest    how many of rest to sample   = 4
+  -R  --Reuse   child splits reuse a parent pole = True
+  -s  --seed    random number seed           = 937162211
 """
 
 
@@ -62,159 +69,110 @@ def eg(key, s, fun):
     egs[key] = fun
     help += "  -g  {}\t{}\n".format(key, s)
 
-
-def show_settings():
+def check_the():
     return str(options)
 
+def check_rand():
+    set_seed(1)
+    t = []
+    for i in range(1, 1000 + 1):
+        t.append(rint(100))
 
-def check_syms():
-    sym = Sym()
+    set_seed(1)
+    u = []
+    for i in range(1, 1000 + 1):
+        u.append(rint(100))
 
-    for x in ["a", "a", "a", "a", "b", "b", "c"]:
-        sym.add(x)
+    for k, v in enumerate(t):
+        assert v == u[k]
+        
 
-    return "a" == sym.mid() and 1.379 == rnd(sym.div(), 3)
-
+def check_some():
+    options['Max'] = 32
+    num1 = Num()
+    for i in range(1,10000+1):
+        num1.add(i)
+    oo(num1.has)
 
 def check_nums():
-    num = Num()
+    num1,num2 = Num(), Num()
+    
+    set_seed(options["seed"])
+    for i in range(1, 10000 + 1):
+        num1.add(rand())
 
-    for x in [1, 1, 1, 1, 2, 2, 3]:
-        num.add(x)
+    for i in range(1, 10000 + 1):
+        num2.add(rand()**2)
+    print(1,rnd(num1.mid()), rnd(num1.div()))
+    print(2,rnd(num2.mid()), rnd(num2.div())) 
+    return .5 == rnd(num1.mid()) and num1.mid()> num2.mid()
 
-    return 11 / 7 == num.mid() and 0.787 == rnd(num.div(), 3)
-
+def check_syms():
+    sym=Sym()
+    sym.adds(["a","a","a","a","b","b","c"])
+    print (sym.mid(), rnd(sym.div())) 
+    return 1.38 == rnd(sym.div())
 
 def check_csv():
-    n = 0
-
+    n=0
     def f(t):
         nonlocal n
         n += len(t)
-
-    csv(options['file'], f)
-    return n == 8 * 399
-
+    csv(options['file'], f) 
+    return 3192 == n
 
 def check_data():
-    data = Data(options["file"])
-
-    return len(data.rows) == 398 and data.cols.y[0].w == -1 and data.cols.x[0].at == 0 and len(data.cols.x) == 4
-
+    data=Data()
+    data.read(options['file'])
+    col=data.cols.x[0]
+    print(col.lo,col.hi, col.mid(),col.div())
+    oo(data.stats())
 
 def check_clone():
-    data1 = Data(options["file"])
-    data2 = data1.clone(data1.rows)
+    data1=Data()
+    data1.read(options['file'])
+    data2=Data()
+    data2.clone(data1,data1.rows) 
+    oo(data1.stats())
+    oo(data2.stats())
 
-    return (
-        len(data1.rows) == len(data2.rows)
-        and data1.cols.y[1].w == data2.cols.y[1].w
-        and data1.cols.x[1].at == data2.cols.x[1].at
-        and len(data1.cols.x) == len(data2.cols.x)
-    )
+def check_cliffs():
+    assert(False == cliffsDelta( {8,7,6,2,5,8,7,3},{8,7,6,2,5,8,7,3}),"1")
+    assert(True  == cliffsDelta( {8,7,6,2,5,8,7,3}, {9,9,7,8,10,9,6}),"2") 
+    t1,t2=[],[]
+    for i in range(1,1000+1):
+        t1.append(rand()) 
+    for i in range(1,1000+1):
+        t2.append(rand()**.5)
+    assert(False == cliffsDelta(t1,t1),"3") 
+    assert(True  == cliffsDelta(t1,t2),"4") 
+    diff,j=False,1.0
+    while not diff:
+        def f(x):
+            nonlocal j
+            return x*j
+        t3=map(f, t1)
+        diff=cliffsDelta(t1,t3)
+        print(">",rnd(j),diff) 
+        j=j*1.025
 
+eg("the","show options",check_the)
 
-def check_stats():
-    data = Data(options["file"])
+eg("rand","demo random number generation", check_rand)
 
-    for k, cols in {"y": data.cols.y, "x": data.cols.x}.items():
-        print(k, "\tmid\t", data.stats(cols, 2, what="mid"))
-        print("", "\tdiv\t", data.stats(cols, 2, what="div"))
+eg("some","demo of reservoir sampling", check_some)
 
+eg("nums","demo of Num", check_nums)
 
-def check_half():
-    data = Data(options['file'])
-    left, right, A, B, mid, c = data.half()
-    print(len(left), len(right), len(data.rows))
-    print(A.cells, c)
-    print(mid.cells)
-    print(B.cells)
+eg("syms","demo SYMS", check_syms)
 
+eg("csv","reading csv files", check_csv)
 
-def check_around():
-    data = Data(options['file'])
-    print(0, 0, data.rows[0].cells)
-    for n, t in enumerate(data.around(data.rows[0])):
-        if (n + 1) % 50 == 0:
-            print(n, rnd(t['dist'], 2), t['row'].cells)
+eg("data", "showing data sets", check_data)
 
+eg("clone","replicate structure of a DATA", check_clone)
 
-def check_cluster():
-    data = Data(options['file'])
-
-    show(data.cluster(), "mid", data.cols.y, 1)
-
-
-def check_optimize():
-    data = Data(options['file'])
-
-    show(data.sway(), "mid", data.cols.y, 1)
-
-
-def check_reprows():
-    t = do_file(options['file'])
-    rows = rep_rows(t, transpose(t['cols']))
-
-    for row in rows.cols.all:
-        oo(row)
-    for row in rows.rows:
-        oo(row)
-
-
-def check_copy():
-    t1 = {
-        "a": 1,
-        "b": {
-            "c": 2,
-            "d": [3, ]
-        }
-    }
-
-    t2 = copy(t1)
-
-    t2["b"]["d"][0] = 10000
-
-    print("b4", t1, "\nafter", t2)
-
-
-def check_repcols():
-    t = rep_cols(do_file(options["file"])['cols'])
-    for row in t.cols.all:
-        oo(row)
-    for row in t.rows:
-        oo(row)
-
-
-def check_synonyms():
-    show(rep_cols(do_file(options["file"])['cols']).cluster())
-
-
-def check_prototypes():
-    t = do_file(options["file"])
-    rows = rep_rows(t, transpose(t['cols']))
-    show(rows.cluster())
-
-
-def check_position():
-    t = do_file(options["file"])
-    rows = rep_rows(t, transpose(t['cols']))
-    rows.cluster()
-    rep_place(rows)
-
-
-def check_every():
-    rep_grid(options["file"])
-
-
-eg("copy", "check copy", check_copy)
-eg("every", "the whole enchilada", check_every)
-eg("num", "check nums", check_nums)
-eg("position", "where's wally", check_position)
-eg("prototypes", "checking reprows cluster", check_prototypes)
-eg("repcols", "check repcols", check_repcols)
-eg("reprows", "checking reprows", check_reprows)
-eg("sym", "check syms", check_syms)
-eg("synonyms", "check repcols cluster", check_synonyms)
-eg("the", "show settings", show_settings)
+eg("cliffs","stats tests", check_cliffs)
+  
 
 main(egs)
