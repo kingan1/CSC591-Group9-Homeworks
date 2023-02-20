@@ -203,3 +203,6 @@ def adds(col, t):
     for _, x in enumerate(t or {}):
         col.add(x)
     return col
+
+def norm(num,n):
+    return n if n == "?" else (n - num.lo) / (num.hi - num.lo + 1 / float("inf"))
