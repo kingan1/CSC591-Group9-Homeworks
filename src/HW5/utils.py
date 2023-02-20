@@ -230,3 +230,19 @@ def dist(data,t1,t2,cols = None):
 def per(t, p):
     p = math.floor(((p or 0.5) * len(t)) + 0.5)
     return t[max(1, min(len(t), p))]
+
+def cliffsDelta(lst1, lst2, d: float = 0.147) :
+    n1, n2 = len(lst1), len(lst2)
+    m= 0
+    for i in range(n1):
+        for j in range(n2):
+            if lst1[i] < lst2[j]:
+                m += 1
+            elif lst1[i] > lst2[j]:
+                m -= 1
+    if m == 0:
+        return False
+    else:
+        x = n1 * n2
+        d = abs(m) / x
+        return d >= 0.147

@@ -2,7 +2,7 @@ from data import Data
 from num import Num
 from options import options
 from sym import Sym
-from utils import csv, rnd, rand, set_seed, oo, rint, adds
+from utils import csv, rnd, rand, set_seed, oo, rint, adds, cliffsDelta
 
 help = """
 main.py : a rep grid processor
