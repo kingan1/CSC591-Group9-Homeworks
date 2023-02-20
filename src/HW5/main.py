@@ -137,15 +137,15 @@ def check_clone():
     oo(data2.stats())
 
 def check_cliffs():
-    assert(False == cliffsDelta( [8,7,6,2,5,8,7,3],[8,7,6,2,5,8,7,3]),"1")
-    assert(True  == cliffsDelta( [8,7,6,2,5,8,7,3], [9,9,7,8,10,9,6]),"2") 
+    assert False == cliffsDelta( [8,7,6,2,5,8,7,3],[8,7,6,2,5,8,7,3]),"1"
+    assert True  == cliffsDelta( [8,7,6,2,5,8,7,3], [9,9,7,8,10,9,6]),"2"
     t1,t2=[],[]
     for i in range(1,1000+1):
         t1.append(rand()) 
     for i in range(1,1000+1):
         t2.append(rand()**.5)
-    assert(False == cliffsDelta(t1,t1),"3") 
-    assert(True  == cliffsDelta(t1,t2),"4") 
+    assert False == cliffsDelta(t1,t1),"3" 
+    assert True  == cliffsDelta(t1,t2),"4"
     diff,j=False,1.0
     while not diff:
         def f(x):
