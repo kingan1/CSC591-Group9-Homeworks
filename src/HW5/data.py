@@ -5,7 +5,7 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import csv, cosine, any, copy, helper, transpose, show, do_file
+from utils import csv, cosine, any, copy, helper, transpose, show, do_file, many
 import cluster
 
 
@@ -80,20 +80,22 @@ class Data:
 
         return node
 
-    def sway(self, rows=None, min=None, cols=None, above=0):
-        if not rows:
-            rows = self.rows
-        if not min:
-            min = len(rows) ** self.the["min"]
-        if not cols:
-            cols = self.cols.x
-        node = {"data": self.clone(rows)}
-        if len(rows) > 2 * min:
-            left, right, node["A"], node["B"], node["mid"], _ = cluster.half(rows, cols, above)
-            if self.better(node["B"], node["A"]):
-                left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
-            node["left"] = self.sway(left, min, cols, node["A"])
-        return node
+    def sway(self, cols=None):
+
+        def worker(rows,worse,above=None):
+            if len(rows) <= len(self.rows)**self.the["min"]:
+                return rows,many(worse,self.the['rest']*len(rows))
+            l,r,A,B,m,c = self.half(rows,cols,above)
+            if self.better(B,A):
+                l,r,A,B = r,l,B,A
+            for x in r:
+                worse.append(x)
+                
+            return worker(l,worse,A)
+
+        best,rest = worker(self.rows,[])
+
+        return self.clone(best),self.clone(rest)
 
     def dist(self, row1, row2, cols=None):
         n = 0
