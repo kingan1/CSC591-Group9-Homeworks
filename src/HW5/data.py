@@ -6,6 +6,7 @@ from options import options
 from row import Row
 from sym import Sym
 from utils import csv, cosine, any, copy, helper, transpose, show, do_file
+import cluster
 
 
 class Data:
@@ -77,6 +78,21 @@ class Data:
             node['left'] = self.cluster(left, cols, node['A'])
             node['right'] = self.cluster(right, cols, node['B'])
 
+        return node
+
+    def sway(self, rows=None, min=None, cols=None, above=0):
+        if not rows:
+            rows = self.rows
+        if not min:
+            min = len(rows) ** self.the["min"]
+        if not cols:
+            cols = self.cols.x
+        node = {"data": self.clone(rows)}
+        if len(rows) > 2 * min:
+            left, right, node["A"], node["B"], node["mid"], _ = cluster.half(rows, cols, above)
+            if self.better(node["B"], node["A"]):
+                left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
+            node["left"] = self.sway(left, min, cols, node["A"])
         return node
 
     def dist(self, row1, row2, cols=None):
