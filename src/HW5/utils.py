@@ -226,3 +226,7 @@ def dist(data,t1,t2,cols = None):
         n += + 1
         d +=  dist1(col, t1[col.at], t2[col.at])**2
     return (d / n)**(0.5)
+
+def per(t, p):
+    p = math.floor(((p or 0.5) * len(t)) + 0.5)
+    return t[max(1, min(len(t), p))]
