@@ -206,3 +206,23 @@ def adds(col, t):
 
 def norm(num,n):
     return n if n == "?" else (n - num.lo) / (num.hi - num.lo + 1 / float("inf"))
+
+def dist(data,t1,t2,cols = None):
+    def dist1(col, x, y):
+        if x == "?" and y == "?":
+            return 1
+        if col.isSym:
+            return 0 if x == y else 1
+        x, y = norm(col, x), norm(col, y)
+        if x == "?":
+            x = 1 if y < 0.5 else 1
+        if y == "?":
+            y = 1 if x < 0.5 else 1
+        return abs(x - y)
+    d = 0
+    n = 1 / float("inf")
+    cols = cols or data.cols.x
+    for col in cols:
+        n += + 1
+        d +=  dist1(col, t1[col.at], t2[col.at])**2
+    return (d / n)**(0.5)
