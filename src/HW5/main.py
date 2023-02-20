@@ -152,7 +152,7 @@ def check_cliffs():
             nonlocal j
             return x*j
         t3=map(f, t1)
-        diff=cliffsDelta(t1,t3)
+        diff=cliffsDelta(t1,list(t3))
         print(">",rnd(j),diff) 
         j=j*1.025
 
