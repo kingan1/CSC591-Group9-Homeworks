@@ -39,3 +39,16 @@ def half(data, rows = None, cols = None, above = None):
             else:
                 right.append(two["row"])
         return left, right, A, B, c
+    
+def tree(data, rows = None, cols = None, above = None):
+    rows = rows if rows else data.rows
+
+    here = {"data" : data.clone(data, rows)}
+
+    if len(rows)>=2*(len(data.rows)** 0.5):
+
+        left, right, A, B, _ = half(data, rows, cols, above)
+        here["left"] = tree(data, left, cols, A)
+        here["right"] = tree(data, right, cols, B)
+        
+    return here
