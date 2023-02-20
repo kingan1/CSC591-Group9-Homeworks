@@ -1,24 +1,6 @@
 from utils import *
 
 def half(data, rows = None, cols = None, above = None):
-        """
-        Function:
-            half
-        Description:
-            Splits data in half
-        Input:
-            self - current DATA instance
-            rows - rows to split
-            cols - cols to split
-            above - previous point of split
-        Output:
-            left - list of rows to the left of split
-            right - list of rows to the right of split
-            A - far left point
-            B - far right point
-            mid - mid point where split occurs
-            c - Distance between A and B
-        """
         def gap(r1, r2):
             return dist(data, r1, r2, cols)
         def cos(a, b, c):
@@ -50,5 +32,5 @@ def tree(data, rows = None, cols = None, above = None):
         left, right, A, B, _ = half(data, rows, cols, above)
         here["left"] = tree(data, left, cols, A)
         here["right"] = tree(data, right, cols, B)
-        
+
     return here
