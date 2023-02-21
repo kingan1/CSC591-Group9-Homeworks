@@ -93,7 +93,7 @@ def check_rand():
 def check_some():
     options['Max'] = 32
     num1 = Num()
-
+    set_seed(options['seed'])
     for i in range(1, 10000 + 1):
         num1.add(i)
 
@@ -191,7 +191,7 @@ def check_dist():
     num = Num()
 
     for _, row in enumerate(data.rows):
-        num.add(data.dist(row, data.rows[1]))
+        num.add(data.dist(row, data.rows[0]))
 
     d = {"lo": num.lo, "hi": num.hi, "mid": rnd(num.mid()), "div": rnd(num.div())}
     print(d)
