@@ -232,30 +232,38 @@ def per(t, p):
     p = math.floor(((p or 0.5) * len(t)) + 0.5)
     return t[max(0, min(len(t), p)-1)]
 
-def cliffsDelta(lst1, lst2, d: float = 0.147) :
-    n1, n2 = len(lst1), len(lst2)
-    m= 0
-    for i in range(n1):
-        for j in range(n2):
-            if lst1[i] < lst2[j]:
-                m += 1
-            elif lst1[i] > lst2[j]:
-                m -= 1
-    if m == 0:
-        return False
-    else:
-        x = n1 * n2
-        d = abs(m) / x
-        return d >= 0.147
-    
-def kap(t, fun):
-    u=[]
-    for k,v in enumerate(t): 
-        v,k=fun(k,v)
-        u[k or (1+len(u))]=v
+def cliffsDelta(ns1,ns2,seed=937162211) :
+    if len(ns1) > 256:
+        ns1 = many(ns1,256,seed)
+    if len(ns2) > 256:
+        ns2 = many(ns2,256,seed)
+    if len(ns1) > 10*len(ns2):
+        ns2 = many(ns1,10*len(ns2),seed)
+    if len(ns2) > 10*len(ns1):
+        ns2 = many(ns2,10*len(ns1),seed)
+
+    n,gt,lt = 0,0,0
+    for x in ns1:
+        for y in ns2:
+            n=n+1
+            if x>y:
+                gt=gt+1
+
+            elif x<y:
+                lt=lt+1
+    return abs(lt - gt)/n > 0.147
+
+def kap(t, fun, u={}):
+    u = {}
+    for k, v in enumerate(t):
+        v, k = fun(k, v)
+        if not k:
+            u[len(u)] = v
+        else:
+            u[k] = v
     return u
 
-def diffs(nums1,nums2):
-    def f(k, nums):
-        return cliffsDelta(nums.has(),nums2[k].has()),nums.txt
-    return kap(nums1,f)
+def diffs(nums1,nums2,the):
+    def func(k,nums):
+        return cliffsDelta(nums.has(),nums2[k].has(),the),nums.txt
+    return kap(nums1,func)

@@ -83,12 +83,16 @@ def bin(col: Union[Sym, Num], x):
 
     return 1 if col.hi == col.lo else floor(x / tmp + 0.5) * tmp
 
+def extend(range, n, s):
+    range.lo = min(n, range.lo)
+    range.hi = max(n, range.hi)
+    range.y.add(s)
 
 def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
     out = []
 
     for col in cols:
-        ranges = []
+        ranges = {}
 
         for y, rows in rowss.items():
             for row in rows:
@@ -97,10 +101,10 @@ def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
                 if x != "?":
                     k = bin(col, x)
 
-                    ranges[k] = Range(col.at, col.txt, x)
-                    ranges[k].extend(x, y)
-
-        ranges.sort(key=lambda r: r.lo)
+                    ranges[k] = ranges.get(k, Range(col.at, col.txt, x))
+                    extend(ranges[k], x, y)
+                    
+        ranges = (sorted(ranges.items(), key=lambda x: x[1].lo))
         out.append(ranges if isinstance(col, Sym) else merge_any(ranges))
 
     return out

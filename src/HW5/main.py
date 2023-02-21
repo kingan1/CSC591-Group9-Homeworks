@@ -2,9 +2,9 @@ from data import Data
 from num import Num
 from options import options
 from sym import Sym
-from utils import csv, rnd, rand, set_seed, diffs, rint, adds, cliffsDelta
 from cluster import half, tree, showTree
 from discretization import *
+from utils import csv, rnd, rand, set_seed, oo, rint, adds, cliffsDelta, diffs
 
 help = """
 main.py : a rep grid processor
@@ -185,13 +185,13 @@ def check_sway():
     data.read(options['file'])
     best,rest = data.sway()
     print("\nall ", data.stats())
-    print("    ",   data.stats("div"))
+    print("    ",   data.stats(what="div"))
     print("\nbest", best.stats())
-    print("    ",   best.stats("div"))
+    print("    ",   best.stats(what="div"))
     print("\nrest", rest.stats())
-    print("    ",   rest.stats("div"))
-    print("\nall ~= best?", diffs(best.cols.y, data.cols.y))
-    print("best ~= rest?", diffs(best.cols.y, rest.cols.y))
+    print("    ",   rest.stats(what="div"))
+    print("\nall ~= best?", diffs(best.cols.y, data.cols.y, options))
+    print("best ~= rest?", diffs(best.cols.y, rest.cols.y, options))
 
 def check_bins():
     data=Data()
