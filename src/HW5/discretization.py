@@ -114,13 +114,15 @@ def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
     return out
 
 
-def value(has):
-    sGoal, nB, nR = sGoal or True, nB or 1, nR or 1
+def value(has, n_b: int = 1, n_r: int = 1, s_goal: str = None):
     b, r = 0, 0
-    for x, n in enumerate(has):
-        if x == sGoal:
+
+    for x, n in has.items():
+        if x == s_goal:
             b = b + n
         else:
             r = r + n
-        b, r = b / (nB + 1 / inf), r / (nR + 1 / inf)
+
+        b, r = b / (n_b + 1 / inf), r / (n_r + 1 / inf)
+
     return b ** 2 / (b + r)
