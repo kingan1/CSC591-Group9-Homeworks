@@ -17,14 +17,14 @@ class Sym:
         self.most = 0
         self.mode = None
 
-    def add(self, x: str):
+    def add(self, x: str, n=1):
         """
         Updates counts of things seen so far
 
         :param x: Symbol to add
         """
         if x != "?":
-            self.n = self.n + 1
+            self.n = self.n + n
             self.has[x] = 1 + (self.has[x] or 0)
             if self.has[x] > self.most:
                 self.most = self.has[x]

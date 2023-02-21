@@ -50,17 +50,19 @@ def merge2(col1: Union[Sym, Num], col2: Union[Sym, Num]) -> Optional[Union[Sym, 
 
 def merge_any(ranges0: List[Range]) -> List[Range]:
     def no_gaps(t: List[Range]):
+        if not t:
+            return t
         for j in range(2, len(t)):
             t[j].lo = t[j - 1].hi
-
         t[1].lo = -inf
         t[len(t)].hi = inf
 
     ranges1 = []
     j = 1
 
-    while j <= len(ranges0):
-        left, right = ranges0[j], ranges0[j + 1]
+    while j < len(ranges0):
+        left = ranges0[j]
+        right = None if j == len(ranges0) - 1 else ranges0[j + 1]
 
         if right is not None:
             y = merge2(left.y, right.y)
@@ -71,7 +73,6 @@ def merge_any(ranges0: List[Range]) -> List[Range]:
 
         ranges1.append(left)
         j += 1
-
     return no_gaps(ranges0) if len(ranges0) == len(ranges1) else merge_any(ranges1)
 
 
@@ -103,8 +104,9 @@ def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
 
                     ranges[k] = ranges.get(k, Range(col.at, col.txt, x))
                     extend(ranges[k], x, y)
-                    
+
         ranges = (sorted(ranges.items(), key=lambda x: x[1].lo))
+        ranges = [r[1] for r in ranges]
         out.append(ranges if isinstance(col, Sym) else merge_any(ranges))
 
     return out
