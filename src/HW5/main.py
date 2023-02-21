@@ -240,7 +240,6 @@ def check_bins():
     print("all", "", "", "", {"best": len(best.rows), "rest": len(rest.rows)})
 
     b4 = None
-
     for k, t in enumerate(bins(data.cols.x, {"best": best.rows, "rest": rest.rows})):
         for _, range_ in enumerate(t):
             if range_.txt != b4:
@@ -251,7 +250,7 @@ def check_bins():
             print(
                 range_.txt, range_.lo, range_.hi,
                 rnd(value(range_.y.has, n_b=len(best.rows), n_r=len(rest.rows), s_goal="best")),
-                range_.y.has
+                dict(range_.y.has)
             )
 
 
