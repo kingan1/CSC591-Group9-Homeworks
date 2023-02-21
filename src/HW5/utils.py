@@ -131,12 +131,7 @@ def many(t, n):
     """
     returns some items from `t`
     """
-    u = []
-
-    for i in range(n):
-        u.append(any(t))
-
-    return u
+    return [any(t) for _ in range(n)]
 
 
 def any(t):
