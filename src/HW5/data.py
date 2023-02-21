@@ -6,7 +6,8 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import csv, cosine, any, copy, helper, transpose, show, do_file, many
+
+from utils import *
 
 
 class Data:
@@ -57,7 +58,7 @@ class Data:
         :param what: Statistics to collect
         :return: Dict with all statistics for the columns
         """
-        return dict(sorted({col.txt: col.rnd(getattr(col, what)(), nplaces) for col in cols or self.cols.y}.items()))
+        return dict(sorted({col.txt: rnd(getattr(col, what)(), nplaces) for col in cols or self.cols.y}.items()))
 
     def cluster(self, rows: List[Row] = None, cols: List[Union[Sym, Num]] = None, above: Row = None):
         """
@@ -103,20 +104,11 @@ class Data:
         if not ys:
             ys = self.cols.y
         for col in ys:
-            x = col.norm(row1.cells[col.at])
-            y = col.norm(row2.cells[col.at])
+            x = norm(col, row1.cells[col.at])
+            y = norm(col, row2.cells[col.at])
             s1 = s1 - math.exp(col.w * (x - y) / len(ys))
             s2 = s2 - math.exp(col.w * (y - x) / len(ys))
         return s1 / len(ys) < s2 / len(ys)
-
-    def dist(self, row1, row2, cols=None):
-        n = 0
-        dis = 0
-        cols = (cols if cols else self.cols.x)
-        for _, c in enumerate(cols):
-            n = n + 1
-            dis = dis + c.dist(row1.cells[c.at], row2.cells[c.at]) ** options['p']
-        return (dis / n) ** (1 / options['p'])
 
     def around(self, row1, rows=None, cols=None):
         """
@@ -136,7 +128,7 @@ class Data:
         """
 
         def gap(r1, r2):
-            return self.dist(r1, r2, cols)
+            return dist(self, r1, r2, cols)
 
         def cos(a, b, c):
             return (a ** 2 + c ** 2 - b ** 2) / (2 * c)
@@ -158,13 +150,6 @@ class Data:
             else:
                 right.append(two["row"])
         return left, right, A, B, c
-
-    def furthest(self, row1=None, rows=None, cols=None):
-        """ 
-        sort other `rows` by distance to `row`
-        """
-        t = self.around(row1, rows, cols)
-        return t[len(t) - 1]
 
     def tree(self, rows=None, cols=None, above=None):
         rows = rows if rows else self.rows

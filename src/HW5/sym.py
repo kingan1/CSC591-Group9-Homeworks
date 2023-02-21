@@ -51,16 +51,6 @@ class Sym:
             e = e + fun(n / self.n)
         return -e
 
-    @staticmethod
-    def rnd(x: Union[float, str], n: int) -> Union[float, str]:
-        """
-        Returns a rounded number : SYM's do not get rounded
-        :param x: Number to round
-        :param n: Number of decimal places to round
-        :return: x
-        """
-        return x
-
     def dist(self, s1, s2):
         if s1 == '?' and s2 == '?':
             return 1

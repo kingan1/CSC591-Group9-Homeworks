@@ -1,7 +1,7 @@
 from cluster import showTree
 from data import Data
 from discretization import *
-from utils import csv, rnd, rand, set_seed, rint, adds, cliffsDelta, diffs
+from utils import *
 
 help = """
 main.py : a rep grid processor
@@ -191,7 +191,7 @@ def check_dist():
     num = Num()
 
     for _, row in enumerate(data.rows):
-        num.add(data.dist(row, data.rows[0]))
+        num.add(dist(data, row, data.rows[0]))
 
     d = {"lo": num.lo, "hi": num.hi, "mid": rnd(num.mid()), "div": rnd(num.div())}
     print(d)
