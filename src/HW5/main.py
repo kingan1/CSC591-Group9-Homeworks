@@ -2,7 +2,9 @@ from data import Data
 from num import Num
 from options import options
 from sym import Sym
-from utils import csv, rnd, rand, set_seed, oo, rint, adds, cliffsDelta
+from utils import csv, rnd, rand, set_seed, diffs, rint, adds, cliffsDelta
+from cluster import half, tree, showTree
+from discretization import *
 
 help = """
 main.py : a rep grid processor
@@ -155,6 +157,56 @@ def check_cliffs():
         print(">",rnd(j),diff) 
         j=j*1.025
 
+def check_dist():
+    data=Data()
+    data.read(options['file'])
+    num  = Num()
+    for _,row in enumerate(data.rows):
+        num.add(data.dist(row, data.rows[1]))
+    d = {"lo":num.lo, "hi":num.hi, "mid":rnd(num.mid()), "div":rnd(num.div())}
+    print(d)
+
+def check_half():
+    data=Data()
+    data.read(options['file'])
+    left,right,A,B,c = half(data) 
+    print(len(left),len(right))
+    l,r = Data.clone(data,left), Data.clone(data,right)
+    print("l",l.stats())
+    print("r",r.stats())
+
+def check_tree():
+    data1=Data()
+    data1.read(options['file'])
+    showTree(tree(data1))
+
+def check_sway():
+    data=Data()
+    data.read(options['file'])
+    best,rest = data.sway()
+    print("\nall ", data.stats())
+    print("    ",   data.stats("div"))
+    print("\nbest", best.stats())
+    print("    ",   best.stats("div"))
+    print("\nrest", rest.stats())
+    print("    ",   rest.stats("div"))
+    print("\nall ~= best?", diffs(best.cols.y, data.cols.y))
+    print("best ~= rest?", diffs(best.cols.y, rest.cols.y))
+
+def check_bins():
+    data=Data()
+    data.read(options['file'])
+    best,rest = data.sway()
+    print("all","","","",{"best":len(best.rows), "rest":len(rest.rows)})
+    for k,t in enumerate(bins(data.cols.x,{"best":best.rows, "rest":rest.rows})):
+        for _,range in enumerate(t):
+            if range.txt != b4:
+                print()
+            b4 = range.txt
+            print(range.txt,range.lo,range.hi,
+                rnd(value(range.y.has, len(best.rows),len(rest.rows),"best")), 
+                range.y.has)
+
 eg("the","show options",check_the)
 
 eg("rand","demo random number generation", check_rand)
@@ -169,9 +221,18 @@ eg("csv","reading csv files", check_csv)
 
 eg("data", "showing data sets", check_data)
 
-eg("clone","replicate structure of a DATA", check_clone)
+eg("clone","replicate structure of a Data", check_clone)
 
 eg("cliffs","stats tests", check_cliffs)
-  
+
+eg("dist","distance test", check_dist)
+
+eg("half","divide data in halg", check_half)
+ 
+eg("tree","make snd show tree of clusters", check_tree)
+
+eg("sway","optimizing", check_sway)
+
+eg("bins", "find deltas between best and rest", check_bins)
 
 main(egs)

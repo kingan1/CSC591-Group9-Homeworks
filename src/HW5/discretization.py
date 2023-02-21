@@ -104,3 +104,14 @@ def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
         out.append(ranges if isinstance(col, Sym) else merge_any(ranges))
 
     return out
+
+def value(has):
+    sGoal,nB,nR = sGoal or True, nB or 1, nR or 1
+    b,r = 0,0
+    for x,n in enumerate(has):
+        if x==sGoal:
+            b = b + n
+        else:
+            r = r + n
+        b,r = b/(nB+1/inf), r/(nR+1/inf)
+    return b**2/(b+r)

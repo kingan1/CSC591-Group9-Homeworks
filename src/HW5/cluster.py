@@ -1,4 +1,4 @@
-from utils import *
+from utils import dist, many, any
 
 def half(data, rows = None, cols = None, above = None):
         def gap(r1, r2):
@@ -9,7 +9,7 @@ def half(data, rows = None, cols = None, above = None):
             return {'row': r, 'x': cos(gap(r, A), gap(r, B), c)}
         rows = rows or data.rows
         some = many(rows,512)
-        A = above or any(some)
+        A = above if above else any(some)
         tmp = sorted([{"row": r, "d": gap(r, A)} for r in some], key=lambda x: x["d"])
         far = tmp[int(len(tmp)* 0.95)]
         B, c = far["row"], far["d"]
@@ -34,3 +34,10 @@ def tree(data, rows = None, cols = None, above = None):
         here["right"] = tree(data, right, cols, B)
 
     return here
+
+def showTree(tree, lvl=0):
+    if tree:
+        print("{}[{}] ".format(("|.. ")*lvl, len(tree['data'].rows)), end="")
+        print((lvl==0 or not tree.get('left', None)) and (tree['data'].stats()) or "")
+        showTree(tree.get('left',None), lvl+1)
+        showTree(tree.get('right',None),lvl+1)

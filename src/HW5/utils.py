@@ -4,6 +4,7 @@ import json
 import math
 import random
 import re
+from sym import Sym
 from typing import List, Union
 
 
@@ -211,7 +212,7 @@ def dist(data,t1,t2,cols = None):
     def dist1(col, x, y):
         if x == "?" and y == "?":
             return 1
-        if col.isSym:
+        if type(col) is Sym:
             return 0 if x == y else 1
         x, y = norm(col, x), norm(col, y)
         if x == "?":
@@ -224,7 +225,7 @@ def dist(data,t1,t2,cols = None):
     cols = cols or data.cols.x
     for col in cols:
         n += + 1
-        d +=  dist1(col, t1[col.at], t2[col.at])**2
+        d +=  dist1(col, t1.cells[col.at], t2.cells[col.at])**2
     return (d / n)**(0.5)
 
 def per(t, p):
@@ -246,3 +247,15 @@ def cliffsDelta(lst1, lst2, d: float = 0.147) :
         x = n1 * n2
         d = abs(m) / x
         return d >= 0.147
+    
+def kap(t, fun):
+    u=[]
+    for k,v in enumerate(t): 
+        v,k=fun(k,v)
+        u[k or (1+len(u))]=v
+    return u
+
+def diffs(nums1,nums2):
+    def f(k, nums):
+        return cliffsDelta(nums.has(),nums2[k].has()),nums.txt
+    return kap(nums1,f)
