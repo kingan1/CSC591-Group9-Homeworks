@@ -76,11 +76,13 @@ def check_the():
 def check_rand():
     set_seed(1)
     t = []
+
     for i in range(1, 1000 + 1):
         t.append(rint(100))
 
     set_seed(1)
     u = []
+
     for i in range(1, 1000 + 1):
         u.append(rint(100))
 
@@ -91,8 +93,10 @@ def check_rand():
 def check_some():
     options['Max'] = 32
     num1 = Num()
+
     for i in range(1, 10000 + 1):
         num1.add(i)
+
     print(num1.has())
 
 
@@ -105,15 +109,19 @@ def check_nums():
 
     for i in range(1, 10000 + 1):
         num2.add(rand() ** 2)
+
     print(1, rnd(num1.mid()), rnd(num1.div()))
     print(2, rnd(num2.mid()), rnd(num2.div()))
+
     return .5 == rnd(num1.mid()) and num1.mid() > num2.mid()
 
 
 def check_syms():
     sym = Sym()
     adds(sym, ["a", "a", "a", "a", "b", "b", "c"])
+
     print(sym.mid(), rnd(sym.div()))
+
     return 1.38 == rnd(sym.div())
 
 
@@ -131,7 +139,9 @@ def check_csv():
 def check_data():
     data = Data()
     data.read(options['file'])
+
     col = data.cols.x[0]
+
     print(col.lo, col.hi, col.mid(), col.div())
     print(data.stats())
 
@@ -139,22 +149,30 @@ def check_data():
 def check_clone():
     data1 = Data()
     data1.read(options['file'])
+
     data2 = data1.clone(data1, data1.rows)
+
     print(data1.stats())
     print(data2.stats())
 
 
 def check_cliffs():
-    assert False == cliffsDelta([8, 7, 6, 2, 5, 8, 7, 3], [8, 7, 6, 2, 5, 8, 7, 3]), "1"
-    assert True == cliffsDelta([8, 7, 6, 2, 5, 8, 7, 3], [9, 9, 7, 8, 10, 9, 6]), "2"
+    assert not cliffsDelta([8, 7, 6, 2, 5, 8, 7, 3], [8, 7, 6, 2, 5, 8, 7, 3]), "1"
+    assert cliffsDelta([8, 7, 6, 2, 5, 8, 7, 3], [9, 9, 7, 8, 10, 9, 6]), "2"
+
     t1, t2 = [], []
+
     for i in range(1, 1000 + 1):
         t1.append(rand())
+
     for i in range(1, 1000 + 1):
         t2.append(rand() ** .5)
-    assert False == cliffsDelta(t1, t1), "3"
-    assert True == cliffsDelta(t1, t2), "4"
+
+    assert not cliffsDelta(t1, t1), "3"
+    assert cliffsDelta(t1, t2), "4"
+
     diff, j = False, 1.0
+
     while not diff:
         def f(x):
             nonlocal j
@@ -169,9 +187,12 @@ def check_cliffs():
 def check_dist():
     data = Data()
     data.read(options['file'])
+
     num = Num()
+
     for _, row in enumerate(data.rows):
         num.add(data.dist(row, data.rows[1]))
+
     d = {"lo": num.lo, "hi": num.hi, "mid": rnd(num.mid()), "div": rnd(num.div())}
     print(d)
 
@@ -179,8 +200,10 @@ def check_dist():
 def check_half():
     data = Data()
     data.read(options['file'])
+
     left, right, A, B, c = half(data)
     print(len(left), len(right))
+
     l, r = Data.clone(data, left), Data.clone(data, right)
     print("l", l.stats())
     print("r", r.stats())
@@ -189,13 +212,16 @@ def check_half():
 def check_tree():
     data1 = Data()
     data1.read(options['file'])
+
     showTree(tree(data1))
 
 
 def check_sway():
     data = Data()
     data.read(options['file'])
+
     best, rest = data.sway()
+
     print("\nall ", data.stats())
     print("    ", data.stats(what="div"))
     print("\nbest", best.stats())
