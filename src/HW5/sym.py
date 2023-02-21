@@ -25,7 +25,7 @@ class Sym:
         """
         if x != "?":
             self.n = self.n + n
-            self.has[x] = 1 + (self.has[x] or 0)
+            self.has[x] = n + (self.has[x] or 0)
             if self.has[x] > self.most:
                 self.most = self.has[x]
                 self.mode = x
