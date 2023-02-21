@@ -138,7 +138,7 @@ def any(t):
     """
     returns one items at random
     """
-    return t[rint(len(t) - 1)]
+    return t[rint(len(t)) - 1]
 
 
 def transpose(t):
