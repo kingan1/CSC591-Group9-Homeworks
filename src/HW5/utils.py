@@ -2,15 +2,10 @@ import copy as cp
 import io
 import json
 import math
-import random
 import re
 from typing import List, Union
 
 from sym import Sym
-
-
-def rint(lo: float = 0, hi: float = 1):
-    return math.floor(0.5 + rand(lo, hi))
 
 
 class Random:
@@ -32,9 +27,13 @@ class Random:
         self.seed = (16807 * self.seed) % 2147483647
         return lo + (hi - lo) * self.seed / 2147483647
 
+    def rint(self, lo=0, hi=1):
+        return math.floor(0.5 + rand(lo, hi))
+
 
 _inst = Random()
 rand = _inst.rand
+rint = _inst.rint
 set_seed = _inst.set_seed
 
 
@@ -128,20 +127,23 @@ def show(node, what: str = "mid", cols: List[Union['Sym', 'Num']] = None, nplace
         show(node.get('right', None), what, cols, nplaces, lvl + 1)
 
 
-def many(t, n, seed=937162211):
+def many(t, n):
     """
     returns some items from `t`
     """
-    random.seed(seed)
-    return random.choices(t, k=n)
+    u = []
+
+    for i in range(n):
+        u.append(any(t))
+
+    return u
 
 
-def any(t, seed=937162211):
+def any(t):
     """
     returns one items at random
     """
-    random.seed(seed)
-    return random.choices(t)[0]
+    return t[rint(len(t) - 1)]
 
 
 def transpose(t):
@@ -239,15 +241,15 @@ def per(t, p):
     return t[max(0, min(len(t), p) - 1)]
 
 
-def cliffsDelta(ns1, ns2, seed=937162211):
+def cliffsDelta(ns1, ns2):
     if len(ns1) > 256:
-        ns1 = many(ns1, 256, seed)
+        ns1 = many(ns1, 256)
     if len(ns2) > 256:
-        ns2 = many(ns2, 256, seed)
+        ns2 = many(ns2, 256)
     if len(ns1) > 10 * len(ns2):
-        ns2 = many(ns1, 10 * len(ns2), seed)
+        ns2 = many(ns1, 10 * len(ns2))
     if len(ns2) > 10 * len(ns1):
-        ns2 = many(ns2, 10 * len(ns1), seed)
+        ns2 = many(ns2, 10 * len(ns1))
 
     n, gt, lt = 0, 0, 0
     for x in ns1:
@@ -274,6 +276,6 @@ def kap(t, fun, u={}):
 
 def diffs(nums1, nums2, the):
     def func(k, nums):
-        return cliffsDelta(nums.has(), nums2[k].has(), the), nums.txt
+        return cliffsDelta(nums.has(), nums2[k].has()), nums.txt
 
     return kap(nums1, func)
