@@ -209,44 +209,39 @@ def check_sway():
 def check_bins():
     data = Data()
     data.read(options['file'])
+
     best, rest = data.sway()
     print("all", "", "", "", {"best": len(best.rows), "rest": len(rest.rows)})
+
+    b4 = None
+
     for k, t in enumerate(bins(data.cols.x, {"best": best.rows, "rest": rest.rows})):
-        for _, range in enumerate(t):
-            if range.txt != b4:
+        for _, range_ in enumerate(t):
+            if range_.txt != b4:
                 print()
-            b4 = range.txt
-            print(range.txt, range.lo, range.hi,
-                  rnd(value(range.y.has, len(best.rows), len(rest.rows), "best")),
-                  range.y.has)
+
+            b4 = range_.txt
+
+            print(
+                range_.txt, range_.lo, range_.hi,
+                rnd(value(range_.y.has, n_b=len(best.rows), n_r=len(rest.rows), s_goal="best")),
+                range_.y.has
+            )
 
 
 eg("the", "show options", check_the)
-
 eg("rand", "demo random number generation", check_rand)
-
 eg("some", "demo of reservoir sampling", check_some)
-
 eg("nums", "demo of Num", check_nums)
-
 eg("syms", "demo SYMS", check_syms)
-
 eg("csv", "reading csv files", check_csv)
-
 eg("data", "showing data sets", check_data)
-
 eg("clone", "replicate structure of a Data", check_clone)
-
 eg("cliffs", "stats tests", check_cliffs)
-
 eg("dist", "distance test", check_dist)
-
 eg("half", "divide data in halg", check_half)
-
 eg("tree", "make snd show tree of clusters", check_tree)
-
 eg("sway", "optimizing", check_sway)
-
 eg("bins", "find deltas between best and rest", check_bins)
 
 main(egs)
