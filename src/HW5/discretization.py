@@ -52,13 +52,17 @@ def merge_any(ranges0: List[Range]) -> List[Range]:
     def no_gaps(t: List[Range]):
         if not t:
             return t
-        for j in range(2, len(t)):
+
+        for j in range(1, len(t)):
             t[j].lo = t[j - 1].hi
-        t[1].lo = -inf
-        t[len(t)].hi = inf
+
+        t[0].lo = -inf
+        t[len(t) - 1].hi = inf
+
+        return t
 
     ranges1 = []
-    j = 1
+    j = 0
 
     while j < len(ranges0):
         left = ranges0[j]
@@ -95,7 +99,7 @@ def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
     out = []
 
     for col in cols:
-        ranges = {}
+        ranges_dict = {}
 
         for y, rows in rowss.items():
             for row in rows:
@@ -104,11 +108,11 @@ def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
                 if x != "?":
                     k = bin(col, x)
 
-                    ranges[k] = ranges.get(k, Range(col.at, col.txt, x))
-                    extend(ranges[k], x, y)
+                    ranges_dict[k] = ranges_dict.get(k, Range(col.at, col.txt, x))
+                    extend(ranges_dict[k], x, y)
 
-        ranges = (sorted(ranges.items(), key=lambda x: x[1].lo))
-        ranges = [r[1] for r in ranges]
+        ranges_dict = (sorted(ranges_dict.items(), key=lambda x: x[1].lo))
+        ranges = [r[1] for r in ranges_dict]
         out.append(ranges if isinstance(col, Sym) else merge_any(ranges))
 
     return out
