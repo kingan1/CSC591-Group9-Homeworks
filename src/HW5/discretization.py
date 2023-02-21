@@ -84,10 +84,12 @@ def bin(col: Union[Sym, Num], x):
 
     return 1 if col.hi == col.lo else floor(x / tmp + 0.5) * tmp
 
+
 def extend(range, n, s):
     range.lo = min(n, range.lo)
     range.hi = max(n, range.hi)
     range.y.add(s)
+
 
 def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
     out = []
@@ -111,13 +113,14 @@ def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
 
     return out
 
+
 def value(has):
-    sGoal,nB,nR = sGoal or True, nB or 1, nR or 1
-    b,r = 0,0
-    for x,n in enumerate(has):
-        if x==sGoal:
+    sGoal, nB, nR = sGoal or True, nB or 1, nR or 1
+    b, r = 0, 0
+    for x, n in enumerate(has):
+        if x == sGoal:
             b = b + n
         else:
             r = r + n
-        b,r = b/(nB+1/inf), r/(nR+1/inf)
-    return b**2/(b+r)
+        b, r = b / (nB + 1 / inf), r / (nR + 1 / inf)
+    return b ** 2 / (b + r)

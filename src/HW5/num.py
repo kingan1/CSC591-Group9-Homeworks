@@ -1,5 +1,6 @@
 import math
 from typing import Union
+
 from options import options
 from utils import rnd, rand, rint, per
 
@@ -22,7 +23,7 @@ class Num:
 
         self.w = -1 if self.txt.endswith("-") else 1
 
-    def add(self, x, n: float=1) -> None:
+    def add(self, x, n: float = 1) -> None:
         """
         Adds n and updates lo, hi and stuff needed for standard deviation.
 
@@ -32,16 +33,15 @@ class Num:
         if x != "?":
             self.n += n
 
-            self.lo, self.hi = min(x,self.lo), max(x,self.hi) 
-            
+            self.lo, self.hi = min(x, self.lo), max(x, self.hi)
+
             all = len(self.has_)
 
-            pos = all+1 if all < options['Max'] else rint(1, all) if rand() < options['Max']/self.n else 0
-            
+            pos = all + 1 if all < options['Max'] else rint(1, all) if rand() < options['Max'] / self.n else 0
+
             if pos:
                 self.has_[pos] = x
                 self.ok = False
-
 
     def mid(self) -> float:
         """
@@ -57,7 +57,7 @@ class Num:
 
         :return: Standard deviation of the numbers
         """
-        return (per(self.has(),.9) - per(self.has(), .1))/2.58
+        return (per(self.has(), .9) - per(self.has(), .1)) / 2.58
 
     @staticmethod
     def rnd(x: Union[float, str], n: int) -> Union[float, str]:
@@ -91,7 +91,7 @@ class Num:
         if num == "?":
             return num
         return (num - self.lo) / (self.hi - self.lo + 1e-32)
-    
+
     def has(self):
         ret = dict(sorted(self.has_.items(), key=lambda x: x[1]))
         self.ok = True

@@ -1,12 +1,12 @@
-from typing import Union, List, Dict
 import math
+from typing import Union, List, Dict
+
 from cols import Cols
 from num import Num
 from options import options
 from row import Row
 from sym import Sym
 from utils import csv, cosine, any, copy, helper, transpose, show, do_file, many
-import cluster
 
 
 class Data:
@@ -18,6 +18,7 @@ class Data:
     def read(self, src: Union[str, List]) -> None:
         def f(t):
             self.add(t)
+
         csv(src, f)
 
     def add(self, t: Union[List, Row]):
@@ -33,6 +34,7 @@ class Data:
             self.cols.add(t)
         else:
             self.cols = Cols(t)
+
     @staticmethod
     def clone(data, ts={}) -> 'Data':
         """
@@ -42,11 +44,11 @@ class Data:
         """
         data1 = Data()
         data1.add(data.cols.names)
-        for _,t in enumerate(ts or {}):
+        for _, t in enumerate(ts or {}):
             data1.add(t)
         return data1
 
-    def stats(self, cols: List[Union[Sym, Num]]=None, nplaces: int=2, what: str = "mid") -> Dict:
+    def stats(self, cols: List[Union[Sym, Num]] = None, nplaces: int = 2, what: str = "mid") -> Dict:
         """
         Returns mid or div of cols (defaults to i.cols.y).
 
@@ -82,20 +84,20 @@ class Data:
 
     def sway(self, cols=None):
 
-        def worker(rows,worse,above=None):
-            if len(rows) <= len(self.rows)**options["min"]:
-                return rows,many(worse,options['rest']*len(rows))
-            l,r,A,B,m,c = self.half(rows,cols,above)
-            if self.better(B,A):
-                l,r,A,B = r,l,B,A
+        def worker(rows, worse, above=None):
+            if len(rows) <= len(self.rows) ** options["min"]:
+                return rows, many(worse, options['rest'] * len(rows))
+            l, r, A, B, m, c = self.half(rows, cols, above)
+            if self.better(B, A):
+                l, r, A, B = r, l, B, A
             for x in r:
                 worse.append(x)
-                
-            return worker(l,worse,A)
 
-        best,rest = worker(self.rows,[])
+            return worker(l, worse, A)
 
-        return Data.clone(self,best),Data.clone(self,rest)
+        best, rest = worker(self.rows, [])
+
+        return Data.clone(self, best), Data.clone(self, rest)
 
     def better(self, row1, row2, s1=0, s2=0, ys=None, x=0, y=0):
         if not ys:
@@ -125,6 +127,7 @@ class Data:
 
         def func(row2):
             return {'row': row2, 'dist': self.dist(row1, row2, cols)}
+
         return sorted(list(map(func, rows)), key=lambda x: x['dist'])
 
     def half(self, rows=None, cols=None, above=None):

@@ -4,11 +4,12 @@ import json
 import math
 import random
 import re
-from sym import Sym
 from typing import List, Union
 
+from sym import Sym
 
-def rint(lo: float=0, hi: float=1):
+
+def rint(lo: float = 0, hi: float = 1):
     return math.floor(0.5 + rand(lo, hi))
 
 
@@ -200,15 +201,18 @@ def oo(t):
 def last(t):
     return t[-1]
 
+
 def adds(col, t):
     for _, x in enumerate(t or {}):
         col.add(x)
     return col
 
-def norm(num,n):
+
+def norm(num, n):
     return n if n == "?" else (n - num.lo) / (num.hi - num.lo + 1 / float("inf"))
 
-def dist(data,t1,t2,cols = None):
+
+def dist(data, t1, t2, cols=None):
     def dist1(col, x, y):
         if x == "?" and y == "?":
             return 1
@@ -220,38 +224,42 @@ def dist(data,t1,t2,cols = None):
         if y == "?":
             y = 1 if x < 0.5 else 1
         return abs(x - y)
+
     d = 0
     n = 1 / float("inf")
     cols = cols or data.cols.x
     for col in cols:
         n += + 1
-        d +=  dist1(col, t1.cells[col.at], t2.cells[col.at])**2
-    return (d / n)**(0.5)
+        d += dist1(col, t1.cells[col.at], t2.cells[col.at]) ** 2
+    return (d / n) ** (0.5)
+
 
 def per(t, p):
     p = math.floor(((p or 0.5) * len(t)) + 0.5)
-    return t[max(0, min(len(t), p)-1)]
+    return t[max(0, min(len(t), p) - 1)]
 
-def cliffsDelta(ns1,ns2,seed=937162211) :
+
+def cliffsDelta(ns1, ns2, seed=937162211):
     if len(ns1) > 256:
-        ns1 = many(ns1,256,seed)
+        ns1 = many(ns1, 256, seed)
     if len(ns2) > 256:
-        ns2 = many(ns2,256,seed)
-    if len(ns1) > 10*len(ns2):
-        ns2 = many(ns1,10*len(ns2),seed)
-    if len(ns2) > 10*len(ns1):
-        ns2 = many(ns2,10*len(ns1),seed)
+        ns2 = many(ns2, 256, seed)
+    if len(ns1) > 10 * len(ns2):
+        ns2 = many(ns1, 10 * len(ns2), seed)
+    if len(ns2) > 10 * len(ns1):
+        ns2 = many(ns2, 10 * len(ns1), seed)
 
-    n,gt,lt = 0,0,0
+    n, gt, lt = 0, 0, 0
     for x in ns1:
         for y in ns2:
-            n=n+1
-            if x>y:
-                gt=gt+1
+            n = n + 1
+            if x > y:
+                gt = gt + 1
 
-            elif x<y:
-                lt=lt+1
-    return abs(lt - gt)/n > 0.147
+            elif x < y:
+                lt = lt + 1
+    return abs(lt - gt) / n > 0.147
+
 
 def kap(t, fun, u={}):
     u = {}
@@ -263,7 +271,9 @@ def kap(t, fun, u={}):
             u[k] = v
     return u
 
-def diffs(nums1,nums2,the):
-    def func(k,nums):
-        return cliffsDelta(nums.has(),nums2[k].has(),the),nums.txt
-    return kap(nums1,func)
+
+def diffs(nums1, nums2, the):
+    def func(k, nums):
+        return cliffsDelta(nums.has(), nums2[k].has(), the), nums.txt
+
+    return kap(nums1, func)
