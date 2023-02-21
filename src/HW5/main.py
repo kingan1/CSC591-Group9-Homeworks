@@ -2,7 +2,7 @@ from data import Data
 from num import Num
 from options import options
 from sym import Sym
-from utils import csv, rnd, rand, set_seed, oo, rint, adds, cliffsDelta
+from utils import csv, rnd, rand, set_seed, oo, rint, adds, cliffsDelta, diffs
 
 help = """
 main.py : a rep grid processor
@@ -155,6 +155,18 @@ def check_cliffs():
         print(">",rnd(j),diff) 
         j=j*1.025
 
+def check_sway():
+    data = Data()
+    best,rest = data.sway()
+    print("\nall ", data.stats(2,data.cols.y))
+    print("    ",  data.stats(2,data.cols.y,'div'))
+    print("\nbest", data.stats(2,best.cols.y))
+    print("    ",  data.stats(2,best.cols.y,'div'))
+    print("\nrest",data.stats(2,rest.cols.y))
+    print("    ",  data.stats(2,rest.cols.y,'div'))
+    print("\nall ~= best?",diffs(best.cols.y, data.cols.y,options['the']))
+    print("best ~= rest?", diffs(best.cols.y, rest.cols.y,options['the']))
+
 eg("the","show options",check_the)
 
 eg("rand","demo random number generation", check_rand)
@@ -172,6 +184,6 @@ eg("data", "showing data sets", check_data)
 eg("clone","replicate structure of a DATA", check_clone)
 
 eg("cliffs","stats tests", check_cliffs)
-  
+eg("sway","demo sway", check_sway)
 
 main(egs)

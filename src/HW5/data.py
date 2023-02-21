@@ -1,5 +1,5 @@
 from typing import Union, List, Dict
-
+import math
 from cols import Cols
 from num import Num
 from options import options
@@ -34,7 +34,7 @@ class Data:
         else:
             self.cols = Cols(t)
     @staticmethod
-    def clone(data, ts) -> 'Data':
+    def clone(data, ts={}) -> 'Data':
         """
         Returns a clone with the same structure as self.
 
@@ -83,9 +83,9 @@ class Data:
     def sway(self, cols=None):
 
         def worker(rows,worse,above=None):
-            if len(rows) <= len(self.rows)**self.the["min"]:
-                return rows,many(worse,self.the['rest']*len(rows))
-            l,r,A,B,m,c = self.half(rows,cols,above)
+            if len(rows) <= len(self.rows)**options["min"]:
+                return rows,many(worse,options['rest']*len(rows))
+            l,r,A,B,m,c = cluster.half(rows,cols,above)
             if self.better(B,A):
                 l,r,A,B = r,l,B,A
             for x in r:
@@ -95,7 +95,17 @@ class Data:
 
         best,rest = worker(self.rows,[])
 
-        return self.clone(best),self.clone(rest)
+        return Data.clone(best,self.rows),Data.clone(rest,self.rows)
+
+    def better(self, row1, row2, s1=0, s2=0, ys=None, x=0, y=0):
+        if not ys:
+            ys = self.cols.y
+        for col in ys:
+            x = col.norm(row1.cells[col.at])
+            y = col.norm(row2.cells[col.at])
+            s1 = s1 - math.exp(col.w * (x - y) / len(ys))
+            s2 = s2 - math.exp(col.w * (y - x) / len(ys))
+        return s1 / len(ys) < s2 / len(ys)
 
     def dist(self, row1, row2, cols=None):
         n = 0
