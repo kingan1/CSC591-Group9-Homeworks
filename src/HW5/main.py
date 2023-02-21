@@ -1,4 +1,4 @@
-from cluster import half, tree, showTree
+from cluster import showTree
 from data import Data
 from discretization import *
 from utils import csv, rnd, rand, set_seed, rint, adds, cliffsDelta, diffs
@@ -200,8 +200,9 @@ def check_dist():
 def check_half():
     data = Data()
     data.read(options['file'])
+    set_seed(options['seed'])
 
-    left, right, A, B, c = half(data)
+    left, right, A, B, c = data.half()
     print(len(left), len(right))
 
     l, r = Data.clone(data, left), Data.clone(data, right)
@@ -212,13 +213,15 @@ def check_half():
 def check_tree():
     data1 = Data()
     data1.read(options['file'])
+    set_seed(options['seed'])
 
-    showTree(tree(data1))
+    showTree(data1.tree())
 
 
 def check_sway():
     data = Data()
     data.read(options['file'])
+    set_seed(options['seed'])
 
     best, rest = data.sway()
 
@@ -235,6 +238,7 @@ def check_sway():
 def check_bins():
     data = Data()
     data.read(options['file'])
+    set_seed(options['seed'])
 
     best, rest = data.sway()
     print("all", "", "", "", {"best": len(best.rows), "rest": len(rest.rows)})

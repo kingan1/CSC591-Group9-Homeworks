@@ -87,7 +87,7 @@ class Data:
         def worker(rows, worse, above=None):
             if len(rows) <= len(self.rows) ** options["min"]:
                 return rows, many(worse, options['rest'] * len(rows))
-            l, r, A, B, m, c = self.half(rows, cols, above)
+            l, r, A, B, c = self.half(rows, cols, above)
             if self.better(B, A):
                 l, r, A, B = r, l, B, A
             for x in r:
@@ -135,29 +135,29 @@ class Data:
         divides data using 2 far points
         """
 
-        def dist(row1, row2):
-            return self.dist(row1, row2, cols)
+        def gap(r1, r2):
+            return self.dist(r1, r2, cols)
 
-        def project(row, x=None, y=None):
-            x, y = cosine(dist(row, A), dist(row, B), c)
-            row.x = row.x or x
-            row.y = row.y or y
-            return {"row": row, "x": x, "y": y}
+        def cos(a, b, c):
+            return (a ** 2 + c ** 2 - b ** 2) / (2 * c)
 
+        def proj(r):
+            return {'row': r, 'x': cos(gap(r, A), gap(r, B), c)}
+
+        rows = rows or self.rows
+        some = many(rows, options["Halves"])
+        A = above if above else any(some)
+        tmp = sorted([{"row": r, "d": gap(r, A)} for r in some], key=lambda x: x["d"])
+        far = tmp[int((len(tmp)-1) * options["Far"])]
+        B, c = far["row"], far["d"]
+        sorted_rows = sorted(map(proj, rows), key=lambda x: x["x"])
         left, right = [], []
-        rows = (rows if rows else self.rows)
-        A = above if above else any(rows)
-        B = self.furthest(A, rows)['row']
-        c = dist(A, B)
-
-        for n, tmp in enumerate(sorted(list(map(project, rows)), key=lambda x: x["x"])):
-            if (n + 1) <= len(rows) // 2:
-                left.append(tmp["row"])
-                mid = tmp["row"]
+        for n, two in enumerate(sorted_rows):
+            if (n+1) <= (len(rows) / 2):
+                left.append(two["row"])
             else:
-                right.append(tmp["row"])
-
-        return left, right, A, B, mid, c
+                right.append(two["row"])
+        return left, right, A, B, c
 
     def furthest(self, row1=None, rows=None, cols=None):
         """ 
@@ -166,6 +166,16 @@ class Data:
         t = self.around(row1, rows, cols)
         return t[len(t) - 1]
 
+    def tree(self, rows=None, cols=None, above=None):
+        rows = rows if rows else self.rows
+
+        here = {"data": Data.clone(self, rows)}
+
+        if (len(rows)) >= 2 * ((len(self.rows)) ** options['min']):
+            left, right, A, B, _ = self.half(rows, cols, above)
+            here["left"] = self.tree(left, cols, A)
+            here["right"] = self.tree(right, cols, B)
+        return here
 
 def rep_rows(t, rows):
     rows = copy(rows)
