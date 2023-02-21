@@ -229,7 +229,7 @@ def dist(data,t1,t2,cols = None):
 
 def per(t, p):
     p = math.floor(((p or 0.5) * len(t)) + 0.5)
-    return t[max(1, min(len(t), p))]
+    return t[max(0, min(len(t), p)-1)]
 
 def cliffsDelta(lst1, lst2, d: float = 0.147) :
     n1, n2 = len(lst1), len(lst2)

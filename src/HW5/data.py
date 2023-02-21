@@ -33,8 +33,8 @@ class Data:
             self.cols.add(t)
         else:
             self.cols = Cols(t)
-
-    def clone(self, data, ts) -> 'Data':
+    @staticmethod
+    def clone(data, ts) -> 'Data':
         """
         Returns a clone with the same structure as self.
 

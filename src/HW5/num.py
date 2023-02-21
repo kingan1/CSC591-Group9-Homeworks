@@ -1,7 +1,7 @@
 import math
 from typing import Union
 from options import options
-from utils import rnd, rand, rint
+from utils import rnd, rand, rint, per
 
 
 class Num:
@@ -57,7 +57,7 @@ class Num:
 
         :return: Standard deviation of the numbers
         """
-        return 0 if (self.m2 < 0 or self.n < 2) else math.pow((self.m2 / (self.n - 1)), 0.5)
+        return (per(self.has(),.9) - per(self.has(), .1))/2.58
 
     @staticmethod
     def rnd(x: Union[float, str], n: int) -> Union[float, str]:

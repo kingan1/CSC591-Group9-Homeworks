@@ -126,15 +126,14 @@ def check_data():
     data.read(options['file'])
     col=data.cols.x[0]
     print(col.lo,col.hi, col.mid(),col.div())
-    oo(data.stats())
+    print(data.stats())
 
 def check_clone():
     data1=Data()
     data1.read(options['file'])
-    data2=Data()
-    data2.clone(data1,data1.rows) 
-    oo(data1.stats())
-    oo(data2.stats())
+    data2 = data1.clone(data1,data1.rows) 
+    print(data1.stats())
+    print(data2.stats())
 
 def check_cliffs():
     assert False == cliffsDelta( [8,7,6,2,5,8,7,3],[8,7,6,2,5,8,7,3]),"1"
@@ -162,15 +161,15 @@ eg("rand","demo random number generation", check_rand)
 
 eg("some","demo of reservoir sampling", check_some)
 
-# eg("nums","demo of Num", check_nums)
+eg("nums","demo of Num", check_nums)
 
 eg("syms","demo SYMS", check_syms)
 
 eg("csv","reading csv files", check_csv)
 
-# eg("data", "showing data sets", check_data)
+eg("data", "showing data sets", check_data)
 
-# eg("clone","replicate structure of a DATA", check_clone)
+eg("clone","replicate structure of a DATA", check_clone)
 
 eg("cliffs","stats tests", check_cliffs)
   
