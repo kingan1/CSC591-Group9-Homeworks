@@ -274,3 +274,10 @@ def diffs(nums1, nums2, the):
         return cliffsDelta(nums.has(), nums2[k].has()), nums.txt
 
     return kap(nums1, func)
+
+def showTree(tree, lvl=0):
+    if tree:
+        print("{}[{}] ".format(("|.. ") * lvl, len(tree['data'].rows)), end="")
+        print((lvl == 0 or not tree.get('left', None)) and (tree['data'].stats()) or "")
+        showTree(tree.get('left', None), lvl + 1)
+        showTree(tree.get('right', None), lvl + 1)

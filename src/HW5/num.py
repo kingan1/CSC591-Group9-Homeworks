@@ -2,7 +2,7 @@ import math
 from typing import Union
 
 from options import options
-from utils import rnd, rand, rint, per
+from utils import rand, rint, per
 
 
 class Num:

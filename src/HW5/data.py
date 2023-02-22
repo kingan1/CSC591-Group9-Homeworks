@@ -6,8 +6,7 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-
-from utils import *
+from utils import any, csv, dist, many, norm, rnd
 
 
 class Data:
@@ -112,18 +111,6 @@ class Data:
             s2 = s2 - math.exp(col.w * (y - x) / len(ys))
         return s1 / len(ys) < s2 / len(ys)
 
-    def around(self, row1, rows=None, cols=None):
-        """
-        sort other `rows` by distance to `row`
-        """
-        rows = (rows if rows else self.rows)
-        cols = (cols if cols else self.cols.x)
-
-        def func(row2):
-            return {'row': row2, 'dist': self.dist(row1, row2, cols)}
-
-        return sorted(list(map(func, rows)), key=lambda x: x['dist'])
-
     def half(self, rows=None, cols=None, above=None):
         """
         divides data using 2 far points
@@ -164,60 +151,3 @@ class Data:
             here["right"] = self.tree(right, cols, B)
         return here
 
-def rep_rows(t, rows):
-    rows = copy(rows)
-    for j, s in enumerate(rows[-1]):
-        rows[0][j] += (":" + s)
-
-    del rows[-1]
-
-    for n, row in enumerate(rows):
-        if n == 0:
-            row.append("thingX")
-        else:
-            u = t['rows'][len(t['rows']) - n]
-            row.append(u[-1])
-    return Data(rows)
-
-
-def rep_cols(cols):
-    cols = copy(cols)
-
-    for column in cols:
-        column[len(column) - 1] = str(column[0]) + ':' + str(column[len(column) - 1])
-
-        for j in range(1, len(column)):
-            column[j - 1] = column[j]
-
-        column.pop()
-
-    cols.insert(0, [helper(i + 1) for i in range(len(cols[0]))])
-    cols[0][len(cols[0]) - 1] = "thingX"
-    return Data(cols)
-
-
-def rep_place(data):
-    n = 20
-    g = [[''] * n for _ in range(n)]
-    maxy = 0
-    print("")
-    for r, row in enumerate(data.rows):
-        c = chr(64 + r + 1)
-        print(c, row.cells[-1])
-        x, y = int(row.x * n), int(row.y * n)
-        maxy = max(maxy, y)
-        g[y][x] = c
-    print("")
-    for y in range(0, maxy):
-        frmt = "{:>3}" * len(g[y])
-
-        print("{" + frmt.format(*g[y]) + "}")
-
-
-def rep_grid(sFile):
-    t = do_file(sFile)
-    rows = rep_rows(t, transpose(t['cols']))
-    cols = rep_cols(t['cols'])
-    show(rows.cluster())
-    show(cols.cluster())
-    rep_place(rows)

@@ -1,7 +1,9 @@
-from cluster import showTree
 from data import Data
-from discretization import *
-from utils import *
+from options import options
+from discretization import bins, value
+from num import Num
+from sym import Sym
+from utils import adds, set_seed, rint, rand, rnd, csv, cliffsDelta, dist, showTree, diffs
 
 help = """
 main.py : a rep grid processor
