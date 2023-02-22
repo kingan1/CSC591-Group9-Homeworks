@@ -58,7 +58,9 @@ class Data:
         :param what: Statistics to collect
         :return: Dict with all statistics for the columns
         """
-        return dict(sorted({col.txt: rnd(getattr(col, what)(), nplaces) for col in cols or self.cols.y}.items()))
+        ret = dict(sorted({col.txt: rnd(getattr(col, what)(), nplaces) for col in cols or self.cols.y}.items()))
+        ret["N"] = len(self.rows)
+        return ret
 
     def cluster(self, rows: List[Row] = None, cols: List[Union[Sym, Num]] = None, above: Row = None):
         """

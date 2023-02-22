@@ -127,6 +127,5 @@ def value(has, n_b: int = 1, n_r: int = 1, s_goal: str = None):
         else:
             r = r + n
 
-        b, r = b / (n_b + 1 / inf), r / (n_r + 1 / inf)
-
+    b, r = b / (n_b + 1 / inf), r / (n_r + 1 / inf)
     return b ** 2 / (b + r)
