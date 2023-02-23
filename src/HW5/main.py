@@ -55,9 +55,9 @@ def main(funs, saved=None, fails=None):
 
                 if funs[what]() is False:
                     fails = fails + 1
-                    print("❌ fail:", what)
+                    print("❌ fail:", what, "-"*60)
                 else:
-                    print("✅ pass:", what)
+                    print("✅ pass:", what, "-"*60)
     exit(fails)
 
 
