@@ -61,3 +61,15 @@ jobs:
       run: |
         cd ./src/HW5; (python main.py -g all )
     - run: echo "🍏 This job's status is ${{ job.status }}."
+  testHW6:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'  
+    - name: test HW6
+      run: |
+        cd ./src/HW6; (python main.py -g all )
+    - run: echo "🍏 This job's status is ${{ job.status }}."
