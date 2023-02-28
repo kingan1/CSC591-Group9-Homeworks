@@ -134,7 +134,7 @@ def bin(col,x):
     return col.hi == col.lo and 1 or floor(x/tmp + .5)*tmp
 
 
-def value(has, n_b: int = 1, n_r: int = 1, s_goal: str = None):
+def value(has, n_b: int = 1, n_r: int = 1, s_goal: str = None) -> float:
     b, r = 0, 0
 
     for x, n in has.items():
