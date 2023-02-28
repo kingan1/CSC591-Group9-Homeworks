@@ -260,7 +260,7 @@ def cliffsDelta(ns1, ns2):
 
 def kap(t, fun, u={}):
     u = {}
-    for k, v in enumerate(t):
+    for k, v in t.items():
         v, k = fun(k, v)
         if not k:
             u[len(u)] = v
