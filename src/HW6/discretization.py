@@ -118,7 +118,7 @@ def bins(cols: List[Union[Sym, Num]], rowss: Dict[str, List[Row]]):
     return out
 
 
-def value(has, n_b: int = 1, n_r: int = 1, s_goal: str = None):
+def value(has, n_b: int = 1, n_r: int = 1, s_goal: str = None) -> float:
     b, r = 0, 0
 
     for x, n in has.items():
