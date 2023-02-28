@@ -14,7 +14,7 @@ class Explain:
         self.max_sizes: Dict[str, int] = {}
 
     def score(self, ranges: List[Range]):
-        rule = Rule(ranges, self.max_sizes)
+        rule = self.rule(ranges, self.max_sizes)
 
         if rule:
             print(show_rule(rule))
@@ -53,3 +53,21 @@ class Explain:
                     out, most = rule, tmp
 
             return out, most
+    
+    def rule(self, ranges,maxSize):
+        t={}
+        for _,range in enumerate(ranges):
+            t[range.txt] = t.get(range.txt, [])
+            t[range.txt].append({"lo":range.lo,"hi":range.hi,"at":range.at})
+        return self.prune(t, maxSize)
+
+    def prune(self, rule, maxSize):
+        n=0
+        for txt,ranges in rule.items():
+            n = n+1
+            if len(ranges) == maxSize[txt]:
+                n=n-1
+                rule[txt] = None
+            if n > 0: 
+                return rule
+        return None
