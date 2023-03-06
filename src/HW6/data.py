@@ -1,4 +1,5 @@
 import math
+from functools import cmp_to_key
 from typing import Union, List, Dict
 
 from cols import Cols
@@ -104,12 +105,19 @@ class Data:
     def better(self, row1, row2, s1=0, s2=0, ys=None, x=0, y=0):
         if not ys:
             ys = self.cols.y
+
         for col in ys:
             x = norm(col, row1.cells[col.at])
             y = norm(col, row2.cells[col.at])
+
             s1 = s1 - math.exp(col.w * (x - y) / len(ys))
             s2 = s2 - math.exp(col.w * (y - x) / len(ys))
+
         return s1 / len(ys) < s2 / len(ys)
+
+    def betters(self, n=None):
+        tmp = sorted(self.rows, key=cmp_to_key(lambda row1, row2: -1 if self.better(row1, row2) else 1))
+        return tmp[1:n], tmp[n+1:] if n is not None else tmp
 
     def half(self, rows=None, cols=None, above=None):
         """
@@ -129,12 +137,12 @@ class Data:
         some = many(rows, options["Halves"])
         A = above if above else any(some)
         tmp = sorted([{"row": r, "d": gap(r, A)} for r in some], key=lambda x: x["d"])
-        far = tmp[int((len(tmp)-1) * options["Far"])]
+        far = tmp[int((len(tmp) - 1) * options["Far"])]
         B, c = far["row"], far["d"]
         sorted_rows = sorted(map(proj, rows), key=lambda x: x["x"])
         left, right = [], []
         for n, two in enumerate(sorted_rows):
-            if (n+1) <= (len(rows) / 2):
+            if (n + 1) <= (len(rows) / 2):
                 left.append(two["row"])
             else:
                 right.append(two["row"])
