@@ -2,7 +2,7 @@ from typing import List, Dict, Tuple
 
 from data import Data
 from discretization import value, bins, Range
-from utils import rnd
+from utils import rnd, kap
 
 
 class Explain:
@@ -23,36 +23,43 @@ class Explain:
             restr = selects(rule, self.rest.rows)
 
             if len(bestr) + len(restr) > 0:
-                return value({"best": len(bestr), "rest": len(restr)}, len(self.best.rows), len(self.rest.rows), "best")
+                return value({"best": len(bestr), "rest": len(restr)}, len(self.best.rows), len(self.rest.rows), "best"), rule
+        return None,None
 
     def xpln(self, data: Data, best: Data, rest: Data):
-        for ranges in bins(data.cols.x, rowss={"best": best.rows, "rest": rest.rows}):
-            self.max_sizes[ranges[1].txt] = len(ranges)
+        def v(has):
+            return value(has, len(best.rows), len(rest.rows), "best")
+        
+        tmp,self.max_sizes = [],{}
+        for _,ranges in enumerate(bins(data.cols.x,{"best":best.rows, "rest":rest.rows})):
+            self.max_sizes[ranges[0].txt] = len(ranges)
+            print()
+            for _,range in enumerate(ranges):
+                print(range.txt, range.lo, range.hi)
+                tmp.append({"range":range, "max":len(ranges),"val": v(range.y.has)})
+        rule,most=self.first_n(sorted(tmp,key = lambda x: x["val"],reverse=True),self.score)
+        return rule,most
 
-            for _range in ranges:
-                print(_range.txt, _range.lo, _range.hi)
+    def first_n(self, sorted_ranges: List[Tuple[Range, int, float]], scoreFun):
+        print()
+        for r in sorted_ranges:
+            print(r['range'].txt, r['range'].lo, r['range'].hi, rnd(r['val']), dict(r['range'].y.has))
+        first = sorted_ranges[0]['val']
 
-                self.tmp.append((_range, len(ranges), value(_range.y.has, len(best.rows), len(rest.rows), "best")))
+        def useful(range):
+            if range['val'] > 0.05 and range['val'] > first / 10:
+                return range
+        sorted_ranges = [s for s in sorted_ranges if useful(s)]
+        most: int = -1
+        out: int = -1
 
-            return self.first_n(sorted(self.tmp, key=lambda row: row[2], reverse=True))
+        for n in range(len(sorted_ranges)):
+            tmp, rule = scoreFun([r['range'] for r in sorted_ranges[:n+1]])
 
-    def first_n(self, sorted_ranges: List[Tuple[Range, int, float]]):
-        for _range, _max, _val in sorted_ranges:
-            print(_range.txt, _range.lo, _range.hi, rnd(_val), _range.y.has)
+            if tmp is not None and tmp > most:
+                out, most = rule, tmp
 
-            first = sorted_ranges[0][2]
-            sorted_ranges = [_range for _range in sorted_ranges if _val > 0.05 and _val > first / 10]
-
-            most: int = -1
-            out: int = -1
-
-            for n in range(len(sorted_ranges)):
-                tmp, rule = self.score([_range for _range, _max, _val in sorted_ranges[:n]])
-
-                if tmp is not None and tmp > most:
-                    out, most = rule, tmp
-
-            return out, most
+        return out, most
     
     def rule(self, ranges,maxSize):
         t={}
@@ -78,22 +85,22 @@ def show_rule(rule):
         return range["lo"] if range["lo"] == range["hi"] else [range["lo"], range["hi"]]
     
     def merges(attr, ranges):
-        return map(pretty, merge(sorted(ranges, key=lambda x: x["lo"]))), attr
+        return list(map(pretty, merge(sorted(ranges, key=lambda x: x["lo"])))), attr
     
     def merge(t0):
         t = []
-        j = 1
-        while j <= len(t0):
-            left = t0[j - 1]
-            right = t0[j]
+        j = 0
+        while j < len(t0):
+            left = t0[j]
+            right = None if j+1 >= len(t0) else t0[j+1]
             if right and left["hi"] == right["lo"]:
-                left["hi"] == right["hi"]
+                left["hi"] = right["hi"]
                 j = j +  1
-                t.append({"lo": left["lo"], "hi": left["hi"]})
-                j = j +  1
+            t.append({"lo": left["lo"], "hi": left["hi"]})
+            j = j +  1
 
         return t if len(t0) == len(t) else merge(t)
-    return [merges(r[0], r[1]) for r in rule]
+    return kap(rule, merges)
 
 def selects(rule, rows):
     def disjunction(ranges, row):
@@ -106,10 +113,15 @@ def selects(rule, rows):
                 return True
         return False
     def conjunction(row):
-        for ranges in rule:
+        for _,ranges in rule.items():
             if not disjunction(ranges, row):
                 return False
         return True
     def function(r):
         return r if conjunction(r) else None
-    return map(function, rows)
+    
+    r = []
+    for item in list(map(function, rows)):
+        if item:
+            r.append(item)
+    return r
