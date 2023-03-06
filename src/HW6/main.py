@@ -3,7 +3,7 @@ from options import options
 from discretization import bins, value
 from num import Num
 from sym import Sym
-from utils import adds, set_seed, rint, rand, rnd, csv, cliffsDelta, dist, showTree, diffs
+from utils import adds, set_seed, rint, rand, rnd, csv, cliffsDelta, showTree, diffs
 
 help = """
 
@@ -195,7 +195,7 @@ def check_dist():
     num = Num()
 
     for _, row in enumerate(data.rows):
-        num.add(dist(data, row, data.rows[0]))
+        num.add(data.dist(row, data.rows[0]))
 
     d = {"lo": num.lo, "hi": num.hi, "mid": rnd(num.mid()), "div": rnd(num.div())}
     print(d)

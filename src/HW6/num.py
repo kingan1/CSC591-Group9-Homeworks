@@ -1,5 +1,4 @@
 import math
-from typing import Union
 
 from options import options
 from utils import rand, rint, per

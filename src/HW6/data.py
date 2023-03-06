@@ -6,7 +6,7 @@ from num import Num
 from options import options
 from row import Row
 from sym import Sym
-from utils import any, csv, dist, many, norm, rnd
+from utils import any, csv, many, norm, rnd
 
 
 class Data:
@@ -117,7 +117,7 @@ class Data:
         """
 
         def gap(r1, r2):
-            return dist(self, r1, r2, cols)
+            return self.dist(r1, r2, cols)
 
         def cos(a, b, c):
             return (a ** 2 + c ** 2 - b ** 2) / (2 * c)
@@ -151,3 +151,29 @@ class Data:
             here["right"] = self.tree(right, cols, B)
         return here
 
+    def dist(self, t1, t2, cols=None):
+        def sym(x, y):
+            return 0 if x == y else 1
+
+        def num(x, y):
+            if x == "?":
+                x = 1 if y < 0.5 else 1
+
+            if y == "?":
+                y = 1 if x < 0.5 else 1
+
+            return abs(x - y)
+
+        def dist1(col_, x, y):
+            if x == "?" and y == "?":
+                return 1
+
+            return sym(x, y) if isinstance(col_, Sym) else num(x, y)
+
+        d = 0
+        cols = cols or self.cols.x
+
+        for col in cols:
+            d = d + dist1(col, t1[col.at], t2[col.at]) ** options["p"]
+
+        return (d / len(cols)) ** (1 / options["p"])
