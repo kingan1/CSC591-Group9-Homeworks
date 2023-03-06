@@ -16,11 +16,16 @@ class Data:
         self.rows = list()
         self.cols = None
 
-    def read(self, src: Union[str, List]) -> None:
+    def read(self, src: Union[str, List], rows=None) -> None:
         def f(t):
             self.add(t)
-
-        csv(src, f)
+        if type(src) == str:
+            csv(src, f)
+        else:
+            self.cols = Cols(src.cols.names)
+            
+            for row in rows:
+                self.add(row)
 
     def add(self, t: Union[List, Row]):
         """
@@ -88,7 +93,7 @@ class Data:
     def sway(self, cols=None):
         def worker(rows, worse, evals0=None, above=None):
             if len(rows) <= len(self.rows) ** options["min"]:
-                return rows, many(worse, options['rest'] * len(rows))
+                return rows, many(worse, options['rest'] * len(rows)), evals0
 
             l, r, A, B, c, evals = self.half(rows, cols, above)
 
@@ -170,28 +175,22 @@ class Data:
         return here
 
     def dist(self, t1, t2, cols=None):
-        def sym(x, y):
-            return 0 if x == y else 1
-
-        def num(x, y):
-            if x == "?":
-                x = 1 if y < 0.5 else 1
-
-            if y == "?":
-                y = 1 if x < 0.5 else 1
-
-            return abs(x - y)
-
-        def dist1(col_, x, y):
+        def dist1(col, x, y):
             if x == "?" and y == "?":
                 return 1
-
-            return sym(x, y) if isinstance(col_, Sym) else num(x, y)
+            if type(col) is Sym:
+                return 0 if x == y else 1
+            x, y = norm(col, x), norm(col, y)
+            if x == "?":
+                x = 1 if y < 0.5 else 1
+            if y == "?":
+                y = 1 if x < 0.5 else 1
+            return abs(x - y)
 
         d = 0
         cols = cols or self.cols.x
 
         for col in cols:
-            d = d + dist1(col, t1[col.at], t2[col.at]) ** options["p"]
+            d = d + dist1(col, t1.cells[col.at], t2.cells[col.at]) ** options["p"]
 
         return (d / len(cols)) ** (1 / options["p"])
