@@ -73,28 +73,43 @@ class Explain:
         return None
 
 def show_rule(rule):
+    
     def pretty(range):
         return range["lo"] if range["lo"] == range["hi"] else [range["lo"], range["hi"]]
-
+    
     def merges(attr, ranges):
         return map(pretty, merge(sorted(ranges, key=lambda x: x["lo"]))), attr
-
+    
     def merge(t0):
         t = []
         j = 1
-
         while j <= len(t0):
             left = t0[j - 1]
             right = t0[j]
-
             if right and left["hi"] == right["lo"]:
                 left["hi"] == right["hi"]
                 j = j +  1
-
                 t.append({"lo": left["lo"], "hi": left["hi"]})
                 j = j +  1
 
         return t if len(t0) == len(t) else merge(t)
-
     return [merges(r[0], r[1]) for r in rule]
 
+def selects(rule, rows):
+    def disjunction(ranges, row):
+        for rang in ranges:
+            at = rang['at']
+            x = row.cells[at]
+            lo = rang['lo']
+            hi = rang['hi']  
+            if x == '?' or (lo == hi and lo == x) or (lo <= x and x< hi):
+                return True
+        return False
+    def conjunction(row):
+        for ranges in rule:
+            if not disjunction(ranges, row):
+                return False
+        return True
+    def function(r):
+        return r if conjunction(r) else None
+    return map(function, rows)
