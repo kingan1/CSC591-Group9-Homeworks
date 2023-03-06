@@ -1,3 +1,4 @@
+from explain import Explain, show_rule, selects
 from data import Data
 from options import options
 from discretization import bins, value
@@ -227,7 +228,7 @@ def check_sway():
     data.read(options['file'])
     set_seed(options['seed'])
 
-    best, rest = data.sway()
+    best, rest, _ = data.sway()
 
     print("\nall ", data.stats())
     print("    ", data.stats(what="div"))
@@ -244,7 +245,7 @@ def check_bins():
     data.read(options['file'])
     set_seed(options['seed'])
 
-    best, rest = data.sway()
+    best, rest,_ = data.sway()
     print("all", "", "", "", {"best": len(best.rows), "rest": len(rest.rows)})
 
     b4 = None
@@ -261,6 +262,24 @@ def check_bins():
                 dict(range_.y.has)
             )
 
+def check_xpln():
+    data=Data()
+    data.read(options['file'])
+    set_seed(options['seed'])
+    best,rest,evals = data.sway()
+    x = Explain(best, rest)
+    rule,most= x.xpln(data,best,rest)
+    print("\n-----------\nexplain=", show_rule(rule))
+    data1= Data()
+    data1.read(data,selects(rule,data.rows))
+    print("all               ",data.stats(),data.stats(what="div"))
+    print("sway with {:5} evals".format(evals),(best.stats()),(best.stats(what="div")))
+    print("xpln on {:5} evals".format(evals),(data1.stats()),(data1.stats(what="div")))
+    top2,_ = data.betters(len(best.rows))
+    top = Data()
+    top.read(data,top2)
+    print("sort with {:5} evals".format(len(data.rows)) ,(top.stats()), (top.stats(what="div")))
+
 
 eg("the", "show options", check_the)
 eg("rand", "demo random number generation", check_rand)
@@ -276,5 +295,6 @@ eg("half", "divide data in halg", check_half)
 eg("tree", "make snd show tree of clusters", check_tree)
 eg("sway", "optimizing", check_sway)
 eg("bins", "find deltas between best and rest", check_bins)
+eg("xpln","explore explanation sets", check_xpln)
 
 main(egs)
