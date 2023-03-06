@@ -206,7 +206,7 @@ def check_half():
     data.read(options['file'])
     set_seed(options['seed'])
 
-    left, right, A, B, c = data.half()
+    left, right, A, B, c, _ = data.half()
     print(len(left), len(right))
 
     l, r = Data.clone(data, left), Data.clone(data, right)

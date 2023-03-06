@@ -86,21 +86,23 @@ class Data:
         return node
 
     def sway(self, cols=None):
-
-        def worker(rows, worse, above=None):
+        def worker(rows, worse, evals0=None, above=None):
             if len(rows) <= len(self.rows) ** options["min"]:
                 return rows, many(worse, options['rest'] * len(rows))
-            l, r, A, B, c = self.half(rows, cols, above)
+
+            l, r, A, B, c, evals = self.half(rows, cols, above)
+
             if self.better(B, A):
                 l, r, A, B = r, l, B, A
+
             for x in r:
                 worse.append(x)
 
-            return worker(l, worse, A)
+            return worker(l, worse, evals + evals0, A)
 
-        best, rest = worker(self.rows, [])
+        best, rest, evals = worker(self.rows, [], 0)
 
-        return Data.clone(self, best), Data.clone(self, rest)
+        return Data.clone(self, best), Data.clone(self, rest), evals
 
     def better(self, row1, row2, s1=0, s2=0, ys=None, x=0, y=0):
         if not ys:
@@ -135,18 +137,26 @@ class Data:
 
         rows = rows or self.rows
         some = many(rows, options["Halves"])
-        A = above if above else any(some)
+
+        A = above if above and options["Reuse"] else any(some)
+
         tmp = sorted([{"row": r, "d": gap(r, A)} for r in some], key=lambda x: x["d"])
         far = tmp[int((len(tmp) - 1) * options["Far"])]
+
         B, c = far["row"], far["d"]
+
         sorted_rows = sorted(map(proj, rows), key=lambda x: x["x"])
         left, right = [], []
+
         for n, two in enumerate(sorted_rows):
             if (n + 1) <= (len(rows) / 2):
                 left.append(two["row"])
             else:
                 right.append(two["row"])
-        return left, right, A, B, c
+
+        evals = 1 if options["Reuse"] and above else 2
+
+        return left, right, A, B, c, evals
 
     def tree(self, rows=None, cols=None, above=None):
         rows = rows if rows else self.rows
@@ -154,7 +164,7 @@ class Data:
         here = {"data": Data.clone(self, rows)}
 
         if (len(rows)) >= 2 * ((len(self.rows)) ** options['min']):
-            left, right, A, B, _ = self.half(rows, cols, above)
+            left, right, A, B, _, _ = self.half(rows, cols, above)
             here["left"] = self.tree(left, cols, A)
             here["right"] = self.tree(right, cols, B)
         return here
