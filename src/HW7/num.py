@@ -9,38 +9,26 @@ class Num:
     Summarizes a stream of numbers.
     """
 
-    def __init__(self, at: int = 0, txt: str = ""):
-        self.at = at
-        self.txt = txt
-
+    def __init__(self, t=[]):
         self.n = 0
+        self.mu = 0
+        self.m2 = 0
+        self.sd = 0
+        for x in t:
+            self.add(x)
 
-        self.lo = math.inf
-        self.hi = -math.inf
-        self.ok = True
-        self.has_ = {}
-
-        self.w = -1 if self.txt.endswith("-") else 1
-
-    def add(self, x, n: float = 1) -> None:
+    def add(self, x) -> None:
         """
         Adds n and updates lo, hi and stuff needed for standard deviation.
 
         :param n: Number to add
         :return: None
         """
-        if x != "?":
-            self.n += n
-
-            self.lo, self.hi = min(x, self.lo), max(x, self.hi)
-
-            all = len(self.has_)
-
-            pos = all + 1 if all < options['Max'] else rint(1, all) if rand() < options['Max'] / self.n else 0
-
-            if pos:
-                self.has_[pos] = x
-                self.ok = False
+        self.n += 1
+        d = x - self.mu
+        self.mu = self.mu + d/self.n
+        self.m2 = self.m2 + d*(x-self.mu)
+        self.sd = 0 if self.n<2 else (self.m2/(self.n - 1))**.5
 
     def mid(self) -> float:
         """
