@@ -1,8 +1,8 @@
 import random
 from options import options
 from num import Num
-from stats import samples, gaussian, RX, ScottKnott, tiles, bootstrap
-from utils import cliffsDelta , mid
+from stats import samples, gaussian, RX, ScottKnott, tiles, bootstrap, cliffsDelta
+from utils import mid
 
 help = """
 
@@ -201,8 +201,8 @@ def check_sk():
     for k, v in enumerate([a, b, c, d, e, f, g, h, j, k]):
         rxs.append(RX(v, "rx" + str(k + 1)))
     
-    for rx in tiles(rxs):
-        print("", rx["name"], rx["show"])
+    for rx in tiles(ScottKnott(rxs).run()):
+        print("", rx['rank'], rx["name"], rx["show"])
 
 
 eg("pre", "check pre", check_pre)

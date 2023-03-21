@@ -214,27 +214,6 @@ def per(t, p):
     return t[max(0, min(len(t), p) - 1)]
 
 
-def cliffsDelta(ns1, ns2):
-    if len(ns1) > 256:
-        ns1 = many(ns1, 256)
-    if len(ns2) > 256:
-        ns2 = many(ns2, 256)
-    if len(ns1) > 10 * len(ns2):
-        ns2 = many(ns1, 10 * len(ns2))
-    if len(ns2) > 10 * len(ns1):
-        ns2 = many(ns2, 10 * len(ns1))
-
-    n, gt, lt = 0, 0, 0
-    for x in ns1:
-        for y in ns2:
-            n = n + 1
-            if x > y:
-                gt = gt + 1
-
-            elif x < y:
-                lt = lt + 1
-    return abs(lt - gt) / n > 0.147
-
 
 def kap(t, fun, u={}):
     u = {}

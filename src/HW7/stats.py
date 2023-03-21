@@ -4,7 +4,6 @@ import random
 import string
 from options import options
 from num import Num
-from utils import cliffsDelta
 
 
 def erf(x):
@@ -77,7 +76,7 @@ class ScottKnott:
         self.cohen = None
 
     def run(self):
-        sorted(self.rxs, key=functools.cmp_to_key(lambda x, y: mid(x) - mid(y)))
+        self.rxs = sorted(self.rxs, key=lambda x: mid(x))
         self.cohen = div(self.merges(0, len(self.rxs)-1)) * options["cohen"]
 
         self.recurse(0, len(self.rxs) - 1, 1)
@@ -85,7 +84,7 @@ class ScottKnott:
         return self.rxs
     
     def merges(self, i, j):
-        out = RX({}, self.rxs[i]['name'])
+        out = RX([], self.rxs[i]['name'])
 
         for k in range(i, j + 1):
             out = merge(out, self.rxs[j])
@@ -124,7 +123,7 @@ class ScottKnott:
         return rank
 
 def tiles(rxs):
-    huge = float('-inf')
+    huge,floor = math.inf, math.floor
     lo,hi = huge, -huge
 
     for rx in rxs:
@@ -136,24 +135,23 @@ def tiles(rxs):
         def of(x, most): return max(1, min(most, x))
 
         def at(x):
-            return t[of(int(len(t)*x),len(t)-1)]
-        
+            return t[of(int((len(t))*x)-1, len(t)-1)]
         def pos(x):
-            return math.floor(of(options['width']*(x-lo)/(hi-lo+1E-32)//1, options['width']))
+            return floor(of((options['width']-1)*(x-lo)/(hi-lo+1E-32)//1, options['width']))
         
         for i in range(options['width']):
             u.append(" ")
 
         a, b, c, d, e= at(.1), at(.3), at(.5), at(.7), at(.9)
         A, B, C, D, E= pos(a), pos(b), pos(c), pos(d), pos(e)
-        for i in range(A, B):
+        for i in range(A, B+1):
             u[i] = "-"
 
-        for i in range(D, E):
+        for i in range(D, E+1):
             u[i] = "-"
 
         u[options["width"] // 2] = "|"
-        u[C-1] = "*"
+        u[C] = "*"
         rx["show"] = "".join(u) + " {" + str.format(options["Fmt"],a) 
 
         for x in [b,c,d,e]:
@@ -189,3 +187,20 @@ def bootstrap(y0, z0):
             n += 1
 
     return n / options['bootstrap'] >= options['conf']
+
+
+
+def cliffsDelta(ns1, ns2):
+    n,gt,lt = 0,0,0
+    if len(ns1)> 128 : 
+        ns1 = samples(ns1,128) 
+    if len(ns2)> 128 : 
+        ns2 = samples(ns2,128)
+    for x in ns1:
+        for y in ns2:
+            n = n + 1
+            if x > y : 
+                gt = gt + 1
+            if x < y : 
+                lt = lt + 1
+    return abs(lt - gt)/n <= options['cliff']
