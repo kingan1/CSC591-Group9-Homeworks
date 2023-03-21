@@ -1,4 +1,5 @@
-
+import math
+import random
 
 def RX(t,s) :
     t = sorted(t)
@@ -25,3 +26,15 @@ def merge(rx1,rx2) :
     rx3['has'] = sorted(rx3['has'])
     rx3['n'] = len(rx3['has'])
     return rx3
+
+def samples(t,n=0):
+    u= []
+    n = n or len(t)
+    for i in range(n): 
+        u.append(t[random.randrange(len(t))]) 
+    return u
+
+def gaussian(mu,sd): #  #--> n; return a sample from a Gaussian with mean `mu` and sd `sd`
+    mu,sd = mu or 0, sd or 1
+    sq,pi,log,cos,r = math.sqrt,math.pi,math.log,math.cos,random.random
+    return  mu + sd * sq(-2*log(r())) * cos(2*pi*r())
