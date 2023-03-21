@@ -1,5 +1,10 @@
+import functools
 import math
 import random
+
+from options import options
+from utils import cliffsDelta
+
 
 def erf(x):
     a1 =  0.254829592
@@ -57,3 +62,55 @@ def gaussian(mu,sd): #  #--> n; return a sample from a Gaussian with mean `mu` a
     mu,sd = mu or 0, sd or 1
     sq,pi,log,cos,r = math.sqrt,math.pi,math.log,math.cos,random.random
     return  mu + sd * sq(-2*log(r())) * cos(2*pi*r())
+
+
+class ScottKnott:
+    def __init__(self, rxs):
+        self.rxs = rxs
+
+        self.cohen = None
+
+    def run(self):
+        sorted(self.rxs, key=functools.cmp_to_key(lambda x, y: mid(x) - mid(y)))
+        self.cohen = div(self.merges(0, len(self.rxs - 1))) * options["cohen"]
+
+        self.recurse(0, len(self.rxs) - 1, 1)
+
+    def merges(self, i, j):
+        out = RX({}, self.rxs[i].name)
+
+        for k in range(i, j + 1):
+            out = merge(out, self.rxs[j])
+
+        return out
+
+    def same(self, lo, cut, hi):
+        l = self.merges(lo, cut)
+        r = self.merges(cut + 1, hi)
+
+        return cliffsDelta(l["has"], r["has"]) and bootstrap(l["has"], r["has"])
+
+    def recurse(self, lo, hi, rank):
+        cut = None
+        b4 = self.merges(lo, hi)
+        best = 0
+
+        for j in range(lo, hi + 1):
+            if j < hi:
+                l = self.merges(lo, j)
+                r = self.merges(j + 1, hi)
+
+                now = (l["n"] * (mid(l) - mid(b4)) ^ 2 + r["n"] * (mid(r) - mid(b4)) ^ 2) / (l["n"] + r["n"])
+
+                if now > best:
+                    if abs(mid(l) - mid(r)) >= self.cohen:
+                        cut, best = j, now
+
+        if cut and not self.same(lo, cut, hi):
+            rank = self.recurse(lo, cut, rank) + 1
+            rank = self.recurse(cut + 1, hi, rank)
+        else:
+            for i in range(lo, hi + 1):
+                self.rxs[i]["rank"] = rank
+
+        return rank
