@@ -1,7 +1,7 @@
 import functools
 import math
 import random
-
+import string
 from options import options
 from utils import cliffsDelta
 
@@ -119,3 +119,36 @@ class ScottKnott:
                 self.rxs[i]["rank"] = rank
 
         return rank
+
+def tiles(rxs):
+    huge = float('-inf')
+    lo,hi = huge, -1*huge
+
+    for rx in rxs:
+        lo, hi = min(lo, rx["has"][0]), max(hi, rx["has"][-1])
+
+    for rx in rxs:
+        t, u = rx["has"], []
+        def of(x, most): return max(1, min(most, x))
+        def at(x):
+            return t[of((len(t)*x)//1,len(t))]
+        def pos(x):
+            return math.floor(of(options['width']*(x-lo)/(hi-lo+1E-32)//1, options['width']))
+        for i in range(1,options['width']+1):
+            u.append(" ")
+        a, b, c, d, e= at(.1), at(.3), at(.5), at(.7), at(.9)
+        A, B, C, D, E= pos(a), pos(b), pos(c), pos(d), pos(e)
+        for i in range(A, B):
+            u[i] = "-"
+        for i in range(D, E):
+            u[i] = "-"
+        u[options["width"] // 2] = "|"
+        u[C] = "*"
+
+        rx["show"] = "".join(u) + " {" + string.format(options["Fmt"],a) 
+
+        for x in [b,c,d,e]:
+             rx['show']=rx['show']+", "+ string.format(options['Fmt'],x)
+        rx['show']=rx['show']+"}"
+        
+    return rxs
