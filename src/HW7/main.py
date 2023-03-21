@@ -138,6 +138,9 @@ eg("ok", "check ok", check_ok)
 eg("sample", "check sample", check_sample)
 eg("num", "check num", check_num)
 eg("gauss", "check gauss", check_gauss)
+eg("basic", "check basic", check_basic)
+eg("pre", "check pre", check_pre)
+eg("five", "check five", check_five)
 
 if __name__ == "__main__":
     main(egs)
