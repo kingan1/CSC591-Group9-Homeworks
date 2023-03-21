@@ -88,20 +88,20 @@ def check_gauss():
 def check_basic():
     print(
         "\t\ttrue",
-        bootstrap({8, 7, 6, 2, 5, 8, 7, 3}, {8, 7, 6, 2, 5, 8, 7, 3}),
-        cliffsDelta({8, 7, 6, 2, 5, 8, 7, 3}, {8, 7, 6, 2, 5, 8, 7, 3})
+        bootstrap([8, 7, 6, 2, 5, 8, 7, 3], [8, 7, 6, 2, 5, 8, 7, 3]),
+        cliffsDelta([8, 7, 6, 2, 5, 8, 7, 3], [8, 7, 6, 2, 5, 8, 7, 3])
     )
 
     print(
         "\t\tfalse",
-        bootstrap({8, 7, 6, 2, 5, 8, 7, 3}, {9, 9, 7, 8, 10, 9, 6}),
-        cliffsDelta({8, 7, 6, 2, 5, 8, 7, 3}, {9, 9, 7, 8, 10, 9, 6})
+        bootstrap([8, 7, 6, 2, 5, 8, 7, 3], [9, 9, 7, 8, 10, 9, 6]),
+        cliffsDelta([8, 7, 6, 2, 5, 8, 7, 3], [9, 9, 7, 8, 10, 9, 6])
     )
 
     print(
         "\t\tfalse",
-        bootstrap({0.34, 0.49, 0.51, 0.6, .34, .49, .51, .6}, {0.6, 0.7, 0.8, 0.9, .6, .7, .8, .9}),
-        cliffsDelta({0.34, 0.49, 0.51, 0.6, .34, .49, .51, .6}, {0.6, 0.7, 0.8, 0.9, .6, .7, .8, .9})
+        bootstrap([0.34, 0.49, 0.51, 0.6, .34, .49, .51, .6], [0.6, 0.7, 0.8, 0.9, .6, .7, .8, .9]),
+        cliffsDelta([0.34, 0.49, 0.51, 0.6, .34, .49, .51, .6], [0.6, 0.7, 0.8, 0.9, .6, .7, .8, .9])
     )
 
 
@@ -109,14 +109,14 @@ def check_pre():
     print("\neg3")
     d = 1
 
-    for i in range(10):
+    for i in range(1,11):
         t1, t2 = [], []
 
-        for j in range(32):
+        for j in range(1,32):
             t1.append(gaussian(10,1))
             t2.append(gaussian(d * 10,1))
 
-        print("\t", d, d < 1.1 and "true" or "false", bootstrap(t1, t2), bootstrap(t1, t1))
+        print("\t", f"{d:.2f}", d < 1.1 and "true" or "false", bootstrap(t1, t2), bootstrap(t1, t1))
 
         d += 0.05
 
