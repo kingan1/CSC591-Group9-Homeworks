@@ -1,4 +1,7 @@
+import random
 from options import options
+from num import Num
+from stats import samples, gaussian
 
 help = """
 
@@ -58,6 +61,33 @@ def eg(key, s, fun):
     global help
     egs[key] = fun
     help += "  -g  {}\t{}\n".format(key, s)
+
+n=1
+def check_ok():
+    random.seed(n)
+
+def check_sample(): 
+    for i in range(1,10): 
+        print("\t" + "".join(samples(["a","b","c","d","e"])))
+
+
+def check_num():
+  n=Num([1,2,3,4,5,6,7,8,9,10])
+  print("\t",n.n, n.mu, n.sd)
+
+
+def check_gauss():
+    t=[]
+    for i in range(10**4):
+        t.append(gaussian(10,2))
+    n=Num(t)
+    print("\t",n.n,n.mu,n.sd) 
+
+
+eg("ok", "check ok", check_ok)
+eg("sample", "check sample", check_sample)
+eg("num", "check num", check_num)
+eg("gauss", "check gauss", check_gauss)
 
 if __name__ == "__main__":
     main(egs)
