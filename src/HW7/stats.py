@@ -3,6 +3,7 @@ import math
 import random
 import string
 from options import options
+from num import Num
 from utils import cliffsDelta
 
 
@@ -45,7 +46,7 @@ def div(t):
 
 def delta(i, other):
     e, y, z = 1E-32, i, other
-    return abs(y.mu - z.mu) / ((e + y.sd ^ 2 / y.n + z.sd ^ 2 / z.n) ^ .5)
+    return abs(y.mu - z.mu) / ((e + y.sd ** 2 / y.n + z.sd ** 2 / z.n) ** .5)
 
 def merge(rx1,rx2) :
     rx3 = RX([], rx1['name'])
@@ -77,7 +78,7 @@ class ScottKnott:
 
     def run(self):
         sorted(self.rxs, key=functools.cmp_to_key(lambda x, y: mid(x) - mid(y)))
-        self.cohen = div(self.merges(0, len(self.rxs - 1))) * options["cohen"]
+        self.cohen = div(self.merges(0, len(self.rxs)-1)) * options["cohen"]
 
         self.recurse(0, len(self.rxs) - 1, 1)
 
@@ -129,22 +130,29 @@ def tiles(rxs):
 
     for rx in rxs:
         t, u = rx["has"], []
+
         def of(x, most): return max(1, min(most, x))
+
         def at(x):
             return t[of((len(t)*x)//1,len(t))]
+        
         def pos(x):
             return math.floor(of(options['width']*(x-lo)/(hi-lo+1E-32)//1, options['width']))
+        
         for i in range(1,options['width']+1):
             u.append(" ")
+
         a, b, c, d, e= at(.1), at(.3), at(.5), at(.7), at(.9)
         A, B, C, D, E= pos(a), pos(b), pos(c), pos(d), pos(e)
+
         for i in range(A, B):
             u[i] = "-"
+
         for i in range(D, E):
             u[i] = "-"
+
         u[options["width"] // 2] = "|"
         u[C] = "*"
-
         rx["show"] = "".join(u) + " {" + string.format(options["Fmt"],a) 
 
         for x in [b,c,d,e]:
@@ -152,3 +160,31 @@ def tiles(rxs):
         rx['show']=rx['show']+"}"
         
     return rxs
+
+def bootstrap(y0, z0):
+    x, y, z, yhat, zhat = Num(), Num(), Num(), [], []
+
+    for y1 in y0:
+        x.add(y1)
+        y.add(y1)
+
+    for z1 in z0:
+        x.add(z1)
+        z.add(z1)
+
+    xmu, ymu, zmu = x.mu, y.mu, z.mu
+
+    for y1 in y0:
+        yhat.append(y1 - ymu + xmu)
+
+    for z1 in z0:
+        zhat.append(z1 - zmu + xmu)
+
+    tobs = delta(y, z)
+    n = 0
+    
+    for _ in range(options['bootstrap']):
+        if delta(Num(samples(yhat)), Num(samples(zhat))) > tobs:
+            n += 1
+
+    return n / options['bootstrap'] >= options['conf']

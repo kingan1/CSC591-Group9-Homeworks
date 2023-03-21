@@ -1,7 +1,7 @@
 import random
 from options import options
 from num import Num
-from stats import samples, gaussian, RX, ScottKnott
+from stats import samples, gaussian, RX, ScottKnott, tiles, bootstrap
 from utils import cliffsDelta
 
 help = """
