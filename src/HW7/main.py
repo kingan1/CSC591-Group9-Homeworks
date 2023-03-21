@@ -1,7 +1,7 @@
 import random
 from options import options
 from num import Num
-from stats import samples, gaussian
+from stats import samples, gaussian, RX, ScottKnott
 from utils import cliffsDelta
 
 help = """
@@ -119,6 +119,19 @@ def check_pre():
         print("\t", d, d < 1.1 and "true" or "false", bootstrap(t1, t2), bootstrap(t1, t1))
 
         d += 0.05
+
+
+def check_five():
+    tiles_ = tiles(ScottKnott([
+        RX({0.34, 0.49, 0.51, 0.6, .34, .49, .51, .6}, "rx1"),
+        RX({0.6, 0.7, 0.8, 0.9, .6, .7, .8, .9}, "rx2"),
+        RX({0.15, 0.25, 0.4, 0.35, 0.15, 0.25, 0.4, 0.35}, "rx3"),
+        RX({0.6, 0.7, 0.8, 0.9, 0.6, 0.7, 0.8, 0.9}, "rx4"),
+        RX({0.1, 0.2, 0.3, 0.4, 0.1, 0.2, 0.3, 0.4}, "rx5")
+    ]).run())
+
+    for rx in tiles_:
+        print(rx["name"], rx["rank"], rx["show"])
 
 
 eg("ok", "check ok", check_ok)
