@@ -1,7 +1,5 @@
-import math
 
-from options import options
-from utils import rand, rint, per
+from utils import per
 
 
 class Num:
