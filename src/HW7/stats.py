@@ -82,8 +82,10 @@ class ScottKnott:
 
         self.recurse(0, len(self.rxs) - 1, 1)
 
+        return self.rxs
+    
     def merges(self, i, j):
-        out = RX({}, self.rxs[i].name)
+        out = RX({}, self.rxs[i]['name'])
 
         for k in range(i, j + 1):
             out = merge(out, self.rxs[j])
@@ -106,7 +108,7 @@ class ScottKnott:
                 l = self.merges(lo, j)
                 r = self.merges(j + 1, hi)
 
-                now = (l["n"] * (mid(l) - mid(b4)) ^ 2 + r["n"] * (mid(r) - mid(b4)) ^ 2) / (l["n"] + r["n"])
+                now = (l["n"] * (mid(l) - mid(b4)) ** 2 + r["n"] * (mid(r) - mid(b4)) ** 2) / (l["n"] + r["n"])
 
                 if now > best:
                     if abs(mid(l) - mid(r)) >= self.cohen:
@@ -123,7 +125,7 @@ class ScottKnott:
 
 def tiles(rxs):
     huge = float('-inf')
-    lo,hi = huge, -1*huge
+    lo,hi = huge, -huge
 
     for rx in rxs:
         lo, hi = min(lo, rx["has"][0]), max(hi, rx["has"][-1])
@@ -134,17 +136,16 @@ def tiles(rxs):
         def of(x, most): return max(1, min(most, x))
 
         def at(x):
-            return t[of((len(t)*x)//1,len(t))]
+            return t[of(int(len(t)*x),len(t)-1)]
         
         def pos(x):
             return math.floor(of(options['width']*(x-lo)/(hi-lo+1E-32)//1, options['width']))
         
-        for i in range(1,options['width']+1):
+        for i in range(options['width']):
             u.append(" ")
 
         a, b, c, d, e= at(.1), at(.3), at(.5), at(.7), at(.9)
         A, B, C, D, E= pos(a), pos(b), pos(c), pos(d), pos(e)
-
         for i in range(A, B):
             u[i] = "-"
 
@@ -152,11 +153,11 @@ def tiles(rxs):
             u[i] = "-"
 
         u[options["width"] // 2] = "|"
-        u[C] = "*"
-        rx["show"] = "".join(u) + " {" + string.format(options["Fmt"],a) 
+        u[C-1] = "*"
+        rx["show"] = "".join(u) + " {" + str.format(options["Fmt"],a) 
 
         for x in [b,c,d,e]:
-             rx['show']=rx['show']+", "+ string.format(options['Fmt'],x)
+             rx['show']=rx['show']+", "+ str.format(options['Fmt'],x)
         rx['show']=rx['show']+"}"
         
     return rxs
@@ -182,7 +183,7 @@ def bootstrap(y0, z0):
 
     tobs = delta(y, z)
     n = 0
-    
+
     for _ in range(options['bootstrap']):
         if delta(Num(samples(yhat)), Num(samples(zhat))) > tobs:
             n += 1

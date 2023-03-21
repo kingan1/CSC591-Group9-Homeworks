@@ -2,7 +2,7 @@ import random
 from options import options
 from num import Num
 from stats import samples, gaussian, RX, ScottKnott, tiles, bootstrap
-from utils import cliffsDelta
+from utils import cliffsDelta , mid
 
 help = """
 
@@ -144,12 +144,75 @@ def check_six():
     for rx in tiles_:
         print(rx["name"], rx["rank"], rx["show"])
 
+def check_tiles():
+    rxs,a,b,c,d,e,f,g,h,j,k=[],[],[],[],[],[],[],[],[],[],[]
+    upper_limit=1001
+    for i in range(1,upper_limit):
+        a.append(gaussian(10,1))
+    for i in range(1,upper_limit):
+        b.append(gaussian(10.1,1))
+    for i in range(1,upper_limit):
+        c.append(gaussian(20,1))
+    for i in range(1,upper_limit):
+        d.append(gaussian(30,1))
+    for i in range(1,upper_limit):
+        e.append(gaussian(30.1,1))
+    for i in range(1,upper_limit):
+        f.append(gaussian(10,1))
+    for i in range(1,upper_limit):
+        g.append(gaussian(10,1))
+    for i in range(1,upper_limit):
+        h.append(gaussian(40,1))
+    for i in range(1,upper_limit):
+        j.append(gaussian(40,3))
+    for i in range(1,upper_limit):
+        k.append(gaussian(10,1))
+
+    for k, v in enumerate([a, b, c, d, e, f, g, h, j, k]):
+        rxs.append(RX(v, "rx" + str(k + 1)))
+    rxs.sort(key=lambda x: mid(x))
+    for rx in tiles(rxs):
+        print("", rx["name"], rx["show"])
+
+def check_sk():
+    rxs,a,b,c,d,e,f,g,h,j,k=[],[],[],[],[],[],[],[],[],[],[]
+    upper_limit=1001
+    for i in range(1,upper_limit):
+        a.append(gaussian(10,1))
+    for i in range(1,upper_limit):
+        b.append(gaussian(10.1,1))
+    for i in range(1,upper_limit):
+        c.append(gaussian(20,1))
+    for i in range(1,upper_limit):
+        d.append(gaussian(30,1))
+    for i in range(1,upper_limit):
+        e.append(gaussian(30.1,1))
+    for i in range(1,upper_limit):
+        f.append(gaussian(10,1))
+    for i in range(1,upper_limit):
+        g.append(gaussian(10,1))
+    for i in range(1,upper_limit):
+        h.append(gaussian(40,1))
+    for i in range(1,upper_limit):
+        j.append(gaussian(40,3))
+    for i in range(1,upper_limit):
+        k.append(gaussian(10,1))
+
+    for k, v in enumerate([a, b, c, d, e, f, g, h, j, k]):
+        rxs.append(RX(v, "rx" + str(k + 1)))
+    
+    for rx in tiles(rxs):
+        print("", rx["name"], rx["show"])
+
+
+eg("pre", "check pre", check_pre)
 eg("ok", "check ok", check_ok)
 eg("sample", "check sample", check_sample)
 eg("num", "check num", check_num)
 eg("gauss", "check gauss", check_gauss)
 eg("basic", "check basic", check_basic)
-eg("pre", "check pre", check_pre)
+eg("tiles","check tiles", check_tiles)
+eg("sk","check sk", check_sk)
 eg("five", "check five", check_five)
 eg("six", "check six", check_six)
 

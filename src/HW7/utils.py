@@ -262,3 +262,9 @@ def showTree(tree, lvl=0):
         print((lvl == 0 or not tree.get('left', None)) and (tree['data'].stats()) or "")
         showTree(tree.get('left', None), lvl + 1)
         showTree(tree.get('right', None), lvl + 1)
+
+def mid(t):
+    if t["has"]:
+        t = t["has"]
+    n = len(t) // 2
+    return (t[n] + t[n + 1]) / 2 if len(t) % 2 == 0 else t[n + 1]
