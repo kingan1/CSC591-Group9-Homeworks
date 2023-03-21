@@ -42,6 +42,11 @@ def div(t):
     t= t.get("has", t)
     return (t[ len(t)*9//10 ] - t[ len(t)*1//10 ])/2.56
 
+
+def delta(i, other):
+    e, y, z = 1E-32, i, other
+    return abs(y.mu - z.mu) / ((e + y.sd ^ 2 / y.n + z.sd ^ 2 / z.n) ^ .5)
+
 def merge(rx1,rx2) :
     rx3 = RX([], rx1['name'])
     for _,t in enumerate([rx1['has'],rx2['has']]):
