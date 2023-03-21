@@ -133,6 +133,16 @@ def check_five():
     for rx in tiles_:
         print(rx["name"], rx["rank"], rx["show"])
 
+def check_six():
+    tiles_ = tiles(ScottKnott([
+        RX({101,100,99,101,99.5,101,100,99,101,99.5}, "rx1"),
+        RX({101,100,99,101,100,101,100,99,101,100}, "rx2"),
+        RX({101,100,99.5,101,99,101,100,99.5,101,99}, "rx3"),
+        RX({101,100,99,101,100,101,100,99,101,100}, "rx4")
+    ]).run())
+
+    for rx in tiles_:
+        print(rx["name"], rx["rank"], rx["show"])
 
 eg("ok", "check ok", check_ok)
 eg("sample", "check sample", check_sample)
@@ -141,6 +151,7 @@ eg("gauss", "check gauss", check_gauss)
 eg("basic", "check basic", check_basic)
 eg("pre", "check pre", check_pre)
 eg("five", "check five", check_five)
+eg("six", "check six", check_six)
 
 if __name__ == "__main__":
     main(egs)
