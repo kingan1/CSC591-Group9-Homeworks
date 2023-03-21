@@ -105,6 +105,22 @@ def check_basic():
     )
 
 
+def check_pre():
+    print("\neg3")
+    d = 1
+
+    for i in range(10):
+        t1, t2 = [], []
+
+        for j in range(32):
+            t1.append(gaussian(10,1))
+            t2.append(gaussian(d * 10,1))
+
+        print("\t", d, d < 1.1 and "true" or "false", bootstrap(t1, t2), bootstrap(t1, t1))
+
+        d += 0.05
+
+
 eg("ok", "check ok", check_ok)
 eg("sample", "check sample", check_sample)
 eg("num", "check num", check_num)
